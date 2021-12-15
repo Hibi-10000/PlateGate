@@ -1,0 +1,73 @@
+name: PlateGate
+main: jp.minecraft.hibi_10000.plugins.plategate.PlateGate
+version: 1.0.0
+author: Hibi_10000
+api-version: 1.16
+description: §aDistribution:§b https://dev.bukkit.org/projects/plategate
+commands:
+  pg:
+    aliases: [plategate]
+    description: Check "/pg help" command.
+    permission: plategate.command
+    permission-message: Unknown command. Type "/help" for help.
+parmission:
+  plategate:
+    default: true
+    children:
+      plategate.command: true
+      plategate.use: true
+      plategate.admin: true
+      plategate.gateinfo: true
+      plategate.create: true
+      plategate.delete: true
+      plategate.help: true
+      plategate.move: true
+      plategate.link: true
+      plategate.list: true
+      plategate.jump: true
+  plategate.command:
+    default: false
+    description: \"/pg\" command use permission.
+  plategate.help:
+    default: false
+    description: \"/pg help\" command use permission.
+    children:
+      plategate.command: true
+  plategate.create:
+    default: false
+    description: \"/pg create\" command use permission.
+    children:
+      plategate.command: true
+  plategate.delete:
+    default: false
+    description: \"/pg delete\" command use permission.
+    children:
+      plategate.command: true
+  plategate.move:
+    default: false
+    description: \"/pg move\" command use permission.
+    children:
+      plategate.command: true
+  plategate.link:
+    default: false
+    description: \"/pg link\" command use permission.
+    children:
+      plategate.command: true
+  plategate.list:
+    default: true
+    description: \"/pg list\" command use permission.
+    children:
+      plategate.command: true
+  plategate.jump:
+    default: false
+    description: \"/pg jump\" command use permission.
+    children:
+      plategate.command: true
+  plategate.use:
+    dafault: true
+    description: plategate use permission.
+  plategate.admin:
+    default: false
+  plategate.gateinfo:
+    default: true
+default-parmission: op
