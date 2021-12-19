@@ -9,7 +9,7 @@ import jp.minecraft.hibi_10000.plugins.plategate.event.Event;
 
 public class PlateGate extends JavaPlugin {
 	
-	public String ver = "v1.0.0";
+	public String ver = "v1.0.1";
 	
 	File gatelistjsonfile = new File(getDataFolder(), "gatelist.json");
 	//public PlateGate plugin = this;
