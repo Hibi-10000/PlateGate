@@ -1,6 +1,6 @@
 name: PlateGate
 main: jp.minecraft.hibi_10000.plugins.plategate.PlateGate
-version: 1.0.0
+version: 1.0.1
 author: Hibi_10000
 api-version: 1.16
 description: §aDistribution:§b https://dev.bukkit.org/projects/plategate
