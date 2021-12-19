@@ -120,6 +120,8 @@ public class Event implements Listener {
 			//}
 				
 		} else if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			
+			if (e.getHand() == EquipmentSlot.OFF_HAND) return;
 
 			if (!(p.hasPermission("plategate.gateinfo"))) {
 				p.sendMessage("§a[PlateGate] §c権限が不足しています。");
