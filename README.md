@@ -11,15 +11,7 @@
 ワープ先ゲートの作成したときの方向にワープします。  
 その時ワープした場所2ブロックにブロックがあると、  
 強制的にそのブロックが削除されます。  
-他のコマンドは"/pg help"で確認してください。  
-  
-ゲートの情報はJSONでしか保管できませんが、  
-MySQLやSQLiteなどに対応しようと考えています。  
-  
-また、現在プラグインのメッセージが全て日本語ですが,  
-できるだけ早く英語にできるようにします。  
-Currently all plugin messages are in Japanese,  
-I will be able to speak English as soon as possible.  
+他のコマンドは"/pg help"で確認してください。   
   
 不具合等ありましたら、報告していただけると助かります。  
   
