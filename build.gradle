@@ -1,0 +1,128 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'java-library'
+    id 'net.minecrell.plugin-yml.bukkit' version '0.5.1'
+}
+
+group 'com.github.hibi_10000.plugins'
+version '1.1.0'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://hub.spigotmc.org/nexus/content/groups/public' }
+}
+
+dependencies {
+    api 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    api 'org.yaml:snakeyaml:2.2'
+    implementation 'org.jetbrains:annotations:20.1.0'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+bukkit {
+    name = rootProject.name
+    version = project.version
+    description = 'This is a Teleporter plugin'
+    website = 'https://github.com/Hibi-10000/PlateGate'
+    author = 'Hibi_10000'
+    main = 'com.github.hibi_10000.plugins.plategate.PlateGate'
+    apiVersion = '1.17'
+
+    load = 'STARTUP' // or 'POSTWORLD'
+    //authors = ['Auther1', 'Auther2']
+    //depend = ['Plugin']
+    //softDepend = ['Plugin']
+    //loadBefore = ['Plugin']
+    //prefix = 'Plugin'
+    defaultPermission = 'OP' // 'TRUE', 'FALSE', 'OP' or 'NOT_OP'
+    //provides = ['Plugin1', 'Plugin2']
+
+    commands {
+        'pg' {
+            description = 'PlateGate Command'
+            aliases = ['plategate']
+            permission = 'plategate.command'
+            permissionMessage = 'Unknown command. Type "/help" for help.'
+            //usage = ''
+        }
+    }
+
+    permissions {
+        'plategate' {
+            description = 'PlateGate Admin Permission'
+            setDefault('OP')
+            children = ['plategate.admin'] // Defaults permissions to true
+            // You can also specify the values of the permissions
+            //childrenMap = ['test': false]
+        }
+        'plategate.admin' {
+            description = 'PlateGate Admin Permission'
+            setDefault('OP')
+            children = ['plategate.command','plategate.use', 'plategate.gateinfo', 'plategate.create', 'plategate.delete', 'plategate.help', 'plategate.move', 'plategate.link', 'plategate.list', 'plategate.jump'] // Defaults permissions to true
+            // You can also specify the values of the permissions
+            //childrenMap = ['test': false]
+        }
+        'plategate.user' {
+            description = 'PlateGate User Permission'
+            setDefault('true')
+            children = ['plategate.command','plategate.use', 'plategate.gateinfo', 'plategate.create', 'plategate.delete', 'plategate.help', 'plategate.move', 'plategate.link', 'plategate.list'] // Defaults permissions to true
+            // You can also specify the values of the permissions
+            //childrenMap = ['test': false]
+        }
+        'plategate.command' {
+            description = '\"/pg\" Command Use Permission'
+            setDefault('false')
+        }
+        'plategate.help' {
+            description = '\"/pg help\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.create' {
+            description = '\"/pg create\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.delete' {
+            description = '\"/pg delete\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.move' {
+            description = '\"/pg move\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.link' {
+            description = '\"/pg link\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.list' {
+            description = '\"/pg list\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.jump' {
+            description = '\"/pg jump\" Command Use Permission'
+            setDefault('false')
+            children = ['plategate.command']
+        }
+        'plategate.use' {
+            description = 'PlateGate Use Permission'
+            setDefault('false')
+        }
+        'plategate.admin' {
+            description = 'PlateGate Admin Permission'
+            setDefault('false')
+        }
+        'plategate.gateinfo' {
+            description = 'Get PlateGate Info Permission'
+            setDefault('false')
+        }
+    }
+}

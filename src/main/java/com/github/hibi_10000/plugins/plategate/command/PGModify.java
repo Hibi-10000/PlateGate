@@ -1,4 +1,4 @@
-package jp.minecraft.hibi_10000.plugins.plategate.command;
+package com.github.hibi_10000.plugins.plategate.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.bukkit.entity.Player;
 
 import com.google.gson.JsonObject;
 
-import jp.minecraft.hibi_10000.plugins.plategate.JsonHandler;
-import jp.minecraft.hibi_10000.plugins.plategate.PlateGate;
+import com.github.hibi_10000.plugins.plategate.JsonHandler;
+import com.github.hibi_10000.plugins.plategate.PlateGate;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;

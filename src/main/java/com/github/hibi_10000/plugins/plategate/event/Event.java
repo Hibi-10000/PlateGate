@@ -1,4 +1,4 @@
-package jp.minecraft.hibi_10000.plugins.plategate.event;
+package com.github.hibi_10000.plugins.plategate.event;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,8 +18,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.google.gson.JsonObject;
 
-import jp.minecraft.hibi_10000.plugins.plategate.JsonHandler;
-import jp.minecraft.hibi_10000.plugins.plategate.PlateGate;
+import com.github.hibi_10000.plugins.plategate.JsonHandler;
+import com.github.hibi_10000.plugins.plategate.PlateGate;
 
 public class Event implements Listener {
 	

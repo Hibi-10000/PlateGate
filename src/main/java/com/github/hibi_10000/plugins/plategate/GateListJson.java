@@ -1,5 +1,5 @@
 /**
-package jp.minecraft.hibi_10000.plugins.plategate;
+package com.github.hibi_10000.plugins.plategate;
 **/
 /**
 //Use:none

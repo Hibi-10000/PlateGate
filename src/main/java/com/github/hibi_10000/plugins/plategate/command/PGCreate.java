@@ -1,34 +1,34 @@
-package jp.minecraft.hibi_10000.plugins.plategate.command;
+package com.github.hibi_10000.plugins.plategate.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.google.gson.JsonObject;
+import com.github.hibi_10000.plugins.plategate.JsonHandler;
+import com.github.hibi_10000.plugins.plategate.PlateGate;
+import org.bukkit.permissions.Permission;
 
-import jp.minecraft.hibi_10000.plugins.plategate.JsonHandler;
-import jp.minecraft.hibi_10000.plugins.plategate.PlateGate;
-
-public class PGMove {
+public class PGCreate {
 	
 	private PlateGate instance;
-	public PGMove(PlateGate instance) {
+	public PGCreate(PlateGate instance) {
 		this.instance = instance;
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-		if (!(sender.hasPermission("plategate.move"))) {
+		if (!(sender.hasPermission("plategate.create"))) {
 			sender.sendMessage("§a[PlateGate] §c権限が不足しています。");
 			return false;
 		}
@@ -41,16 +41,25 @@ public class PGMove {
 			return false;
 		}
 		
-		if ((new JsonHandler(instance).JsonRead(args[1], null).get("name").getAsString() == "null")) {
+		if (!(new JsonHandler(instance).JsonRead(args[1], null).get("name").getAsString() == "null")) {
 			
-			sender.sendMessage("[]");
+			if (new JsonHandler(instance).JsonRead(args[1], null).get("name").getAsString().equalsIgnoreCase(args[1])) {
+				sender.sendMessage("§a[PlateGate] §cその名前は使用されています。");
+				return false;
+			}
+			
+			sender.sendMessage("§a[PlateGate] §cERROR!");
 			return false;
 		}
 		
+		
+		
 		Player p = (Player) sender;
 		Location ploc = p.getLocation();
-		Location loc = new Location(ploc.getWorld(), ploc.getX(), ploc.getY(), ploc.getZ(), ploc.getYaw(), 0);
-		Location downloc = new Location(p.getWorld(), loc.getX(), loc.getY() - 1, loc.getZ(), loc.getYaw(), 0);
+		
+		Location loc = new Location(p.getWorld(), ploc.getX(), ploc.getY(), ploc.getZ());
+		Location downloc = new Location(p.getWorld(), ploc.getX(), ploc.getY() - 1, ploc.getZ());
+		Location uploc = loc;
 		
 		if (!(loc.getBlock().getType() == Material.AIR)) {
 			sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。");
@@ -64,30 +73,26 @@ public class PGMove {
 		Material downblockbefore = downloc.getBlock().getType();
 		
 		downloc.getBlock().setType(Material.IRON_BLOCK);
-		loc.getBlock().setType(Material.STONE_PRESSURE_PLATE);
+		uploc.getBlock().setType(Material.STONE_PRESSURE_PLATE);
 		//Powerable ppbd = (Powerable) Material.STONE_PRESSURE_PLATE.createBlockData();
-		//ppbd.setPowered(false);
-		//loc.getBlock().setBlockData(ppbd);
+		//ppbd.setPowered(true);
+		//uploc.getBlock().setBlockData(ppbd);
 		
 		
-		JsonObject jo = new JsonHandler(instance).JsonRead(args[1], null);
+		new JsonHandler(instance).JsonWrite(args[1], p, "", loc, downblockbefore);
 		
-		Location oldloc = new Location(Bukkit.getWorld(jo.get("world").getAsString()), Integer.parseInt(jo.get("x").getAsString()), 
-				Integer.parseInt(jo.get("y").getAsString()), Integer.parseInt(jo.get("z").getAsString()));
-		Location olddownloc = new Location(p.getWorld(), oldloc.getBlockX(), oldloc.getBlockY() - 1, oldloc.getBlockZ());
-		
-		oldloc.getBlock().setType(Material.AIR);
-		olddownloc.getBlock().setType(Material.getMaterial(jo.get("beforeblock").getAsString()));
-		
-		new JsonHandler(instance).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
-		
-		sender.sendMessage("§a[PlateGate] §b" + args[1] + " を正常に移動しました。");
+		sender.sendMessage("§a[PlateGate] §bPlateGateを作成しました。");
 		
 		return true;
 	}
 	
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		List<String> list = new ArrayList<String>();
+		//list.removeAll(list);
 		
-		return null;
+		
+		//list.removeAll(list);
+		return list;
 	}
+
 }

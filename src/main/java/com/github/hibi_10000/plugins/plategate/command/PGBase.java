@@ -1,4 +1,4 @@
-package jp.minecraft.hibi_10000.plugins.plategate.command;
+package com.github.hibi_10000.plugins.plategate.command;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import jp.minecraft.hibi_10000.plugins.plategate.PlateGate;
+import com.github.hibi_10000.plugins.plategate.PlateGate;
 
 public class PGBase implements CommandExecutor, TabCompleter {
 	

@@ -1,11 +1,11 @@
-package jp.minecraft.hibi_10000.plugins.plategate;
+package com.github.hibi_10000.plugins.plategate;
 
 import java.io.File;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import jp.minecraft.hibi_10000.plugins.plategate.command.PGBase;
-import jp.minecraft.hibi_10000.plugins.plategate.event.Event;
+import com.github.hibi_10000.plugins.plategate.command.PGBase;
+import com.github.hibi_10000.plugins.plategate.event.Event;
 
 public class PlateGate extends JavaPlugin {
 	

@@ -1,4 +1,4 @@
-package jp.minecraft.hibi_10000.plugins.plategate;
+package com.github.hibi_10000.plugins.plategate;
 
 import java.io.FileWriter;
 import java.io.IOException;
