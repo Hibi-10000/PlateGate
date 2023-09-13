@@ -15,11 +15,22 @@ repositories {
 }
 
 dependencies {
-    api("org.spigotmc", "spigot-api", "1.19.4-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot-api", "1.19.4-R0.1-SNAPSHOT")
+    implementation("org.jetbrains.kotlin","kotlin-stdlib")
 }
 
 kotlin {
     jvmToolchain(17)
+}
+
+tasks.withType<Jar> {
+    // To avoid the duplicate handling strategy error
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
 }
 
 bukkit {
