@@ -1,4 +1,12 @@
-package com.github.hibi_10000.plugins.plategate;
+/*
+package com.github.hibi_10000.plugins.plategate.util;
+
+import com.github.hibi_10000.plugins.plategate.PlateGate;
+import com.google.gson.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Player;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -8,25 +16,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.Player;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
 public class JsonHandler {
 
-	private PlateGate instance;
+	private final PlateGate instance;
 	public JsonHandler(PlateGate instance) {
 		this.instance = instance;
 	}
 	
-	/**/
+	/*
 	//Use:Gson
 	
 	public JsonArray JsonFileRead() {
@@ -63,13 +60,13 @@ public class JsonHandler {
 		
 		JsonObject nullobj = new JsonObject();
 		nullobj.addProperty("name", "null");
-		List<JsonObject> nullobjlist = new ArrayList<JsonObject>();
+		List<JsonObject> nullobjlist = new ArrayList<>();
 		nullobjlist.add(nullobj);
 		
 		JsonArray j = JsonFileRead();
 		if (j == null) return nullobjlist;
 		
-		List<JsonObject> jolist = new ArrayList<JsonObject>();
+		List<JsonObject> jolist = new ArrayList<>();
 		
 		if (ownerplayer != null) {
 			for (JsonElement element : j.getAsJsonArray()) {
@@ -85,7 +82,7 @@ public class JsonHandler {
 			for (JsonElement element : j.getAsJsonArray()) {
 				
 				JsonObject jo = element.getAsJsonObject();
-				if (jo.get("to").getAsString() == togate) {
+				if (jo.get("to").getAsString().equalsIgnoreCase(togate)) {
 					jolist.add(jo);
 				}
 			}
@@ -130,15 +127,6 @@ public class JsonHandler {
 						) {
 					return jo;
 				}
-				/*System.out.println(loc.getWorld().getName());
-				System.out.println(loc.getBlockX());
-				System.out.println(loc.getBlockY());
-				System.out.println(loc.getBlockZ());
-				System.out.println("");
-				System.out.println(loc.getX());
-				System.out.println(loc.getY());
-				System.out.println(loc.getZ());
-				System.out.println("");*/
 			}
 		}
 		return nullobj;
@@ -147,8 +135,8 @@ public class JsonHandler {
 	
 	
 	
-	public boolean JsonWrite(String gatename, Player ownerplayer, String togate,
-			Location loc, Material beforeblockm) {
+	public void JsonWrite(String gatename, Player ownerplayer, String togate,
+						  Location loc, Material beforeblockm) {
 		String owneruuid = ownerplayer.getUniqueId().toString();
 		String beforeblock = beforeblockm.toString();
 		String x = String.valueOf(loc.getBlockX());
@@ -160,19 +148,23 @@ public class JsonHandler {
 		
 		BlockFace pf = ownerplayer.getFacing();
 		
-		if (/*(yaw >= 315 || yaw <= 45) ||  */pf == BlockFace.SOUTH){
+		if (//(yaw >= 315 || yaw <= 45) ||
+				pf == BlockFace.SOUTH){
 			d = "south";
-		} else if (/*(yaw > 45 && yaw < 135) || */pf == BlockFace.WEST){
+		} else if (//(yaw > 45 && yaw < 135) ||
+				pf == BlockFace.WEST){
 			d = "west";
-		} else if (/*(yaw >= 135 && yaw <= 225) || */pf == BlockFace.NORTH){
+		} else if (//(yaw >= 135 && yaw <= 225) ||
+				pf == BlockFace.NORTH){
 			d = "north";
-		} else if (/*(yaw > 225 && yaw < 315) || */pf == BlockFace.EAST){
+		} else if (//(yaw > 225 && yaw < 315) ||
+				pf == BlockFace.EAST){
 			d = "east";
 		}
 		
 		
 		JsonArray json = JsonFileRead();
-		if (json == null) return false;
+		if (json == null) return;
 		
 		JsonObject j = new JsonObject();
 		j.addProperty("name", gatename);
@@ -185,10 +177,8 @@ public class JsonHandler {
 		j.addProperty("world", world);
 		j.addProperty("beforeblock", beforeblock);
 		json.getAsJsonArray().add(j);
-		
-		if (!(JsonFileWrite(json))) return false;
-		
-		return true;
+
+		JsonFileWrite(json);
 	}
 	
 	public void JsonChange(String targetname, String margename, Player ownerplayer, String togate, 
@@ -249,13 +239,17 @@ public class JsonHandler {
 					
 					BlockFace pf = sendpl.getFacing();
 					
-					if (/*(yaw >= 315 || yaw <= 45) ||  */pf == BlockFace.SOUTH){
+					if (//(yaw >= 315 || yaw <= 45) ||
+                                     pf == BlockFace.SOUTH){
 						d = "south";
-					} else if (/*(yaw > 45 && yaw < 135) || */pf == BlockFace.WEST){
+					} else if (//(yaw > 45 && yaw < 135) ||
+                                     pf == BlockFace.WEST){
 						d = "west";
-					} else if (/*(yaw >= 135 && yaw <= 225) || */pf == BlockFace.NORTH){
+					} else if (//(yaw >= 135 && yaw <= 225) ||
+                                     pf == BlockFace.NORTH){
 						d = "north";
-					} else if (/*(yaw > 225 && yaw < 315) || */pf == BlockFace.EAST){
+					} else if (//(yaw > 225 && yaw < 315) ||
+                                     pf == BlockFace.EAST){
 						d = "east";
 					}
 					
@@ -288,8 +282,7 @@ public class JsonHandler {
 				newjson.add(oldjo);
 			}
 		}
-		if (!(JsonFileWrite(newjson))) return;
-		return;
+		JsonFileWrite(newjson);
 	}
 	
 	public void JsonRemove(String gatename) {
@@ -297,25 +290,21 @@ public class JsonHandler {
 		if (json == null) return;
 		
 		JsonArray newjson = new JsonArray();
-		//JsonArray newjson = json;
 		
 		for (JsonElement element : json.getAsJsonArray()) {
 			JsonObject jo = element.getAsJsonObject();
-			if (jo.get("name").getAsString().equalsIgnoreCase(gatename)) {
-				//newjson.getAsJsonArray().remove(jo.getAsJsonObject());
-			} else {
+			if (!jo.get("name").getAsString().equalsIgnoreCase(gatename)) {
 				newjson.add(element);
 			}
 		}
-		if (!(JsonFileWrite(newjson))) return;
-		return;
+		JsonFileWrite(newjson);
 	}
+
 	/**/
+
+
 	
-	
-	
-	
-	/**
+	/*
 	//Use:Jackson
 	//Waning: 完成していません
 	
@@ -450,5 +439,5 @@ public class JsonHandler {
 		
 	}
 	
-	**/
-}
+	* /
+}*/

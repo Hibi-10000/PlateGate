@@ -1,7 +1,7 @@
 package com.github.hibi_10000.plugins.plategate.command;
 
-import java.util.List;
-
+import com.github.hibi_10000.plugins.plategate.PlateGate;
+import com.github.hibi_10000.plugins.plategate.util.Util;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -12,16 +12,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.google.gson.JsonObject;
-
-import com.github.hibi_10000.plugins.plategate.JsonHandler;
-import com.github.hibi_10000.plugins.plategate.PlateGate;
+import java.util.List;
 
 public class PGList {
 	
-	private PlateGate plugin;
+	private final PlateGate plugin;
+	private final Util util;
 	public PGList(PlateGate instance) {
 		this.plugin = instance;
+		this.util = new Util(instance);
 	}
 	
 	
@@ -56,7 +55,7 @@ public class PGList {
 					break;
 				}
 			}
-			if (args1player == false) {
+			if (!args1player) {
 				sender.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。");
 				return false;
 			}
@@ -66,22 +65,21 @@ public class PGList {
 			searchp = (Player) sender;
 		}
 
-		List<JsonObject> jolist = new JsonHandler(plugin).JsonRead(searchp, null);
-		
-		sender.sendMessage("§a[PlateGate] §bPlayer §6" + searchp.getName() + " §bが所有しているGate一覧");
-		
-		for (JsonObject jo : jolist) {
-			JsonObject jog = jo.getAsJsonObject();
-			if (jog.get("to").getAsString().equalsIgnoreCase("")) {
-				sender.sendMessage(" §b" + jog.get("name").getAsString());
+		//List<JsonObject> jolist = new JsonHandler(plugin).JsonRead(searchp, null);
+
+		for (String index : util.IndexJson("owner", searchp.getUniqueId().toString(), (Player) sender)) {
+			sender.sendMessage("§a[PlateGate] §bPlayer §6" + searchp.getName() + " §bが所有しているGate一覧");
+			if (util.getJson(index, "to", (Player) sender).equalsIgnoreCase("")) {
+				sender.sendMessage(" §b" + util.getJson(index, "name", (Player) sender));
 			//} else if (new JsonHandler(plugin).JsonRead(jog.get("to").getAsString(), null).getAsJsonObject()
 			//		.get("to").getAsString() == jog.get("name").getAsString()) {
 			//	sender.sendMessage(" " + jog.get("name").getAsString() + " <--> " + jog.get("to").getAsString());
 			} else {
-				sender.sendMessage(" §b" + jog.get("name").getAsString() + " §a---> §b" + jog.get("to").getAsString());
+				sender.sendMessage(" §b" + util.getJson(index, "name", (Player) sender) + " §a---> §b" + util.getJson(index, "to", (Player) sender));
 			}
 		}
-		
+
+
 		return true;
 	}
 	

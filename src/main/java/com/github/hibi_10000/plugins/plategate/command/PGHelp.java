@@ -13,7 +13,7 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 
 public class PGHelp {
 	
-	private PlateGate plugin;
+	private final PlateGate plugin;
 	public PGHelp(PlateGate instance) {
 		this.plugin = instance;
 	}

@@ -1,7 +1,7 @@
 package com.github.hibi_10000.plugins.plategate.command;
 
-import java.util.List;
-
+import com.github.hibi_10000.plugins.plategate.PlateGate;
+import com.github.hibi_10000.plugins.plategate.util.Util;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -9,21 +9,20 @@ import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.data.Powerable;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.google.gson.JsonObject;
-
-import com.github.hibi_10000.plugins.plategate.JsonHandler;
-import com.github.hibi_10000.plugins.plategate.PlateGate;
+import java.util.List;
 
 public class PGMove {
 	
-	private PlateGate instance;
+	private final PlateGate plugin;
+	private final Util util;
 	public PGMove(PlateGate instance) {
-		this.instance = instance;
+		this.plugin = instance;
+		this.util = new Util(instance);
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -40,12 +39,8 @@ public class PGMove {
 			sender.spigot().sendMessage(help);
 			return false;
 		}
-		
-		if ((new JsonHandler(instance).JsonRead(args[1], null).get("name").getAsString() == "null")) {
-			
-			sender.sendMessage("[]");
-			return false;
-		}
+
+		if (!util.gateExists(null, args[1], (Player) sender)) return false;
 		
 		Player p = (Player) sender;
 		Location ploc = p.getLocation();
@@ -70,19 +65,41 @@ public class PGMove {
 		//loc.getBlock().setBlockData(ppbd);
 		
 		
-		JsonObject jo = new JsonHandler(instance).JsonRead(args[1], null);
+		//JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null);
+		String index = util.firstIndexJson("name", args[1], (Player) sender);
 		
-		Location oldloc = new Location(Bukkit.getWorld(jo.get("world").getAsString()), Integer.parseInt(jo.get("x").getAsString()), 
-				Integer.parseInt(jo.get("y").getAsString()), Integer.parseInt(jo.get("z").getAsString()));
+		Location oldloc = new Location(Bukkit.getWorld(util.getJson(index, "world", (Player) sender)), Integer.parseInt(util.getJson(index, "x", (Player) sender)),
+				Integer.parseInt(util.getJson(index, "y", (Player) sender)), Integer.parseInt(util.getJson(index, "z", (Player) sender)));
 		Location olddownloc = new Location(p.getWorld(), oldloc.getBlockX(), oldloc.getBlockY() - 1, oldloc.getBlockZ());
 		
 		oldloc.getBlock().setType(Material.AIR);
-		olddownloc.getBlock().setType(Material.getMaterial(jo.get("beforeblock").getAsString()));
+		olddownloc.getBlock().setType(Material.valueOf(util.getJson(index, "beforeblock", (Player) sender)));
 		
-		new JsonHandler(instance).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
-		
-		sender.sendMessage("§a[PlateGate] §b" + args[1] + " を正常に移動しました。");
-		
+		//new JsonHandler(plugin).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
+		//float yaw = loc.getYaw();
+		String d = "south";
+		BlockFace pf = p.getFacing();
+		if (/*(yaw >= 315 || yaw <= 45) ||  */pf == BlockFace.SOUTH){
+			d = "south";
+		} else if (/*(yaw > 45 && yaw < 135) || */pf == BlockFace.WEST){
+			d = "west";
+		} else if (/*(yaw >= 135 && yaw <= 225) || */pf == BlockFace.NORTH){
+			d = "north";
+		} else if (/*(yaw > 225 && yaw < 315) || */pf == BlockFace.EAST){
+			d = "east";
+		}
+
+		index = util.firstIndexJson("name", args[1], (Player) sender);
+		util.setJson(index, "x", String.valueOf(loc.getBlockX()), (Player) sender);
+		util.setJson(index, "y", String.valueOf(loc.getBlockY()), (Player) sender);
+		util.setJson(index, "z", String.valueOf(loc.getBlockZ()), (Player) sender);
+		util.setJson(index, "rotate", d, (Player) sender);
+		util.setJson(index, "world", p.getWorld().getName(), (Player) sender);
+		util.setJson(index, "beforeblock", downblockbefore.toString(), (Player) sender);
+
+		sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " を " + loc + " に移動しました");
+		System.out.println("§a[PlateGate] §b" + p.getName() + " がゲート " + args[1] + " を " + loc + " に移動しました");
+
 		return true;
 	}
 	

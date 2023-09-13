@@ -16,9 +16,9 @@ import com.github.hibi_10000.plugins.plategate.PlateGate;
 
 public class PGBase implements CommandExecutor, TabCompleter {
 	
-	private PlateGate instance;
+	private final PlateGate plugin;
 	public PGBase(PlateGate instance) {
-		this.instance = instance;
+		this.plugin = instance;
 	}
 	
 	@Override
@@ -39,67 +39,65 @@ public class PGBase implements CommandExecutor, TabCompleter {
 			}
 			
 			if (args[0].equalsIgnoreCase("create")) {
-				return new PGCreate(instance).onCommand(sender, cmd, label, args);
+				return new PGCreate(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("move")) {
-				return new PGMove(instance).onCommand(sender, cmd, label, args);
+				return new PGMove(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("delete")) {
-				return new PGDelete(instance).onCommand(sender, cmd, label, args);
+				return new PGDelete(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("link")) {
-				return new PGLink(instance).onCommand(sender, cmd, label, args);
+				return new PGLink(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("modify")) {
-				
+				//return new PGModify(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("list")) {
-				return new PGList(instance).onCommand(sender, cmd, label, args);
+				return new PGList(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("help")) {
-				return new PGHelp(instance).onCommand(sender, cmd, label, args);
+				return new PGHelp(plugin).onCommand(sender, cmd, label, args);
 				
 			} else if (args[0].equalsIgnoreCase("jump")) {
-				return new PGJump(instance).onCommand(sender, cmd, label, args);
+				return new PGJump(plugin).onCommand(sender, cmd, label, args);
 				
 			//} else if (args[0].equalsIgnoreCase("test")) {
 				//Player p = (Player) sender;
 			}
-			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		
 		if (args[0].equalsIgnoreCase("create")) {
-			return new PGCreate(instance).onTabComplete(sender, command, alias, args);
+			return new PGCreate(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("move")) {
-			return new PGMove(instance).onTabComplete(sender, command, alias, args);
+			return new PGMove(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("delete")) {
-			return new PGDelete(instance).onTabComplete(sender, command, alias, args);
+			return new PGDelete(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("link")) {
-			return new PGLink(instance).onTabComplete(sender, command, alias, args);
+			return new PGLink(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("modify")) {
-			
+			//new PGModify(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("list")) {
-			return new PGList(instance).onTabComplete(sender, command, alias, args);
+			return new PGList(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("help")) {
-			return new PGHelp(instance).onTabComplete(sender, command, alias, args);
+			return new PGHelp(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args[0].equalsIgnoreCase("jump")) {
-			return new PGJump(instance).onTabComplete(sender, command, alias, args);
+			return new PGJump(plugin).onTabComplete(sender, command, alias, args);
 			
 		} else if (args.length == 1) {
-			list.removeAll(list);
 			list.add("create");
 			list.add("move");
 			list.add("delete");
@@ -110,10 +108,7 @@ public class PGBase implements CommandExecutor, TabCompleter {
 			list.add("jump");
 			return list;
 		}
-		
-		
-		list.removeAll(list);
-		return list;
+		return null;
 	}
 	
 }

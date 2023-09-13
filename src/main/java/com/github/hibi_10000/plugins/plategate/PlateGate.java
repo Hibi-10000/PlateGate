@@ -1,7 +1,10 @@
 package com.github.hibi_10000.plugins.plategate;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.github.hibi_10000.plugins.plategate.util.ArrayJson;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.hibi_10000.plugins.plategate.command.PGBase;
@@ -9,12 +12,12 @@ import com.github.hibi_10000.plugins.plategate.event.Event;
 
 public class PlateGate extends JavaPlugin {
 	
-	public String ver = "v1.0.1";
+	public String ver = getDescription().getVersion();
 	
-	File gatelistjsonfile = new File(getDataFolder(), "gatelist.json");
-	//public PlateGate plugin = this;
-	
-	
+	public File gatelistjsonfile = new File(getDataFolder(), "gatelist.json");
+
+	public ArrayJson arrayJson;
+
 	@Override
 	public void onEnable() {
 		if (!gatelistjsonfile.exists()) {
@@ -23,10 +26,16 @@ public class PlateGate extends JavaPlugin {
 		getCommand("pg").setExecutor(new PGBase(this));
 		getCommand("pg").setTabCompleter(new PGBase(this));
 		getServer().getPluginManager().registerEvents(new Event(this), this);
-	}
-	
-	@Override
-	public void onDisable() {
-		
+		List<String> namelist = new ArrayList<>();
+		namelist.add("name");
+		namelist.add("owner");
+		namelist.add("to");
+		namelist.add("x");
+		namelist.add("y");
+		namelist.add("z");
+		namelist.add("rotate");
+		namelist.add("world");
+		namelist.add("beforeblock");
+		arrayJson = new ArrayJson(this, namelist);
 	}
 }
