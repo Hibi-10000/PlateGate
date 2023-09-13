@@ -19,8 +19,8 @@ class PlateGate : JavaPlugin() {
             saveResource("gate.json", false)
         }
         arrayJson = ArrayJson(gateDB)
-        getCommand("pg")?.setExecutor(PGBase())
-        getCommand("pg")?.tabCompleter = PGBase()
+        getCommand("plategate")?.setExecutor(PGBase())
+        getCommand("plategate")?.tabCompleter = PGBase()
         server.pluginManager.registerEvents(Event(), this)
     }
 }
