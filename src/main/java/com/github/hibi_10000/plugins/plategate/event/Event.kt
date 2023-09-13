@@ -1,7 +1,8 @@
 package com.github.hibi_10000.plugins.plategate.event
 
+import com.github.hibi_10000.plugins.plategate.command.checkPermission
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util.Util
+import com.github.hibi_10000.plugins.plategate.util.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -14,8 +15,6 @@ import org.bukkit.inventory.EquipmentSlot
 import java.util.*
 
 class Event : Listener {
-    private val util: Util = Util()
-
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
         //if (!plugin.isEnabled()) return;
@@ -50,47 +49,34 @@ class Event : Listener {
                 if (y && z && w) index = xindex
             }
             if (!util.gateExists(index, null, p)) return
-            if (!p.hasPermission("plategate.use")) {
-                p.sendMessage("§a[PlateGate] §c権限が不足しています。")
-                return
-            }
+            if (!checkPermission(p, "plategate.use")) return
             if (util.getJson(index!!, "to", p).equals("", ignoreCase = true)) {
                 e.setCancelled(false)
-                e.player.sendMessage(
-                    "§a[PlateGate] §bこのゲート "
-                            + util.getJson(index, "name", p) + " はリンクされていません。"
-                )
-
+                e.player.sendMessage("§a[PlateGate] §bこのゲート " + util.getJson(index, "name", p) + " はリンクされていません。")
                 //spp.setPowered(false);
                 return
             }
 
             //JsonObject gateto = new JsonHandler(plugin).JsonRead(gate.get("to").getAsString(), null);
             val gateto = util.firstIndexJson("to", util.getJson(index, "name", p), p)
-            var yaw = 0f
             val rotate = util.getJson(index, "rotate", p)
-            if (rotate.equals("north", ignoreCase = true)) {
-                yaw = 180f
-            } else if (rotate.equals("east", ignoreCase = true)) {
-                yaw = 270f
-            } else if (rotate.equals("south", ignoreCase = true)) {
-                yaw = 0f
-            } else if (rotate.equals("west", ignoreCase = true)) {
-                yaw = 90f
+            val yaw = when (rotate.lowercase()) {
+                "north" -> 180f
+                "east"  -> 270f
+                "south" ->   0f
+                "west"  ->  90f
+                else    ->   0f
             }
             val toloc = Location(
                 Bukkit.getServer().getWorld(util.getJson(gateto, "world", p)),
                 util.getJson(gateto, "x", p).toInt() + 0.5, util.getJson(index, "y", p).toInt().toDouble(),
                 util.getJson(gateto, "z", p).toInt() + 0.5, yaw, 0f
             )
-            if (rotate.equals("north", ignoreCase = true)) {
-                toloc.z -= 1
-            } else if (rotate.equals("east", ignoreCase = true)) {
-                toloc.x += 1
-            } else if (rotate.equals("south", ignoreCase = true)) {
-                toloc.z += 1
-            } else if (rotate.equals("west", ignoreCase = true)) {
-                toloc.x -= 1
+            when (rotate.lowercase()) {
+                "north" -> toloc.z -= 1
+                "east"  -> toloc.x += 1
+                "south" -> toloc.z += 1
+                "west"  -> toloc.x -= 1
             }
             val touploc = toloc.clone()
             touploc.y = toloc.y + 1
@@ -126,16 +112,12 @@ class Event : Listener {
                     return
                 }
                 val facing = util.getJson(gate, "rotate", p)
-                var yaw = "0"
-                //yaw = gate.get("rotate").getAsString();
-                if (facing.equals("south", ignoreCase = true)) {
-                    yaw = "0"
-                } else if (facing.equals("west", ignoreCase = true)) {
-                    yaw = "90"
-                } else if (facing.equals("north", ignoreCase = true)) {
-                    yaw = "180"
-                } else if (facing.equals("east", ignoreCase = true)) {
-                    yaw = "-90"
+                val yaw = when (facing.lowercase()) {
+                    "south" ->   "0"
+                    "west"  ->  "90"
+                    "north" -> "180"
+                    "east"  -> "-90"
+                    else    ->   "0"
                 }
                 val to: String = if (util.getJson(gate, "to", p).equals("", ignoreCase = true)) {
                     "§6None"

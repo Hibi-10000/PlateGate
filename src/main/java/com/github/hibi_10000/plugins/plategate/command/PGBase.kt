@@ -12,9 +12,9 @@ import org.bukkit.command.TabCompleter
 fun checkPermission(sender: CommandSender, permission: String): Boolean {
     if (!sender.hasPermission(permission)) {
         sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-        return true
+        return false
     }
-    return false
+    return true
 }
 
 fun commandInvalid(sender: CommandSender, label: String): Boolean {
@@ -28,7 +28,7 @@ fun commandInvalid(sender: CommandSender, label: String): Boolean {
 class PGBase : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (!command.name.equals("plategate", ignoreCase = true)) return false
-        if (checkPermission(sender, "plategate.command")) return false
+        if (!checkPermission(sender, "plategate.command")) return false
         if (args.isEmpty()) return commandInvalid(sender, label)
 
         if (args[0].equals("create", ignoreCase = true)) {

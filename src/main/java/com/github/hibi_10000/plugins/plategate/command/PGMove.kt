@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class PGMove {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (checkPermission(sender, "plategate.command.move")) return false
+        if (!checkPermission(sender, "plategate.command.move")) return false
         if (args.size != 2) return commandInvalid(sender, label)
 
         if (!util.gateExists(null, args[1], (sender as Player))) return false

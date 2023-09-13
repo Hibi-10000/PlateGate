@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 class PGLink {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (checkPermission(sender, "plategate.command.link")) return false
+        if (!checkPermission(sender, "plategate.command.link")) return false
         if (args.size != 3) return commandInvalid(sender, label)
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, args[2], null, null, null);

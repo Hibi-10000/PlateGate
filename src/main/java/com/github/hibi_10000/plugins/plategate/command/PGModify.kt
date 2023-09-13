@@ -16,7 +16,7 @@ class PGModify {
 
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (checkPermission(sender, "plategate.command.modify")) return false
+        if (!checkPermission(sender, "plategate.command.modify")) return false
         if (args.size <= 2) return commandInvalid(sender, label)
 
         if (args[2].equals("name", ignoreCase = true)) {
@@ -114,7 +114,9 @@ class PGModify {
             return false
         } else if (args[2].equals("accept", ignoreCase = true)) {
             if (oldowner!!.name.equals(sender.name, ignoreCase = true)) {
-                //TODO: ここは何だ？
+                //今の所有者か確認した
+                //TODO: /pg modify <name> accept 許可したときの処理
+                return false
             }
         }
         return false

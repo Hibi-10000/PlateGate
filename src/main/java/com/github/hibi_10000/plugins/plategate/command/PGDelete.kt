@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 class PGDelete {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (checkPermission(sender, "plategate.command.delete")) return false
+        if (!checkPermission(sender, "plategate.command.delete")) return false
         if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true)))
             return commandInvalid(sender, label)
         val p = sender as Player

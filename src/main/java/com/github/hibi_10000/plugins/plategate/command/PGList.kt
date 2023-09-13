@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 class PGList {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (checkPermission(sender, "plategate.command.list")) return false
+        if (!checkPermission(sender, "plategate.command.list")) return false
         if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
 
         val searchP: Player?

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 class PGCreate {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (checkPermission(sender, "plategate.command.create")) return false
+        if (!checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return commandInvalid(sender, label)
 
         if (!util.getJson(util.firstIndexJson("name", args[1], (sender as Player)), "name", sender)
