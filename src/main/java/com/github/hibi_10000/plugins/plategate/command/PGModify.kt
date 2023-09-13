@@ -15,7 +15,7 @@ class PGModify {
     private var oldowner: Player? = null
 
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.modify")) {
+        if (!sender.hasPermission("plategate.command.modify")) {
             sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
             return false
         }

@@ -14,7 +14,7 @@ import org.bukkit.entity.Player
 
 class PGCreate {
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.create")) {
+        if (!sender.hasPermission("plategate.command.create")) {
             sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
             return false
         }

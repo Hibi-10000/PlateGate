@@ -56,7 +56,7 @@ bukkit {
             default = BukkitPluginDescription.Permission.Default.OP
             children = listOf(
                 "plategate.user",
-                "plategate.jump",
+                "plategate.command.jump",
             )
         }
         register("plategate.user") {
@@ -64,13 +64,13 @@ bukkit {
             default = BukkitPluginDescription.Permission.Default.TRUE
             children = listOf(
                 "plategate.command",
-                "plategate.create",
-                "plategate.delete",
-                "plategate.help",
-                "plategate.link",
-                "plategate.list",
-                "plategate.modify",
-                "plategate.move",
+                "plategate.command.create",
+                "plategate.command.delete",
+                "plategate.command.help",
+                "plategate.command.link",
+                "plategate.command.list",
+                "plategate.command.modify",
+                "plategate.command.move",
                 "plategate.info",
                 "plategate.use",
             )
@@ -84,35 +84,35 @@ bukkit {
         register("plategate.command") {
             description = "\"/plategate\" Command Use Permission"
         }
-        register("plategate.create") {
+        register("plategate.command.create") {
             description = "\"/plategate create\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.delete") {
+        register("plategate.command.delete") {
             description = "\"/plategate delete\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.help") {
+        register("plategate.command.help") {
             description = "\"/plategate help\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.jump") {
+        register("plategate.command.jump") {
             description = "\"/plategate jump\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.link") {
+        register("plategate.command.link") {
             description = "\"/plategate link\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.list") {
+        register("plategate.command.list") {
             description = "\"/plategate list\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.modify") {
+        register("plategate.command.modify") {
             description = "\"/plategate modify\" Command Use Permission"
             children = listOf("plategate.command")
         }
-        register("plategate.move") {
+        register("plategate.command.move") {
             description = "\"/plategate move\" Command Use Permission"
             children = listOf("plategate.command")
         }

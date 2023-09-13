@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 
 class PGMove {
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.move")) {
+        if (!sender.hasPermission("plategate.command.move")) {
             sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
             return false
         }

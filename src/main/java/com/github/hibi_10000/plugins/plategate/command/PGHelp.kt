@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender
 
 class PGHelp {
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.help")) {
+        if (!sender.hasPermission("plategate.command.help")) {
             sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
             return false
         }

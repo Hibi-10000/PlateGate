@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class PGLink {
 
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.link")) {
+        if (!sender.hasPermission("plategate.command.link")) {
             sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
             return false
         }
