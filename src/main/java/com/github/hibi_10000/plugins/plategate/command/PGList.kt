@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGList {
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.list")) return false
         if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
@@ -54,6 +55,7 @@ class PGList {
         return true
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         return null
     }

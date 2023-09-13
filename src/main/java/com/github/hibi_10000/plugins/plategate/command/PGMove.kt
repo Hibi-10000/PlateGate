@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGMove {
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.move")) return false
         if (args.size != 2) return commandInvalid(sender, label)
@@ -52,16 +53,12 @@ class PGMove {
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
         //float yaw = loc.getYaw();
-        var d = "south"
-        val pf = sender.facing
-        if ( /*(yaw >= 315 || yaw <= 45) ||  */pf == BlockFace.SOUTH) {
-            d = "south"
-        } else if ( /*(yaw > 45 && yaw < 135) || */pf == BlockFace.WEST) {
-            d = "west"
-        } else if ( /*(yaw >= 135 && yaw <= 225) || */pf == BlockFace.NORTH) {
-            d = "north"
-        } else if ( /*(yaw > 225 && yaw < 315) || */pf == BlockFace.EAST) {
-            d = "east"
+        val d = when (sender.facing) {
+            BlockFace.SOUTH -> "south" /* yaw >= 315 || yaw <=  45 */
+            BlockFace.WEST -> "west"   /* yaw >   45 && yaw <  135 */
+            BlockFace.NORTH -> "north" /* yaw >= 135 && yaw <= 225 */
+            BlockFace.EAST -> "east"   /* yaw >  225 && yaw <  315 */
+            else -> "south"
         }
         index = util.firstIndexJson("name", args[1], sender)
         util.setJson(index, "x", loc.blockX.toString(), sender)
@@ -75,6 +72,7 @@ class PGMove {
         return true
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         return null
     }

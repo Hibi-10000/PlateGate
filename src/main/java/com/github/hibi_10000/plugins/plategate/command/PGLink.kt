@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGLink {
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.link")) return false
         if (args.size != 3) return commandInvalid(sender, label)
@@ -17,6 +18,7 @@ class PGLink {
         return true
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<String>): List<String>? {
         return null
     }

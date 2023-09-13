@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGDelete {
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.delete")) return false
         if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true)))
@@ -100,6 +101,7 @@ class PGDelete {
         return true
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         return null
     }

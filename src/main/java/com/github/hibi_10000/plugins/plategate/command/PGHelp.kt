@@ -9,6 +9,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
 class PGHelp {
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.help")) return false
         if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
@@ -112,6 +113,7 @@ class PGHelp {
         return true
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         return null
     }

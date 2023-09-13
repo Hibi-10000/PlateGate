@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGJump {
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.jump")) return false
         if (args.size != 2) return commandInvalid(sender, label)
@@ -80,6 +81,7 @@ class PGJump {
         return true
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<String>): List<String>? {
         //List<String> list = new ArrayList<>();
         return null

@@ -14,6 +14,7 @@ import java.util.*
 class PGModify {
     private var oldowner: Player? = null
 
+    @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (checkPermission(sender, "plategate.command.modify")) return false
         if (args.size <= 2) return commandInvalid(sender, label)
@@ -50,10 +51,10 @@ class PGModify {
 					}
 					Player gateoldowner = Bukkit.getPlayer(UUID.fromString(jo.get("owner").getAsString()));
 					*/
-                    val gateoldowner: Player?
+                    //val gateoldowner: Player?
                     if (!util.gateExists(null, args[1], (sender as Player))) return false
-                    val index = util.firstIndexJson("name", args[1], sender)
-                    gateoldowner = Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender)))
+                    //val index = util.firstIndexJson("name", args[1], sender)
+                    //gateoldowner = Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender)))
                     for (lp in Bukkit.getOnlinePlayers()) {
                         if (lp.name.equals(args[3], ignoreCase = true)) {
                             val newOwner = Bukkit.getPlayer(args[3])
@@ -119,6 +120,7 @@ class PGModify {
         return false
     }
 
+    @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String> {
         val list: MutableList<String> = ArrayList()
         if (args.size <= 2) return list
