@@ -53,7 +53,7 @@ class ArrayJson(private val gateDB: File) {
 
     /**
      * Get the value corresponding to the input value
-     * @param id Id of the entry to get
+     * @param id ID of the entry to get
      * @param name The name of the column you want to get
      * @return Value in place corresponding to the input value
      * @throws RuntimeException see [.read]
@@ -132,7 +132,7 @@ class ArrayJson(private val gateDB: File) {
 
     /**
      * Remove entry
-     * @param id Id of the entry to remove
+     * @param id ID of the entry to remove
      * @throws IllegalStateException see [JsonArray.getAsString]
      * @throws IOException see [.read] &amp; [.write]
      * @since 1.0.0
@@ -215,7 +215,7 @@ class ArrayJson(private val gateDB: File) {
      * @since 1.0.0
      */
     @Throws(IOException::class, RuntimeException::class)
-    fun IndexOf(key: String?, value: String?): List<String> {
+    fun allIndexOf(key: String?, value: String?): List<String> {
         val json = read()
         val back: MutableList<String> = ArrayList()
         for (element in json) {

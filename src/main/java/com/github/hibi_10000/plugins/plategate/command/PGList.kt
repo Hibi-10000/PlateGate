@@ -1,31 +1,17 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.util.util
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGList {
-
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.command.list")) {
-            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-            return false
-        }
-        if (!(args.size == 2 || args.size == 1)) {
-            val help =
-                TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
-            help.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで§b\"/$label help\"§aを実行"))
-            help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
-            sender.spigot().sendMessage(help)
-            return false
-        }
-        val searchp: Player?
+        if (checkPermission(sender, "plategate.command.list")) return false
+        if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
+
+        val searchP: Player?
         if (sender.hasPermission("plategate.admin") && args.size == 2) {
             var args1player = false
             for (p in Bukkit.getOnlinePlayers()) {
@@ -44,14 +30,14 @@ class PGList {
                 sender.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
                 return false
             }
-            searchp = Bukkit.getPlayer(args[1])
+            searchP = Bukkit.getPlayer(args[1])
         } else {
-            searchp = sender as Player
+            searchP = sender as Player
         }
 
         //List<JsonObject> jolist = new JsonHandler(plugin).JsonRead(searchp, null);
-        for (index in util.IndexJson("owner", searchp!!.uniqueId.toString(), (sender as Player))) {
-            sender.sendMessage("§a[PlateGate] §bPlayer §6" + searchp.name + " §bが所有しているGate一覧")
+        for (index in util.allIndexJson("owner", searchP!!.uniqueId.toString(), (sender as Player))) {
+            sender.sendMessage("§a[PlateGate] §bPlayer §6" + searchP.name + " §bが所有しているGate一覧")
             if (util.getJson(index, "to", sender).equals("", ignoreCase = true)) {
                 sender.sendMessage(" §b" + util.getJson(index, "name", sender))
                 //} else if (new JsonHandler(plugin).JsonRead(jog.get("to").getAsString(), null).getAsJsonObject()

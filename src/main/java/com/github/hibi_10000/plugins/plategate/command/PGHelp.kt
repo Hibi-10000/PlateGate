@@ -10,21 +10,8 @@ import org.bukkit.command.CommandSender
 
 class PGHelp {
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.command.help")) {
-            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-            return false
-        }
-        if (!(args.size == 2 || args.size == 1)) {
-            val help =
-                TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
-            help.hoverEvent = HoverEvent(
-                HoverEvent.Action.SHOW_TEXT,
-                Text("§aクリックで§b\"/$label help\"§aを実行")
-            )
-            help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
-            sender.spigot().sendMessage(help)
-            return false
-        }
+        if (checkPermission(sender, "plategate.command.help")) return false
+        if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
         if (args.size == 2) {
             if (args[1].equals("plugin", ignoreCase = true)) {
                 sender.sendMessage("§a[PlateGate $version] §6MoreHelp")

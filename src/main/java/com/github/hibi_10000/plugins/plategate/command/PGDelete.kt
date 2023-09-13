@@ -1,10 +1,6 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.util.util
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -14,21 +10,9 @@ import org.bukkit.entity.Player
 
 class PGDelete {
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.command.delete")) {
-            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-            return false
-        }
-        if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true))) {
-            val help =
-                TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
-            help.hoverEvent = HoverEvent(
-                HoverEvent.Action.SHOW_TEXT,
-                Text("§aクリックで§b\"/$label help\"§aを実行")
-            )
-            help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
-            sender.spigot().sendMessage(help)
-            return false
-        }
+        if (checkPermission(sender, "plategate.command.delete")) return false
+        if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true)))
+            return commandInvalid(sender, label)
         val p = sender as Player
 
         /*

@@ -1,10 +1,6 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.util.util
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
@@ -14,21 +10,9 @@ import org.bukkit.entity.Player
 
 class PGCreate {
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.command.create")) {
-            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-            return false
-        }
-        if (args.size != 2) {
-            val help =
-                TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
-            help.hoverEvent = HoverEvent(
-                HoverEvent.Action.SHOW_TEXT,
-                Text("§aクリックで§b\"/$label help\"§aを実行")
-            )
-            help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
-            sender.spigot().sendMessage(help)
-            return false
-        }
+        if (checkPermission(sender, "plategate.command.create")) return false
+        if (args.size != 2) return commandInvalid(sender, label)
+
         if (!util.getJson(util.firstIndexJson("name", args[1], (sender as Player)), "name", sender)
                 .equals("0", ignoreCase = true)
         ) {
@@ -44,10 +28,9 @@ class PGCreate {
             sender.sendMessage("§a[PlateGate] §cERROR!")
             return false
         }
-        val p = sender
-        val ploc = p.location
-        val loc = Location(p.world, ploc.x, ploc.y, ploc.z)
-        val downloc = Location(p.world, ploc.x, ploc.y - 1, ploc.z)
+        val ploc = sender.location
+        val loc = Location(sender.world, ploc.x, ploc.y, ploc.z)
+        val downloc = Location(sender.world, ploc.x, ploc.y - 1, ploc.z)
         if (loc.block.type != Material.AIR) {
             sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
@@ -67,7 +50,7 @@ class PGCreate {
         //new JsonHandler(plugin).JsonWrite(args[1], p, "", loc, downblockbefore);
         //float yaw = loc.getYaw();
         var d = "south"
-        val pf = p.facing
+        val pf = sender.facing
         if ( /*(yaw >= 315 || yaw <= 45) ||  */pf == BlockFace.SOUTH) {
             d = "south"
         } else if ( /*(yaw > 45 && yaw < 135) || */pf == BlockFace.WEST) {
@@ -80,7 +63,7 @@ class PGCreate {
         util.addJson(
             sender,
             args[1],
-            p.name,
+            sender.name,
             "",
             loc.blockX.toString(),
             loc.blockY.toString(),
@@ -90,7 +73,7 @@ class PGCreate {
             downblockbefore.toString()
         )
         sender.sendMessage("§a[PlateGate] §bPlateGate " + args[1] + " を " + loc + " に作成しました")
-        println("§a[PlateGate] §b" + p.name + " がPlateGate " + args[1] + " を " + loc + " に作成しました")
+        println("§a[PlateGate] §b" + sender.name + " がPlateGate " + args[1] + " を " + loc + " に作成しました")
         return true
     }
 

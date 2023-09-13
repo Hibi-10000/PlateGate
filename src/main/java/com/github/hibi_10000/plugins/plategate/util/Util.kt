@@ -95,26 +95,17 @@ class Util {
         }
     }
 
-    fun IndexJson(key: String?, value: String?, sender: Player): List<String> {
+    fun allIndexJson(key: String?, value: String?, sender: Player): List<String> {
         return try {
-            arrayJson!!.IndexOf(key, value)
+            arrayJson!!.allIndexOf(key, value)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
         }
     }
 
-    fun clearJson(sender: Player) {
-        try {
-            arrayJson?.clear()
-        } catch (e: IOException) {
-            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-            throw RuntimeException(e)
-        }
-    }
-
-    fun IndexJson(loc: Location, p: Player): String? {
-        val xIndexList = IndexJson("x", loc.blockX.toString(), p)
+    fun allIndexJson(loc: Location, p: Player): String {
+        val xIndexList = allIndexJson("x", loc.blockX.toString(), p)
         //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
         //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
         //List<String> worldIndex = util.IndexJson("world", String.valueOf(loc.getWorld()), p);
@@ -128,5 +119,14 @@ class Util {
             if (y && z && w) return xIndex
         }
         return "-1"
+    }
+
+    fun clearJson(sender: Player) {
+        try {
+            arrayJson?.clear()
+        } catch (e: IOException) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            throw RuntimeException(e)
+        }
     }
 }

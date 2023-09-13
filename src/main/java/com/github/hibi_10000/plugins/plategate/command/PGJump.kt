@@ -1,10 +1,6 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.util.util
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -13,23 +9,9 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PGJump {
-
     fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {
-        if (!sender.hasPermission("plategate.command.jump")) {
-            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-            return false
-        }
-        if (args.size != 2) {
-            val help =
-                TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
-            help.hoverEvent = HoverEvent(
-                HoverEvent.Action.SHOW_TEXT,
-                Text("§aクリックで§b\"/$label help\"§aを実行")
-            )
-            help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
-            sender.spigot().sendMessage(help)
-            return false
-        }
+        if (checkPermission(sender, "plategate.command.jump")) return false
+        if (args.size != 2) return commandInvalid(sender, label)
         val p = sender as Player
         /*
 		JsonObject gateto = new JsonHandler(plugin).JsonRead(args[1], null);
@@ -69,22 +51,22 @@ class PGJump {
 		p.teleport(toloc);
 		 */
         val index = util.firstIndexJson("name", args[1], sender)
-        var Yaw = 0f
+        var yaw = 0f
         val rotate = util.getJson(index, "rotate", sender)
-        if (rotate.equals("north", ignoreCase = true)) Yaw = 180f else if (rotate.equals(
+        if (rotate.equals("north", ignoreCase = true)) yaw = 180f else if (rotate.equals(
                 "east",
                 ignoreCase = true
             )
-        ) Yaw = 270f else if (rotate.equals("south", ignoreCase = true)) Yaw = 0f else if (rotate.equals(
+        ) yaw = 270f else if (rotate.equals("south", ignoreCase = true)) yaw = 0f else if (rotate.equals(
                 "west",
                 ignoreCase = true
             )
-        ) Yaw = 90f
+        ) yaw = 90f
         val toloc = Location(
             Bukkit.getServer().getWorld(util.getJson(index, "world", sender)),
             util.getJson(index, "x", sender).toInt() + 0.5, util.getJson(index, "y", sender).toInt()
                 .toDouble(),
-            util.getJson(index, "z", sender).toInt() + 0.5, Yaw, 0f
+            util.getJson(index, "z", sender).toInt() + 0.5, yaw, 0f
         )
         if (rotate.equals("north", ignoreCase = true)) toloc.z -= 1
         else if (rotate.equals("east",ignoreCase = true)) toloc.x += 1

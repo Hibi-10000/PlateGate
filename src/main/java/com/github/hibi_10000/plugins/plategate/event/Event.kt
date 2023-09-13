@@ -37,7 +37,7 @@ class Event : Listener {
             val loc = e.clickedBlock!!.location
 
             //JsonObject gate = new JsonHandler(plugin).JsonRead(null, loc).getAsJsonObject();
-            val xIndexList = util.IndexJson("x", loc.blockX.toString(), p)
+            val xIndexList = util.allIndexJson("x", loc.blockX.toString(), p)
             //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
             //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
             //List<String> worldIndex = util.IndexJson("world", String.valueOf(loc.getWorld()), p);
@@ -67,30 +67,30 @@ class Event : Listener {
 
             //JsonObject gateto = new JsonHandler(plugin).JsonRead(gate.get("to").getAsString(), null);
             val gateto = util.firstIndexJson("to", util.getJson(index, "name", p), p)
-            var Yaw = 0f
+            var yaw = 0f
             val rotate = util.getJson(index, "rotate", p)
             if (rotate.equals("north", ignoreCase = true)) {
-                Yaw = 180f
+                yaw = 180f
             } else if (rotate.equals("east", ignoreCase = true)) {
-                Yaw = 270f
+                yaw = 270f
             } else if (rotate.equals("south", ignoreCase = true)) {
-                Yaw = 0f
+                yaw = 0f
             } else if (rotate.equals("west", ignoreCase = true)) {
-                Yaw = 90f
+                yaw = 90f
             }
             val toloc = Location(
                 Bukkit.getServer().getWorld(util.getJson(gateto, "world", p)),
                 util.getJson(gateto, "x", p).toInt() + 0.5, util.getJson(index, "y", p).toInt().toDouble(),
-                util.getJson(gateto, "z", p).toInt() + 0.5, Yaw, 0f
+                util.getJson(gateto, "z", p).toInt() + 0.5, yaw, 0f
             )
             if (rotate.equals("north", ignoreCase = true)) {
-                toloc.z = toloc.z - 1
+                toloc.z -= 1
             } else if (rotate.equals("east", ignoreCase = true)) {
-                toloc.x = toloc.x + 1
+                toloc.x += 1
             } else if (rotate.equals("south", ignoreCase = true)) {
-                toloc.z = toloc.z + 1
+                toloc.z += 1
             } else if (rotate.equals("west", ignoreCase = true)) {
-                toloc.x = toloc.x - 1
+                toloc.x -= 1
             }
             val touploc = toloc.clone()
             touploc.y = toloc.y + 1
@@ -108,7 +108,7 @@ class Event : Listener {
                 val loc = Location(p.world, b!!.x.toDouble(), b.y.toDouble(), b.z.toDouble())
 
                 //JsonObject gate = new JsonHandler(plugin).JsonRead(null, loc);
-                val xIndexList = util.IndexJson("x", loc.blockX.toString(), p)
+                val xIndexList = util.allIndexJson("x", loc.blockX.toString(), p)
                 //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
                 //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
                 //List<String> worldIndex = util.IndexJson("world", String.valueOf(loc.getWorld()), p);
@@ -160,7 +160,7 @@ class Event : Listener {
             val loc = Location(b.world, b.x.toDouble(), (b.y + 1).toDouble(), b.z.toDouble())
 
             //JsonObject glj = new JsonHandler(plugin).JsonRead(null, loc);
-            if (util.gateExists(util.IndexJson(loc, p), null, p)) {
+            if (util.gateExists(util.allIndexJson(loc, p), null, p)) {
                 e.isCancelled = true
                 p.sendMessage("§a[PlateGate]§c PlateGateを壊すことはできません！")
             } else {
@@ -174,7 +174,7 @@ class Event : Listener {
             val loc = Location(b.world, b.x.toDouble(), b.y.toDouble(), b.z.toDouble())
 
             //JsonObject glj = new JsonHandler(plugin).JsonRead(null, loc);
-            if (util.gateExists(util.IndexJson(loc, p), null, p)) {
+            if (util.gateExists(util.allIndexJson(loc, p), null, p)) {
                 e.isCancelled = true
                 p.sendMessage("§a[PlateGate]§c PlateGateを壊すことはできません！")
             } else {
