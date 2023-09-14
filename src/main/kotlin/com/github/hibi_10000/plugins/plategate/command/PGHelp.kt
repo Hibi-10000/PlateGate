@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.version
@@ -20,6 +24,7 @@ class PGHelp {
                 sender.sendMessage("Author: Hibi_10000")
                 sender.sendMessage("GitHub: https://github.com/Hibi-10000/PlateGate")
                 sender.sendMessage("BukkitDev: https://dev.bukkit.org/projects/plategate")
+                sender.sendMessage("License: Mozilla Public License 2.0")
                 return true
             }
             val help =
