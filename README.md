@@ -5,7 +5,12 @@
 -->
 
 # PlateGate
-  
+
+<!--
+    Inspired by [KonseptGate](https://github.com/DemmyDemon/KonseptGate)
+    ([Bukkit Forum](https://bukkit.org/threads/tp-konseptgate-v0-6-2-stone-telepads-1-5-1-r0-2.25907/))
+-->
+
 このプラグインはSpigot(Paper)-1.16.5以上で動作します。  
 動作確認-MC1.16.5のみ  
   

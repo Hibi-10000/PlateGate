@@ -19,7 +19,7 @@ import java.util.stream.Collectors
  * @since 1.1.0
  * @author Hibi_10000
  */
-class ArrayJson(private val gateDB: File) {
+class JsonDB(private val gateDB: File) {
 
     /**
      * Read [JsonArray] in [.jsonfile]

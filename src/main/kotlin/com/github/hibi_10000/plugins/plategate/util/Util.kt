@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.util
 
-import com.github.hibi_10000.plugins.plategate.arrayJson
+import com.github.hibi_10000.plugins.plategate.jsonDB
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.io.IOException
@@ -14,9 +14,9 @@ class Util {
     fun gateExists(id: String?, name: String?, sender: Player): Boolean {
         return try {
             if (id != null) {
-                return if (id.equals("0", ignoreCase = true)) false else arrayJson?.get(id, "name") != null
+                return if (id.equals("0", ignoreCase = true)) false else jsonDB?.get(id, "name") != null
             } else if (name != null) {
-                if (arrayJson?.firstIndexOf("name", name).equals("0", ignoreCase = true)) {
+                if (jsonDB?.firstIndexOf("name", name).equals("0", ignoreCase = true)) {
                     sender.sendMessage("§a[PlateGate] §cゲート名が間違っています")
                     return false
                 }
@@ -33,7 +33,7 @@ class Util {
 
     fun getJson(id: String, key: String, sender: Player): String {
         return try {
-            val value = arrayJson?.get(id, key)
+            val value = jsonDB?.get(id, key)
             if (value == null) sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             value ?: "-1"
         } catch (e: IOException) {
@@ -56,7 +56,7 @@ class Util {
                 "beforeblock"
             )
             val map = keys.associateBy({ it }, { values[keys.indexOf(it)] })
-            arrayJson?.add(map)
+            jsonDB?.add(map)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -65,7 +65,7 @@ class Util {
 
     fun setJson(id: String, key: String, value: String, sender: Player) {
         try {
-            arrayJson?.set(id, key, value)
+            jsonDB?.set(id, key, value)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -74,7 +74,7 @@ class Util {
 
     fun removeJson(id: String, sender: Player) {
         try {
-            arrayJson?.remove(id)
+            jsonDB?.remove(id)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -83,7 +83,7 @@ class Util {
 
     fun firstIndexJson(key: String, value: String, sender: Player): String {
         return try {
-            arrayJson!!.firstIndexOf(key, value)
+            jsonDB!!.firstIndexOf(key, value)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -92,7 +92,7 @@ class Util {
 
     fun lastIndexJson(key: String?, value: String?, sender: Player): String {
         return try {
-            arrayJson!!.lastIndexOf(key, value)
+            jsonDB!!.lastIndexOf(key, value)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -101,7 +101,7 @@ class Util {
 
     fun allIndexJson(key: String?, value: String?, sender: Player): List<String> {
         return try {
-            arrayJson!!.allIndexOf(key, value)
+            jsonDB!!.allIndexOf(key, value)
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -127,7 +127,7 @@ class Util {
 
     fun clearJson(sender: Player) {
         try {
-            arrayJson?.clear()
+            jsonDB?.clear()
         } catch (e: IOException) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
