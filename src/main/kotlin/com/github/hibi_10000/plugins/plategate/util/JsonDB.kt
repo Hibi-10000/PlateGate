@@ -37,7 +37,7 @@ class JsonDB(private val gateDB: File) {
         lines.close()
         val array = Gson().fromJson(content, JsonArray::class.java)
         check(array.isJsonArray) { "The contents of File are not JsonArray" }
-        return array
+        return array.asJsonArray
     }
 
     /**
@@ -67,9 +67,8 @@ class JsonDB(private val gateDB: File) {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun get(id: String, name: String): String? {
-        val j = read()
-        for (element in j.getAsJsonArray()) {
-            val jo = element.getAsJsonObject()
+        for (element in read()) {
+            val jo = element.asJsonObject
             if (jo["id"].asString.equals(id, ignoreCase = true)) {
                 return jo[name].asString
             }
@@ -88,17 +87,17 @@ class JsonDB(private val gateDB: File) {
     fun add(values: Map<String, String>) {
         var lastid = 0
         val json = read()
-        for (element in json.getAsJsonArray()) {
-            val jo = element.getAsJsonObject()
+        for (element in json) {
+            val jo = element.asJsonObject
             val id = jo["id"].asString.toInt()
             if (lastid < id) lastid = id
         }
-        val j = JsonObject()
-        j.addProperty("id", lastid.toString())
+        val idJo = JsonObject()
+        idJo.addProperty("id", lastid.toString())
         for (value in values) {
-            j.addProperty(value.key, value.value)
+            idJo.addProperty(value.key, value.value)
         }
-        json.getAsJsonArray().add(j)
+        json.add(idJo)
         write(json)
     }
 
@@ -115,10 +114,10 @@ class JsonDB(private val gateDB: File) {
     fun set(id: String, key: String, value: String) {
         val json = read()
         val newJson = JsonArray()
-        for (element in json.getAsJsonArray()) {
-            val oldJo = element.getAsJsonObject()
+        for (element in json) {
+            val oldJo = element.asJsonObject
             if (oldJo["id"].asString.equals(id, ignoreCase = true)) {
-                val jo = JsonObject().getAsJsonObject()
+                val jo = JsonObject().asJsonObject
                 for ((oldKey) in oldJo.entrySet()) {
                     if (oldKey.equals(key, ignoreCase = true)) {
                         jo.addProperty(key, value)
@@ -146,7 +145,7 @@ class JsonDB(private val gateDB: File) {
         val json = read()
         val newJson = JsonArray()
         for (element in json) {
-            val jo = element.getAsJsonObject()
+            val jo = element.asJsonObject
             if (!jo["id"].asString.equals(id, ignoreCase = true)) {
                 newJson.add(jo)
             }
@@ -170,7 +169,7 @@ class JsonDB(private val gateDB: File) {
         val json = read()
         var back = "0"
         for (element in json) {
-            val jo = element.getAsJsonObject()
+            val jo = element.asJsonObject
             if (jo[key].asString.equals(value, ignoreCase = true)
                 && (back.toInt() > jo["id"].asString.toInt()
                         || back.equals("0", ignoreCase = true))
@@ -197,7 +196,7 @@ class JsonDB(private val gateDB: File) {
         val json = read()
         var back = "0"
         for (element in json) {
-            val jo = element.getAsJsonObject()
+            val jo = element.asJsonObject
             if (jo[key].asString.equals(value, ignoreCase = true)
                 && back.toInt() < jo["id"].asString.toInt()
             ) {
@@ -223,7 +222,7 @@ class JsonDB(private val gateDB: File) {
         val json = read()
         val back: MutableList<String> = ArrayList()
         for (element in json) {
-            val jo = element.getAsJsonObject()
+            val jo = element.asJsonObject
             if (jo[key].asString.equals(value, ignoreCase = true)) {
                 back.add(jo["id"].asString)
             }
