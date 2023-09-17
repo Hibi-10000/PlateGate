@@ -22,13 +22,13 @@ import java.util.stream.Collectors
 class JsonDB(private val gateDB: File) {
 
     /**
-     * Read [JsonArray] in [.jsonfile]
-     * @return [JsonArray] JsonArray in File
-     * @throws IOException [ArrayJson(jsonfile, namelist)][.ArrayJson] jsonfile isn't found
+     * Read [JsonArray] in [gateDB]
+     * @return [JsonArray] in File
+     * @throws IOException [JsonDB(gateDB)][JsonDB] [gateDB] isn't found
      * @throws IllegalStateException The contents of File are not JsonArray
-     * @throws SecurityException [Files.lines(jsonfile.toPath())][Files.lines] Is security manager installed to jsonfile?
-     * @throws InvalidPathException [jsonfile.toPath()][File.toPath] If jsonfile path string cannot be converted
-     * @since 1.0.0
+     * @throws SecurityException [Files.lines(gateDB.toPath())][Files.lines] Is security manager installed to [gateDB]?
+     * @throws InvalidPathException [gateDB.toPath()][File.toPath] If [gateDB] path string cannot be converted
+     * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun read(): JsonArray {
@@ -44,7 +44,7 @@ class JsonDB(private val gateDB: File) {
      * Write JsonArray to [gateDB]
      * @param json JsonArray to write to [gateDB]
      * @throws IOException see [FileWriter] and [FileWriter.write]
-     * @since 1.0.0
+     * @since 1.1.0
      */
     @Throws(IOException::class)
     fun write(json: JsonArray) {
@@ -60,10 +60,10 @@ class JsonDB(private val gateDB: File) {
      * @param id ID of the entry to get
      * @param name The name of the column you want to get
      * @return Value in place corresponding to the input value
-     * @throws RuntimeException see [.read]
-     * @throws IOException see [.read]
-     * @since 1.0.0
-     * @see .read
+     * @throws RuntimeException see [read]
+     * @throws IOException see [read]
+     * @since 1.1.0
+     * @see read
      */
     @Throws(IOException::class, RuntimeException::class)
     fun get(id: String, name: String): String? {
@@ -80,9 +80,9 @@ class JsonDB(private val gateDB: File) {
     /**
      * Add an entry to the table
      * @param values Set the default values in the order of  (id is set automatically)
-     * @throws IOException see [.read]
-     * @throws RuntimeException see [.read]
-     * @since 1.0.0
+     * @throws IOException see [read]
+     * @throws RuntimeException see [read]
+     * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun add(values: Map<String, String>) {
@@ -107,9 +107,9 @@ class JsonDB(private val gateDB: File) {
      * @param id Specifies the id of the entry for which you want to change the value of a column
      * @param key Specify the name of the column whose value you want to change
      * @param value Specifies a value that replaces the value in the specified column
-     * @throws RuntimeException see [.read]
-     * @throws IOException see [.read] &amp; [.write]
-     * @since 1.0.0
+     * @throws RuntimeException see [read]
+     * @throws IOException see [read] &amp; [write]
+     * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun set(id: String, key: String, value: String) {
@@ -138,8 +138,8 @@ class JsonDB(private val gateDB: File) {
      * Remove entry
      * @param id ID of the entry to remove
      * @throws IllegalStateException see [JsonArray.getAsString]
-     * @throws IOException see [.read] &amp; [.write]
-     * @since 1.0.0
+     * @throws IOException see [read] &amp; [write]
+     * @since 1.1.0
      */
     @Throws(IOException::class, IllegalStateException::class)
     fun remove(id: String) {
@@ -159,11 +159,11 @@ class JsonDB(private val gateDB: File) {
      * @param key Specify the key to search
      * @param value Specifies the value corresponding to the specified key
      * @return Returns the ID of the retrieved entry as a String
-     * @throws IOException see [.read]
-     * @throws IllegalStateException see [.read]
-     * @throws SecurityException see [.read]
-     * @throws InvalidPathException see [.read]
-     * @since 1.0.0
+     * @throws IOException see [read]
+     * @throws IllegalStateException see [read]
+     * @throws SecurityException see [read]
+     * @throws InvalidPathException see [read]
+     * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun firstIndexOf(key: String, value: String): String {
@@ -186,11 +186,11 @@ class JsonDB(private val gateDB: File) {
      * @param key Specify the key to search
      * @param value Specifies the value corresponding to the specified key
      * @return Returns the ID of the retrieved entry as a String
-     * @throws IOException see [.read]
-     * @throws IllegalStateException see [.read]
-     * @throws SecurityException see [.read]
-     * @throws InvalidPathException see [.read]
-     * @since 1.0.0
+     * @throws IOException see [read]
+     * @throws IllegalStateException see [read]
+     * @throws SecurityException see [read]
+     * @throws InvalidPathException see [read]
+     * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun lastIndexOf(key: String?, value: String?): String {
@@ -212,11 +212,11 @@ class JsonDB(private val gateDB: File) {
      * @param key Specify the key to search
      * @param value Specifies the value corresponding to the specified key
      * @return Returns the ID of the retrieved entry as a StringList
-     * @throws IOException see [.read]
-     * @throws IllegalStateException see [.read]
-     * @throws SecurityException see [.read]
-     * @throws InvalidPathException see [.read]
-     * @since 1.0.0
+     * @throws IOException see [read]
+     * @throws IllegalStateException see [read]
+     * @throws SecurityException see [read]
+     * @throws InvalidPathException see [read]
+     * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun allIndexOf(key: String?, value: String?): List<String> {
@@ -232,10 +232,10 @@ class JsonDB(private val gateDB: File) {
     }
 
     /**
-     * @throws RuntimeException see [.write]
-     * @throws IOException see [.write]
-     * @since 1.0.0
-     * @see .write
+     * @throws RuntimeException see [write]
+     * @throws IOException see [write]
+     * @since 1.1.0
+     * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
     fun clear() {
