@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
@@ -18,11 +18,11 @@ class PGCreate {
         if (!checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return commandInvalid(sender, label)
 
-        if (!util.getJson(util.firstIndexJson("name", args[1], (sender as Player)), "name", sender)
+        if (!dbUtil.getJson(dbUtil.firstIndexJson("name", args[1], (sender as Player)), "name", sender)
                 .equals("0", ignoreCase = true)
         ) {
             //if (!(new JsonHandler(plugin).JsonRead(args[1], null).get("name").getAsString().equalsIgnoreCase("null"))) {
-            if (util.getJson(util.firstIndexJson("name", args[1], sender), "name", sender).equals(
+            if (dbUtil.getJson(dbUtil.firstIndexJson("name", args[1], sender), "name", sender).equals(
                     args[1], ignoreCase = true
                 )
             ) {
@@ -61,7 +61,7 @@ class PGCreate {
             BlockFace.EAST -> "east"   /* yaw >  225 && yaw <  315 */
             else -> "south"
         }
-        util.addJson(
+        dbUtil.addJson(
             sender,
             args[1],
             sender.name,

@@ -6,15 +6,15 @@ package com.github.hibi_10000.plugins.plategate
 
 import com.github.hibi_10000.plugins.plategate.command.PGBase
 import com.github.hibi_10000.plugins.plategate.event.Event
-import com.github.hibi_10000.plugins.plategate.util.JsonDB
-import com.github.hibi_10000.plugins.plategate.util.Util
+import com.github.hibi_10000.plugins.plategate.database.JsonDB
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 var instance: PlateGate? = null
 var version: String? = null
 var jsonDB: JsonDB? = null
-var util: Util = Util()
+var dbUtil: DBUtil = DBUtil()
 
 class PlateGate : JavaPlugin() {
     override fun onEnable() {

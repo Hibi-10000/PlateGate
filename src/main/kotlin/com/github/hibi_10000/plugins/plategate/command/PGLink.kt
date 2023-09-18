@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -16,7 +16,7 @@ class PGLink {
         if (args.size != 3) return commandInvalid(sender, label)
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, args[2], null, null, null);
-        util.setJson(util.firstIndexJson("name", args[1], (sender as Player)), "to", args[2], sender)
+        dbUtil.setJson(dbUtil.firstIndexJson("name", args[1], (sender as Player)), "to", args[2], sender)
         sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " から ゲート " + args[2] + " の方向にゲートをリンクしました。")
         println("§a[PlateGate] §bゲート " + args[1] + " から ゲート " + args[2] + " の方向にゲートをリンクしました。")
         return true

@@ -6,7 +6,7 @@ package com.github.hibi_10000.plugins.plategate.event
 
 import com.github.hibi_10000.plugins.plategate.command.checkPermission
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -40,30 +40,30 @@ class Event : Listener {
             val loc = e.clickedBlock!!.location
 
             //JsonObject gate = new JsonHandler(plugin).JsonRead(null, loc).getAsJsonObject();
-            val xIndexList = util.allIndexJson("x", loc.blockX.toString(), p)
+            val xIndexList = dbUtil.allIndexJson("x", loc.blockX.toString(), p)
             //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
             //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
             //List<String> worldIndex = util.IndexJson("world", String.valueOf(loc.getWorld()), p);
             var index: String? = "0"
             for (xindex in xIndexList) {
                 //boolean x = util.getJson(xindex, "x", p).equalsIgnoreCase(String.valueOf(loc.getBlockX()));
-                val y = util.getJson(xindex, "y", p).equals(loc.blockY.toString(), ignoreCase = true)
-                val z = util.getJson(xindex, "z", p).equals(loc.blockZ.toString(), ignoreCase = true)
-                val w = util.getJson(xindex, "world", p).equals(loc.getWorld().toString(), ignoreCase = true)
+                val y = dbUtil.getJson(xindex, "y", p).equals(loc.blockY.toString(), ignoreCase = true)
+                val z = dbUtil.getJson(xindex, "z", p).equals(loc.blockZ.toString(), ignoreCase = true)
+                val w = dbUtil.getJson(xindex, "world", p).equals(loc.getWorld().toString(), ignoreCase = true)
                 if (y && z && w) index = xindex
             }
-            if (!util.gateExists(index, null, p)) return
+            if (!dbUtil.gateExists(index, null, p)) return
             if (!checkPermission(p, "plategate.use")) return
-            if (util.getJson(index!!, "to", p).equals("", ignoreCase = true)) {
+            if (dbUtil.getJson(index!!, "to", p).equals("", ignoreCase = true)) {
                 e.setCancelled(false)
-                e.player.sendMessage("§a[PlateGate] §bこのゲート " + util.getJson(index, "name", p) + " はリンクされていません。")
+                e.player.sendMessage("§a[PlateGate] §bこのゲート " + dbUtil.getJson(index, "name", p) + " はリンクされていません。")
                 //spp.setPowered(false);
                 return
             }
 
             //JsonObject gateto = new JsonHandler(plugin).JsonRead(gate.get("to").getAsString(), null);
-            val gateto = util.firstIndexJson("to", util.getJson(index, "name", p), p)
-            val rotate = util.getJson(index, "rotate", p)
+            val gateto = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p), p)
+            val rotate = dbUtil.getJson(index, "rotate", p)
             val yaw = when (rotate.lowercase()) {
                 "north" -> 180f
                 "east"  -> 270f
@@ -72,9 +72,9 @@ class Event : Listener {
                 else    ->   0f
             }
             val toloc = Location(
-                Bukkit.getServer().getWorld(util.getJson(gateto, "world", p)),
-                util.getJson(gateto, "x", p).toInt() + 0.5, util.getJson(index, "y", p).toInt().toDouble(),
-                util.getJson(gateto, "z", p).toInt() + 0.5, yaw, 0f
+                Bukkit.getServer().getWorld(dbUtil.getJson(gateto, "world", p)),
+                dbUtil.getJson(gateto, "x", p).toInt() + 0.5, dbUtil.getJson(index, "y", p).toInt().toDouble(),
+                dbUtil.getJson(gateto, "z", p).toInt() + 0.5, yaw, 0f
             )
             when (rotate.lowercase()) {
                 "north" -> toloc.z -= 1
@@ -98,24 +98,24 @@ class Event : Listener {
                 val loc = Location(p.world, b!!.x.toDouble(), b.y.toDouble(), b.z.toDouble())
 
                 //JsonObject gate = new JsonHandler(plugin).JsonRead(null, loc);
-                val xIndexList = util.allIndexJson("x", loc.blockX.toString(), p)
+                val xIndexList = dbUtil.allIndexJson("x", loc.blockX.toString(), p)
                 //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
                 //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
                 //List<String> worldIndex = util.IndexJson("world", String.valueOf(loc.getWorld()), p);
                 var gate: String? = "0"
                 for (xindex in xIndexList) {
                     //boolean x = util.getJson(xindex, "x", p).equalsIgnoreCase(String.valueOf(loc.getBlockX()));
-                    val y = util.getJson(xindex, "y", p).equals(loc.blockY.toString(), ignoreCase = true)
-                    val z = util.getJson(xindex, "z", p).equals(loc.blockZ.toString(), ignoreCase = true)
-                    val w = util.getJson(xindex, "world", p).equals(loc.getWorld().toString(), ignoreCase = true)
+                    val y = dbUtil.getJson(xindex, "y", p).equals(loc.blockY.toString(), ignoreCase = true)
+                    val z = dbUtil.getJson(xindex, "z", p).equals(loc.blockZ.toString(), ignoreCase = true)
+                    val w = dbUtil.getJson(xindex, "world", p).equals(loc.getWorld().toString(), ignoreCase = true)
                     if (y && z && w) gate = xindex
                 }
-                if (util.getJson(gate!!, "name", p).equals("null", ignoreCase = true)) {
+                if (dbUtil.getJson(gate!!, "name", p).equals("null", ignoreCase = true)) {
 
                     //p.sendMessage("");
                     return
                 }
-                val facing = util.getJson(gate, "rotate", p)
+                val facing = dbUtil.getJson(gate, "rotate", p)
                 val yaw = when (facing.lowercase()) {
                     "south" ->   "0"
                     "west"  ->  "90"
@@ -123,14 +123,14 @@ class Event : Listener {
                     "east"  -> "-90"
                     else    ->   "0"
                 }
-                val to: String = if (util.getJson(gate, "to", p).equals("", ignoreCase = true)) {
+                val to: String = if (dbUtil.getJson(gate, "to", p).equals("", ignoreCase = true)) {
                     "§6None"
                 } else {
-                    util.getJson(gate, "to", p)
+                    dbUtil.getJson(gate, "to", p)
                 }
                 p.sendMessage(
-                    "§a[PlateGate]§b Name: §a" + util.getJson(gate, "name", p) + " §b Owner: §a"
-                            + instance!!.server.getPlayer(UUID.fromString(util.getJson(gate, "owner", p)))!!.name
+                    "§a[PlateGate]§b Name: §a" + dbUtil.getJson(gate, "name", p) + " §b Owner: §a"
+                            + instance!!.server.getPlayer(UUID.fromString(dbUtil.getJson(gate, "owner", p)))!!.name
                             + " §b GoTo: §a" + to + " §b Rotate: §a" + facing + "§b (§a" + yaw + "§b)"
                 )
                 e.setCancelled(true)
@@ -146,7 +146,7 @@ class Event : Listener {
             val loc = Location(b.world, b.x.toDouble(), (b.y + 1).toDouble(), b.z.toDouble())
 
             //JsonObject glj = new JsonHandler(plugin).JsonRead(null, loc);
-            if (util.gateExists(util.allIndexJson(loc, p), null, p)) {
+            if (dbUtil.gateExists(dbUtil.allIndexJson(loc, p), null, p)) {
                 e.isCancelled = true
                 p.sendMessage("§a[PlateGate]§c PlateGateを壊すことはできません！")
             } else {
@@ -160,7 +160,7 @@ class Event : Listener {
             val loc = Location(b.world, b.x.toDouble(), b.y.toDouble(), b.z.toDouble())
 
             //JsonObject glj = new JsonHandler(plugin).JsonRead(null, loc);
-            if (util.gateExists(util.allIndexJson(loc, p), null, p)) {
+            if (dbUtil.gateExists(dbUtil.allIndexJson(loc, p), null, p)) {
                 e.isCancelled = true
                 p.sendMessage("§a[PlateGate]§c PlateGateを壊すことはできません！")
             } else {

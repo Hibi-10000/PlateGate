@@ -2,13 +2,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-package com.github.hibi_10000.plugins.plategate.util
+package com.github.hibi_10000.plugins.plategate.database
 
 import com.github.hibi_10000.plugins.plategate.jsonDB
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class Util {
+class DBUtil {
     fun gateExists(id: String?, name: String?, sender: Player): Boolean {
         return try {
             if (id != null) {

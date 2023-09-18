@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -55,9 +55,9 @@ class PGJump {
 
 		p.teleport(toloc);
 		 */
-        val index = util.firstIndexJson("name", args[1], sender)
+        val index = dbUtil.firstIndexJson("name", args[1], sender)
         var yaw = 0f
-        val rotate = util.getJson(index, "rotate", sender)
+        val rotate = dbUtil.getJson(index, "rotate", sender)
         if (rotate.equals("north", ignoreCase = true)) yaw = 180f else if (rotate.equals(
                 "east",
                 ignoreCase = true
@@ -68,10 +68,10 @@ class PGJump {
             )
         ) yaw = 90f
         val toloc = Location(
-            Bukkit.getServer().getWorld(util.getJson(index, "world", sender)),
-            util.getJson(index, "x", sender).toInt() + 0.5, util.getJson(index, "y", sender).toInt()
+            Bukkit.getServer().getWorld(dbUtil.getJson(index, "world", sender)),
+            dbUtil.getJson(index, "x", sender).toInt() + 0.5, dbUtil.getJson(index, "y", sender).toInt()
                 .toDouble(),
-            util.getJson(index, "z", sender).toInt() + 0.5, yaw, 0f
+            dbUtil.getJson(index, "z", sender).toInt() + 0.5, yaw, 0f
         )
         if (rotate.equals("north", ignoreCase = true)) toloc.z -= 1
         else if (rotate.equals("east",ignoreCase = true)) toloc.x += 1

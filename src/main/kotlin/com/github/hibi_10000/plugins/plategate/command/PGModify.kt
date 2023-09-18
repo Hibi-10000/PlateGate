@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -30,9 +30,9 @@ class PGModify {
             }
 
             //new JsonHandler(plugin).JsonChange(args[1], args[3], null, null, null, null, null);
-            if (!util.gateExists(null, args[1], (sender as Player))) return false
-            val index = util.firstIndexJson("name", args[1], sender)
-            util.setJson(index, "name", args[3], sender)
+            if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
+            val index = dbUtil.firstIndexJson("name", args[1], sender)
+            dbUtil.setJson(index, "name", args[3], sender)
             sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " の名前を " + args[3] + " に変更しました")
             println("§a[PlateGate] §bゲート " + args[1] + " の名前を " + args[3] + " に変更しました")
             return true
@@ -56,7 +56,7 @@ class PGModify {
 					Player gateoldowner = Bukkit.getPlayer(UUID.fromString(jo.get("owner").getAsString()));
 					*/
                     //val gateoldowner: Player?
-                    if (!util.gateExists(null, args[1], (sender as Player))) return false
+                    if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
                     //val index = util.firstIndexJson("name", args[1], sender)
                     //gateoldowner = Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender)))
                     for (lp in Bukkit.getOnlinePlayers()) {
@@ -68,8 +68,8 @@ class PGModify {
                             }
 
                             //new JsonHandler(plugin).JsonChange(args[1], null, Bukkit.getPlayer(args[3]), null, null, null, null);
-                            util.setJson(
-                                util.firstIndexJson("name", args[1], sender),
+                            dbUtil.setJson(
+                                dbUtil.firstIndexJson("name", args[1], sender),
                                 "owner",
                                 newOwner.uniqueId.toString(),
                                 sender
@@ -87,8 +87,8 @@ class PGModify {
             }
             if (!Bukkit.getPlayer(
                     UUID.fromString(
-                        util.getJson(
-                            util.firstIndexJson("name", args[1], (sender as Player)),"owner",sender
+                        dbUtil.getJson(
+                            dbUtil.firstIndexJson("name", args[1], (sender as Player)),"owner",sender
                         )
                     )
                 )?.name.equals(sender.getName(), ignoreCase = true)
@@ -98,10 +98,10 @@ class PGModify {
             }
             if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[3]))) {
                 //JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null).getAsJsonObject();
-                if (!util.gateExists(null, args[1], sender)) return false
-                val index = util.firstIndexJson("name", args[1], sender)
+                if (!dbUtil.gateExists(null, args[1], sender)) return false
+                val index = dbUtil.firstIndexJson("name", args[1], sender)
                 if (Bukkit.getOnlinePlayers()
-                        .contains(Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender))))
+                        .contains(Bukkit.getPlayer(UUID.fromString(dbUtil.getJson(index, "owner", sender))))
                 ) {
                     oldowner = sender
                     val ttop = Bukkit.getPlayer(args[3])

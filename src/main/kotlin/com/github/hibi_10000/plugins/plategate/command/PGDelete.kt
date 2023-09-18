@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -55,11 +55,11 @@ class PGDelete {
 			System.out.println("§a[PlateGate] §b" + p.getName() + " がGate:" + jo.get("name").getAsString() + "を削除しました。");
 		}
 		*/
-        val index = util.firstIndexJson("name", args[1], sender)
-        if (util.getJson(index, "name", sender).equals("null", ignoreCase = true)) {
+        val index = dbUtil.firstIndexJson("name", args[1], sender)
+        if (dbUtil.getJson(index, "name", sender).equals("null", ignoreCase = true)) {
             //TODO: ここは何だ?
         }
-        if (Bukkit.getPlayer(util.getJson(index, "owner", sender)) !== p) {
+        if (Bukkit.getPlayer(dbUtil.getJson(index, "owner", sender)) !== p) {
             if (!p.hasPermission("plategate.admin")) {
                 p.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
                 return false
@@ -73,34 +73,34 @@ class PGDelete {
             }
         }
         val oldloc = Location(
-            Bukkit.getWorld(util.getJson(index, "world", sender)),
-            util.getJson(index, "x", sender).toDouble(),
-            util.getJson(index, "y", sender).toDouble(),
-            util.getJson(index, "z", sender).toDouble()
+            Bukkit.getWorld(dbUtil.getJson(index, "world", sender)),
+            dbUtil.getJson(index, "x", sender).toDouble(),
+            dbUtil.getJson(index, "y", sender).toDouble(),
+            dbUtil.getJson(index, "z", sender).toDouble()
         )
         val olddownloc =
             Location(p.world, oldloc.blockX.toDouble(), (oldloc.blockY - 1).toDouble(), oldloc.blockZ.toDouble())
         oldloc.block.type = Material.AIR
-        olddownloc.block.type = Material.getMaterial(util.getJson(index, "beforeblock", sender))!!
-        util.removeJson(util.firstIndexJson("name", args[1], sender), sender)
+        olddownloc.block.type = Material.getMaterial(dbUtil.getJson(index, "beforeblock", sender))!!
+        dbUtil.removeJson(dbUtil.firstIndexJson("name", args[1], sender), sender)
         if (args[2].equals("force", ignoreCase = true)) {
             p.sendMessage(
-                "§a[PlateGate] §bGate:" + util.getJson(
+                "§a[PlateGate] §bGate:" + dbUtil.getJson(
                     index,
                     "name",
                     sender
-                ) + "(Owner:" + util.getJson(index, "Owner", sender) + ")を強制的に削除しました。"
+                ) + "(Owner:" + dbUtil.getJson(index, "Owner", sender) + ")を強制的に削除しました。"
             )
             println(
-                "§a[PlateGate] §b" + p.name + " がGate:" + util.getJson(
+                "§a[PlateGate] §b" + p.name + " がGate:" + dbUtil.getJson(
                     index,
                     "name",
                     sender
-                ) + "(Owner:" + util.getJson(index, "Owner", sender) + ")を強制的に削除しました。"
+                ) + "(Owner:" + dbUtil.getJson(index, "Owner", sender) + ")を強制的に削除しました。"
             )
         } else {
-            p.sendMessage("§a[PlateGate] §bGate:" + util.getJson(index, "name", sender) + "を削除しました。")
-            println("§a[PlateGate] §b" + p.name + " がGate:" + util.getJson(index, "name", sender) + "を削除しました。")
+            p.sendMessage("§a[PlateGate] §bGate:" + dbUtil.getJson(index, "name", sender) + "を削除しました。")
+            println("§a[PlateGate] §b" + p.name + " がGate:" + dbUtil.getJson(index, "name", sender) + "を削除しました。")
         }
         return true
     }

@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -41,16 +41,16 @@ class PGList {
         }
 
         //List<JsonObject> jolist = new JsonHandler(plugin).JsonRead(searchp, null);
-        for (index in util.allIndexJson("owner", searchP!!.uniqueId.toString(), (sender as Player))) {
+        for (index in dbUtil.allIndexJson("owner", searchP!!.uniqueId.toString(), (sender as Player))) {
             sender.sendMessage("§a[PlateGate] §bPlayer §6" + searchP.name + " §bが所有しているGate一覧")
-            if (util.getJson(index, "to", sender).equals("", ignoreCase = true)) {
-                sender.sendMessage(" §b" + util.getJson(index, "name", sender))
+            if (dbUtil.getJson(index, "to", sender).equals("", ignoreCase = true)) {
+                sender.sendMessage(" §b" + dbUtil.getJson(index, "name", sender))
                 //} else if (new JsonHandler(plugin).JsonRead(jog.get("to").getAsString(), null).getAsJsonObject()
                 //		.get("to").getAsString() == jog.get("name").getAsString()) {
                 //	sender.sendMessage(" " + jog.get("name").getAsString() + " <--> " + jog.get("to").getAsString());
             } else {
                 sender.sendMessage(
-                    " §b" + util.getJson(index, "name", sender) + " §a---> §b" + util.getJson(
+                    " §b" + dbUtil.getJson(index, "name", sender) + " §a---> §b" + dbUtil.getJson(
                         index, "to", sender
                     )
                 )
