@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -20,8 +21,8 @@ class PGModify {
 
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.modify")) return false
-        if (args.size <= 2) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command.modify")) return false
+        if (args.size <= 2) return util.commandInvalid(sender, label)
 
         if (args[2].equals("name", ignoreCase = true)) {
             if (args.size <= 3) {

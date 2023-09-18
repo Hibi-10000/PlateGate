@@ -4,7 +4,6 @@
 
 package com.github.hibi_10000.plugins.plategate.event
 
-import com.github.hibi_10000.plugins.plategate.command.checkPermission
 import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
@@ -33,7 +32,7 @@ class Event : Listener {
         val p = e.player
         //Location ploc = e.getPlayer().getLocation();
         if (e.action == Action.PHYSICAL) {
-
+            if (!util.checkPermission(p, "plategate.use")) return
 
             //if (ploc.getBlock().getType() == Material.STONE_PRESSURE_PLATE) {
 
@@ -54,7 +53,6 @@ class Event : Listener {
                 if (y && z && w) index = xindex
             }
             if (!dbUtil.gateExists(index, null, p)) return
-            if (!checkPermission(p, "plategate.use")) return
             if (dbUtil.getJson(index!!, "to", p).equals("", ignoreCase = true)) {
                 e.setCancelled(false)
                 e.player.sendMessage("§a[PlateGate] §bこのゲート " + dbUtil.getJson(index, "name", p) + " はリンクされていません。")
@@ -84,11 +82,8 @@ class Event : Listener {
             p.teleport(toloc)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
             if (e.hand == EquipmentSlot.OFF_HAND) return
-            if (e.clickedBlock!!.type == Material.STONE_PRESSURE_PLATE) {
-                if (!p.hasPermission("plategate.info")) {
-                    p.sendMessage("§a[PlateGate] §c権限が不足しています。")
-                    return
-                }
+            if (e.clickedBlock?.type == Material.STONE_PRESSURE_PLATE) {
+                if (!util.checkPermission(p, "plategate.info")) return
                 val b = e.clickedBlock
                 val loc = Location(p.world, b!!.x.toDouble(), b.y.toDouble(), b.z.toDouble())
 
@@ -162,7 +157,10 @@ class Event : Listener {
                 e.isCancelled = false
             }
         }
-    } /*@EventHandler
+    }
+
+    /*
+    @EventHandler
 	public void onPistonExtend(BlockPistonExtendEvent e) {
 		
 		//System.out.println(0);
@@ -234,5 +232,6 @@ class Event : Listener {
 
 			}
 		}
-	}*/
+	}
+	*/
 }

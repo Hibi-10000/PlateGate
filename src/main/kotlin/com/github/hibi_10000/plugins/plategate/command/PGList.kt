@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -13,8 +14,8 @@ import org.bukkit.entity.Player
 class PGList {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.list")) return false
-        if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command.list")) return false
+        if (!(args.size == 2 || args.size == 1)) return util.commandInvalid(sender, label)
 
         val searchP: Player?
         if (sender.hasPermission("plategate.admin") && args.size == 2) {

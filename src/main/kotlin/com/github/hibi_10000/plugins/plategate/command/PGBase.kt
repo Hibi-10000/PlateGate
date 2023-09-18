@@ -4,36 +4,17 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 
-fun checkPermission(sender: CommandSender, permission: String): Boolean {
-    if (!sender.hasPermission(permission)) {
-        sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
-        return false
-    }
-    return true
-}
-
-fun commandInvalid(sender: CommandSender, label: String): Boolean {
-    val help = TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
-    help.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで§b\"/$label help\"§aを実行"))
-    help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
-    sender.spigot().sendMessage(help)
-    return false
-}
-
 class PGBase : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (!command.name.equals("plategate", ignoreCase = true)) return false
-        if (!checkPermission(sender, "plategate.command")) return false
-        if (args.isEmpty()) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command")) return false
+        if (args.isEmpty()) return util.commandInvalid(sender, label)
 
         if (args[0].equals("create", ignoreCase = true)) {
             return PGCreate().onCommand(sender, command, label, args)
@@ -52,7 +33,7 @@ class PGBase : CommandExecutor, TabCompleter {
         } else if (args[0].equals("move", ignoreCase = true)) {
             return PGMove().onCommand(sender, command, label, args)
         } //else if (args[0].equals("test", ignoreCase = true)) {return true}
-        return commandInvalid(sender, label)
+        return util.commandInvalid(sender, label)
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {

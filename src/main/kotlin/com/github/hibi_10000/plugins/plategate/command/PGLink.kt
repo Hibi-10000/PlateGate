@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -12,8 +13,8 @@ import org.bukkit.entity.Player
 class PGLink {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.link")) return false
-        if (args.size != 3) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command.link")) return false
+        if (args.size != 3) return util.commandInvalid(sender, label)
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, args[2], null, null, null);
         dbUtil.setJson(dbUtil.firstIndexJson("name", args[1], (sender as Player)), "to", args[2], sender)

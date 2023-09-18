@@ -9,7 +9,6 @@ import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.BlockFace
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -17,8 +16,8 @@ import org.bukkit.entity.Player
 class PGMove {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.move")) return false
-        if (args.size != 2) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command.move")) return false
+        if (args.size != 2) return util.commandInvalid(sender, label)
 
         if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
         val ploc = sender.location

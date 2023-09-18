@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -15,9 +16,9 @@ import org.bukkit.entity.Player
 class PGDelete {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.delete")) return false
+        if (!util.checkPermission(sender, "plategate.command.delete")) return false
         if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true)))
-            return commandInvalid(sender, label)
+            return util.commandInvalid(sender, label)
         val p = sender as Player
 
         /*

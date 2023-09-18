@@ -1,8 +1,29 @@
 package com.github.hibi_10000.plugins.plategate
 
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.block.BlockFace
+import org.bukkit.command.CommandSender
 
 class Util {
+    fun checkPermission(sender: CommandSender, permission: String): Boolean {
+        if (!sender.hasPermission(permission)) {
+            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
+            return false
+        }
+        return true
+    }
+
+    fun commandInvalid(sender: CommandSender, label: String): Boolean {
+        val help = TextComponent("§a[PlateGate] §cコマンドが間違っています。 /$label help で使用法を確認してください。")
+        help.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで§b\"/$label help\"§aを実行"))
+        help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
+        sender.spigot().sendMessage(help)
+        return false
+    }
+
     fun convBlockFace2Facing(blockFace: BlockFace): String {
         return when (blockFace) {
             BlockFace.SOUTH -> "south" /* yaw >= 315 || yaw <=  45 */
@@ -22,4 +43,5 @@ class Util {
             else    ->   0f
         }
     }
+
 }

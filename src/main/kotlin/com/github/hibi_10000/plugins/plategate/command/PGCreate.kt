@@ -8,7 +8,6 @@ import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.block.BlockFace
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -16,8 +15,8 @@ import org.bukkit.entity.Player
 class PGCreate {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.create")) return false
-        if (args.size != 2) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command.create")) return false
+        if (args.size != 2) return util.commandInvalid(sender, label)
 
         if (!dbUtil.getJson(dbUtil.firstIndexJson("name", args[1], (sender as Player)), "name", sender)
                 .equals("0", ignoreCase = true)

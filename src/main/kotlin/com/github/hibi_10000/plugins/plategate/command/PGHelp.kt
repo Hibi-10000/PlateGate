@@ -4,6 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.util
 import com.github.hibi_10000.plugins.plategate.version
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -15,8 +16,8 @@ import org.bukkit.command.CommandSender
 class PGHelp {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!checkPermission(sender, "plategate.command.help")) return false
-        if (!(args.size == 2 || args.size == 1)) return commandInvalid(sender, label)
+        if (!util.checkPermission(sender, "plategate.command.help")) return false
+        if (!(args.size == 2 || args.size == 1)) return util.commandInvalid(sender, label)
         if (args.size == 2) {
             if (args[1].equals("plugin", ignoreCase = true)) {
                 sender.sendMessage("§a[PlateGate $version] §6MoreHelp")
