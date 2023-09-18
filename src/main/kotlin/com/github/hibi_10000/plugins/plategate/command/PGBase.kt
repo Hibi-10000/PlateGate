@@ -16,56 +16,39 @@ class PGBase : CommandExecutor, TabCompleter {
         if (!util.checkPermission(sender, "plategate.command")) return false
         if (args.isEmpty()) return util.commandInvalid(sender, label)
 
-        if (args[0].equals("create", ignoreCase = true)) {
-            return PGCreate().onCommand(sender, command, label, args)
-        } else if (args[0].equals("delete", ignoreCase = true)) {
-            return PGDelete().onCommand(sender, command, label, args)
-        } else if (args[0].equals("help", ignoreCase = true)) {
-            return PGHelp().onCommand(sender, command, label, args)
-        } else if (args[0].equals("jump", ignoreCase = true)) {
-            return PGJump().onCommand(sender, command, label, args)
-        } else if (args[0].equals("link", ignoreCase = true)) {
-            return PGLink().onCommand(sender, command, label, args)
-        } else if (args[0].equals("list", ignoreCase = true)) {
-            return PGList().onCommand(sender, command, label, args)
-        } else if (args[0].equals("modify", ignoreCase = true)) {
-            return PGModify().onCommand(sender, command, label, args)
-        } else if (args[0].equals("move", ignoreCase = true)) {
-            return PGMove().onCommand(sender, command, label, args)
-        } //else if (args[0].equals("test", ignoreCase = true)) {return true}
-        return util.commandInvalid(sender, label)
+        return when (args[0].lowercase()) {
+            "create" -> PGCreate().onCommand(sender, command, label, args)
+            "delete" -> PGDelete().onCommand(sender, command, label, args)
+            "help"   -> PGHelp  ().onCommand(sender, command, label, args)
+            "jump"   -> PGJump  ().onCommand(sender, command, label, args)
+            "link"   -> PGLink  ().onCommand(sender, command, label, args)
+            "list"   -> PGList  ().onCommand(sender, command, label, args)
+            "modify" -> PGModify().onCommand(sender, command, label, args)
+            "move"   -> PGMove  ().onCommand(sender, command, label, args)
+            //"test"   -> {true}
+            else -> util.commandInvalid(sender, label)
+        }
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         if (!command.name.equals("plategate", ignoreCase = true)) return null
-        val list: MutableList<String> = ArrayList()
-        if (args[0].equals("create", ignoreCase = true)) {
-            return PGCreate().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("move", ignoreCase = true)) {
-            return PGMove().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("delete", ignoreCase = true)) {
-            return PGDelete().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("link", ignoreCase = true)) {
-            return PGLink().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("modify", ignoreCase = true)) {
-            return PGModify().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("list", ignoreCase = true)) {
-            return PGList().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("help", ignoreCase = true)) {
-            return PGHelp().onTabComplete(sender, command, alias, args)
-        } else if (args[0].equals("jump", ignoreCase = true)) {
-            return PGJump().onTabComplete(sender, command, alias, args)
-        } else if (args.size == 1) {
-            list.add("create")
-            list.add("move")
-            list.add("delete")
-            list.add("link")
-            list.add("modify")
-            list.add("list")
-            list.add("help")
-            list.add("jump")
-            return list
+
+        return when (args[0].lowercase()) {
+            "create" -> PGCreate().onTabComplete(sender, command, alias, args)
+            "delete" -> PGDelete().onTabComplete(sender, command, alias, args)
+            "help"   -> PGHelp  ().onTabComplete(sender, command, alias, args)
+            "jump"   -> PGJump  ().onTabComplete(sender, command, alias, args)
+            "link"   -> PGLink  ().onTabComplete(sender, command, alias, args)
+            "list"   -> PGList  ().onTabComplete(sender, command, alias, args)
+            "modify" -> PGModify().onTabComplete(sender, command, alias, args)
+            "move"   -> PGMove  ().onTabComplete(sender, command, alias, args)
+            else -> {
+                if (args.size == 1) {
+                    arrayListOf("create", "move", "delete", "link", "modify", "list", "help", "jump")
+                } else {
+                    null
+                }
+            }
         }
-        return null
     }
 }
