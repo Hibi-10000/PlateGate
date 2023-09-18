@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.BlockFace
@@ -54,13 +55,7 @@ class PGCreate {
 
         //new JsonHandler(plugin).JsonWrite(args[1], p, "", loc, downblockbefore);
         //float yaw = loc.getYaw();
-        val d = when (sender.facing) {
-            BlockFace.SOUTH -> "south" /* yaw >= 315 || yaw <=  45 */
-            BlockFace.WEST -> "west"   /* yaw >   45 && yaw <  135 */
-            BlockFace.NORTH -> "north" /* yaw >= 135 && yaw <= 225 */
-            BlockFace.EAST -> "east"   /* yaw >  225 && yaw <  315 */
-            else -> "south"
-        }
+        val d = util.convBlockFace2Facing(sender.facing)
         dbUtil.addJson(
             sender,
             args[1],

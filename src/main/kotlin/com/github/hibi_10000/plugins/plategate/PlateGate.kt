@@ -14,7 +14,8 @@ import java.io.File
 var instance: PlateGate? = null
 var version: String? = null
 var jsonDB: JsonDB? = null
-var dbUtil: DBUtil = DBUtil()
+val dbUtil: DBUtil = DBUtil()
+val util: Util = Util()
 
 class PlateGate : JavaPlugin() {
     override fun onEnable() {

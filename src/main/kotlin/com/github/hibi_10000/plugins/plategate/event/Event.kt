@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate.event
 import com.github.hibi_10000.plugins.plategate.command.checkPermission
 import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -64,13 +65,7 @@ class Event : Listener {
             //JsonObject gateto = new JsonHandler(plugin).JsonRead(gate.get("to").getAsString(), null);
             val gateto = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p), p)
             val rotate = dbUtil.getJson(index, "rotate", p)
-            val yaw = when (rotate.lowercase()) {
-                "north" -> 180f
-                "east"  -> 270f
-                "south" ->   0f
-                "west"  ->  90f
-                else    ->   0f
-            }
+            val yaw = util.convFacing2Yaw(rotate)
             val toloc = Location(
                 Bukkit.getServer().getWorld(dbUtil.getJson(gateto, "world", p)),
                 dbUtil.getJson(gateto, "x", p).toInt() + 0.5, dbUtil.getJson(index, "y", p).toInt().toDouble(),

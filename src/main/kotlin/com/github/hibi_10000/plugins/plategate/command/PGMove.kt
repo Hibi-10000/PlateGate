@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -57,13 +58,7 @@ class PGMove {
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
         //float yaw = loc.getYaw();
-        val d = when (sender.facing) {
-            BlockFace.SOUTH -> "south" /* yaw >= 315 || yaw <=  45 */
-            BlockFace.WEST -> "west"   /* yaw >   45 && yaw <  135 */
-            BlockFace.NORTH -> "north" /* yaw >= 135 && yaw <= 225 */
-            BlockFace.EAST -> "east"   /* yaw >  225 && yaw <  315 */
-            else -> "south"
-        }
+        val d = util.convBlockFace2Facing(sender.facing)
         index = dbUtil.firstIndexJson("name", args[1], sender)
         dbUtil.setJson(index, "x", loc.blockX.toString(), sender)
         dbUtil.setJson(index, "y", loc.blockY.toString(), sender)
