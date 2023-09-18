@@ -6,7 +6,7 @@ package com.github.hibi_10000.plugins.plategate.event
 
 import com.github.hibi_10000.plugins.plategate.command.checkPermission
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util.util
+import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material

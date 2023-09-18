@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util.util
+import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
