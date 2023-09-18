@@ -6,7 +6,6 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -18,24 +17,8 @@ class PGCreate {
         if (!util.checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        if (!dbUtil.getJson(dbUtil.firstIndexJson("name", args[1], (sender as Player)), "name", sender)
-                .equals("0", ignoreCase = true)
-        ) {
-            //if (!(new JsonHandler(plugin).JsonRead(args[1], null).get("name").getAsString().equalsIgnoreCase("null"))) {
-            if (dbUtil.getJson(dbUtil.firstIndexJson("name", args[1], sender), "name", sender).equals(
-                    args[1], ignoreCase = true
-                )
-            ) {
-                //if (new JsonHandler(plugin).JsonRead(args[1], null).get("name").getAsString().equalsIgnoreCase(args[1])) {
-                sender.sendMessage("§a[PlateGate] §cその名前は使用されています。")
-                return false
-            }
-            sender.sendMessage("§a[PlateGate] §cERROR!")
-            return false
-        }
-        val ploc = sender.location
-        val loc = Location(sender.world, ploc.x, ploc.y, ploc.z)
-        val downloc = Location(sender.world, ploc.x, ploc.y - 1, ploc.z)
+        if (dbUtil.isDuplicateName(args[1], sender as Player)) return false
+        val loc = sender.location.clone()
         if (loc.block.type != Material.AIR) {
             sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
@@ -44,19 +27,16 @@ class PGCreate {
             sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります。")
             return false
         }
-        val downblockbefore = downloc.block.type
-        downloc.block.type = Material.IRON_BLOCK
+        val underLoc = util.underLocation(sender.location)
+        val beforeUnderBlock = underLoc.block.type
+        underLoc.block.type = Material.IRON_BLOCK
         loc.block.type = Material.STONE_PRESSURE_PLATE
-        //Powerable ppbd = (Powerable) Material.STONE_PRESSURE_PLATE.createBlockData();
-        //ppbd.setPowered(true);
-        //uploc.getBlock().setBlockData(ppbd);
+        //val poweredBlockData = Material.STONE_PRESSURE_PLATE.createBlockData() as Powerable
+        //poweredBlockData.isPowered = true
+        //loc.block.blockData = poweredBlockData
 
-
-        //new JsonHandler(plugin).JsonWrite(args[1], p, "", loc, downblockbefore);
-        //float yaw = loc.getYaw();
         val d = util.convBlockFace2Facing(sender.facing)
-        dbUtil.addJson(
-            sender,
+        dbUtil.addJson(sender,
             args[1],
             sender.name,
             "",
@@ -65,7 +45,7 @@ class PGCreate {
             loc.blockZ.toString(),
             d,
             loc.getWorld().toString(),
-            downblockbefore.toString()
+            beforeUnderBlock.toString()
         )
         sender.sendMessage("§a[PlateGate] §bPlateGate " + args[1] + " を " + loc + " に作成しました")
         println("§a[PlateGate] §b" + sender.name + " がPlateGate " + args[1] + " を " + loc + " に作成しました")

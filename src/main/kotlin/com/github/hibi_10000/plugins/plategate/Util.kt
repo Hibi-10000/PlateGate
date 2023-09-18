@@ -4,6 +4,7 @@ import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
+import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.command.CommandSender
 
@@ -44,4 +45,9 @@ class Util {
         }
     }
 
+    fun underLocation(location: Location): Location {
+        val underLocation = location.clone()
+        underLocation.y -= 1
+        return underLocation
+    }
 }

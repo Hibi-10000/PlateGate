@@ -4,17 +4,19 @@
 
 package com.github.hibi_10000.plugins.plategate.database
 
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.jsonDB
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
 class DBUtil {
+
     fun gateExists(id: String?, name: String?, sender: Player): Boolean {
         return try {
             if (id != null) {
-                return if (id.equals("0", ignoreCase = true)) false else jsonDB?.get(id, "name") != null
+                return if (id.equals("0", ignoreCase = true)) false else jsonDB!!.get(id, "name") != null
             } else if (name != null) {
-                if (jsonDB?.firstIndexOf("name", name).equals("0", ignoreCase = true)) {
+                if (jsonDB!!.firstIndexOf("name", name).equals("0", ignoreCase = true)) {
                     sender.sendMessage("§a[PlateGate] §cゲート名が間違っています")
                     return false
                 }
@@ -29,7 +31,7 @@ class DBUtil {
 
     fun getJson(id: String, key: String, sender: Player): String {
         return try {
-            val value = jsonDB?.get(id, key)
+            val value = jsonDB!!.get(id, key)
             if (value == null) sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             value ?: "-1"
         } catch (e: Exception) {
@@ -52,7 +54,7 @@ class DBUtil {
                 "beforeblock"
             )
             val map = keys.associateBy({ it }, { values[keys.indexOf(it)] })
-            jsonDB?.add(map)
+            jsonDB!!.add(map)
         } catch (e: Exception) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -61,7 +63,7 @@ class DBUtil {
 
     fun setJson(id: String, key: String, value: String, sender: Player) {
         try {
-            jsonDB?.set(id, key, value)
+            jsonDB!!.set(id, key, value)
         } catch (e: Exception) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -70,7 +72,7 @@ class DBUtil {
 
     fun removeJson(id: String, sender: Player) {
         try {
-            jsonDB?.remove(id)
+            jsonDB!!.remove(id)
         } catch (e: Exception) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -123,10 +125,21 @@ class DBUtil {
 
     fun clearJson(sender: Player) {
         try {
-            jsonDB?.clear()
+            jsonDB!!.clear()
         } catch (e: Exception) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
         }
+    }
+
+    fun isDuplicateName(name: String, sender: Player): Boolean {
+        val search = dbUtil.firstIndexJson("name", name, sender)
+        if (search != "-1") {
+            if (jsonDB!!.get(search, "name").equals(name)) {
+                sender.sendMessage("§a[PlateGate] §cその名前は使用されています。")
+            } else sender.sendMessage("§a[PlateGate] §cERROR!")
+            return true
+        }
+        return false
     }
 }
