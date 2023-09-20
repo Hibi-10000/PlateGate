@@ -36,16 +36,18 @@ class PGCreate {
         //loc.block.blockData = poweredBlockData
 
         val d = util.convBlockFace2Facing(sender.facing)
-        dbUtil.addJson(sender,
-            args[1],
-            sender.name,
-            "",
-            loc.blockX.toString(),
-            loc.blockY.toString(),
-            loc.blockZ.toString(),
-            d,
-            loc.getWorld().toString(),
-            beforeUnderBlock.toString()
+        dbUtil.addJson(
+            arrayOf(
+                args[1],
+                sender.name,
+                "",
+                loc.blockX.toString(),
+                loc.blockY.toString(),
+                loc.blockZ.toString(),
+                d,
+                loc.getWorld().toString(),
+                beforeUnderBlock.toString()
+            ), sender
         )
         sender.sendMessage("§a[PlateGate] §bPlateGate " + args[1] + " を " + loc + " に作成しました")
         println("§a[PlateGate] §b" + sender.name + " がPlateGate " + args[1] + " を " + loc + " に作成しました")
