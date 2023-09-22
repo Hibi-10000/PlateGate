@@ -18,11 +18,7 @@ class PGJump {
         if (args.size != 2) return util.commandInvalid(sender, label)
         val p = sender as Player
 
-        val index = dbUtil.firstIndexJson("name", args[1], sender)
-        if (index == "-1") {
-            p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-            return false
-        }
+        val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val rotate = dbUtil.getJson(index, "rotate", sender)!!
 
         val toloc = dbUtil.gateLocation(index, sender)

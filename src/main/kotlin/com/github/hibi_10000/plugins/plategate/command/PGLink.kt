@@ -17,7 +17,8 @@ class PGLink {
         if (args.size != 3) return util.commandInvalid(sender, label)
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, args[2], null, null, null);
-        dbUtil.setJson(dbUtil.firstIndexJson("name", args[1], (sender as Player)), "to", args[2], sender)
+        val index = dbUtil.firstIndexJson("name", args[1], sender as Player) ?: return false
+        dbUtil.setJson(index, "to", args[2], sender)
         sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " から ゲート " + args[2] + " の方向にゲートをリンクしました。")
         println("§a[PlateGate] §bゲート " + args[1] + " から ゲート " + args[2] + " の方向にゲートをリンクしました。")
         return true

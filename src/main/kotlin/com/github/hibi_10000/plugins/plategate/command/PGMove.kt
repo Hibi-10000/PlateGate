@@ -39,7 +39,7 @@ class PGMove {
 
 
         //JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null);
-        var index = dbUtil.firstIndexJson("name", args[1], sender)
+        var index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val oldloc = dbUtil.gateLocation(index, sender)
         val olddownloc =
             Location(sender.world, oldloc.blockX.toDouble(), (oldloc.blockY - 1).toDouble(), oldloc.blockZ.toDouble())
@@ -49,7 +49,7 @@ class PGMove {
         //new JsonHandler(plugin).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
         //float yaw = loc.getYaw();
         val d = util.convBlockFace2Facing(sender.facing)
-        index = dbUtil.firstIndexJson("name", args[1], sender)
+        index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         dbUtil.setJson(index, "x", loc.blockX.toString(), sender)
         dbUtil.setJson(index, "y", loc.blockY.toString(), sender)
         dbUtil.setJson(index, "z", loc.blockZ.toString(), sender)

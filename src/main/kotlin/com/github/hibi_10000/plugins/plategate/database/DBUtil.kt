@@ -63,18 +63,28 @@ class DBUtil {
         }
     }
 
-    fun firstIndexJson(key: String, value: String, sender: Player?): String {
+    fun firstIndexJson(key: String, value: String, sender: Player?): String? {
         return try {
-            jsonDB!!.firstIndexOf(key, value)
+            val id = jsonDB!!.firstIndexOf(key, value)
+            if (id == "-1") {
+                sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                return null
+            }
+            id
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
         }
     }
 
-    fun lastIndexJson(key: String?, value: String?, sender: Player?): String {
+    fun lastIndexJson(key: String?, value: String?, sender: Player?): String? {
         return try {
-            jsonDB!!.lastIndexOf(key, value)
+            val id = jsonDB!!.lastIndexOf(key, value)
+            if (id == "-1") {
+                sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                return null
+            }
+            id
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -83,7 +93,12 @@ class DBUtil {
 
     fun allIndexJson(key: String?, value: String?, sender: Player?): List<String> {
         return try {
-            jsonDB!!.allIndexOf(key, value)
+            val idList = jsonDB!!.allIndexOf(key, value)
+            if (idList.isEmpty()) {
+                sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                return emptyList()
+            }
+            idList
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -99,7 +114,7 @@ class DBUtil {
         }
     }
 
-    fun allIndexJson(loc: Location, p: Player?): String {
+    fun allIndexJson(loc: Location, p: Player?): String? {
         val xIndexList = allIndexJson("x", loc.blockX.toString(), p)
         //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
         //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
@@ -113,7 +128,7 @@ class DBUtil {
             //if (y && z && w) index = xIndex;
             if (y && z && w) return xIndex
         }
-        return "-1"
+        return null
     }
 
     fun gateExists(id: String?, name: String?, sender: Player?): Boolean {
@@ -136,7 +151,7 @@ class DBUtil {
 
     fun isDuplicateName(name: String, sender: Player?): Boolean {
         val search = dbUtil.firstIndexJson("name", name, sender)
-        if (search != "-1") {
+        if (search != null) {
             if (jsonDB!!.get(search, "name").equals(name)) {
                 sender?.sendMessage("§a[PlateGate] §cその名前は使用されています。")
             } else sender?.sendMessage("§a[PlateGate] §cERROR!")

@@ -60,7 +60,7 @@ class Event : Listener {
             }
 
             //JsonObject gateto = new JsonHandler(plugin).JsonRead(gate.get("to").getAsString(), null);
-            val gateto = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p)!!, p)
+            val gateto = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p)!!, p) ?: return
             val rotate = dbUtil.getJson(index, "rotate", p)!!
             val toloc = dbUtil.gateLocation(gateto, p)
             toloc.x += 0.5

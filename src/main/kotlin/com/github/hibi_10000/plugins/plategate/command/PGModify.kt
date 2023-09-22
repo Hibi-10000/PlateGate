@@ -32,7 +32,7 @@ class PGModify {
 
             //new JsonHandler(plugin).JsonChange(args[1], args[3], null, null, null, null, null);
             if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
-            val index = dbUtil.firstIndexJson("name", args[1], sender)
+            val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
             dbUtil.setJson(index, "name", args[3], sender)
             sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " の名前を " + args[3] + " に変更しました")
             println("§a[PlateGate] §bゲート " + args[1] + " の名前を " + args[3] + " に変更しました")
@@ -46,6 +46,7 @@ class PGModify {
                 sender.sendMessage("")
                 return false
             }
+            val index = dbUtil.firstIndexJson("name", args[1], sender as Player) ?: return false
             if (args.size == 5) {
                 if (args[4].equals("force", ignoreCase = true)) {
                     /*
@@ -57,7 +58,7 @@ class PGModify {
 					Player gateoldowner = Bukkit.getPlayer(UUID.fromString(jo.get("owner").getAsString()));
 					*/
                     //val gateoldowner: Player?
-                    if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
+                    if (!dbUtil.gateExists(null, args[1], sender)) return false
                     //val index = util.firstIndexJson("name", args[1], sender)
                     //gateoldowner = Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender)))
                     for (lp in Bukkit.getOnlinePlayers()) {
@@ -69,12 +70,7 @@ class PGModify {
                             }
 
                             //new JsonHandler(plugin).JsonChange(args[1], null, Bukkit.getPlayer(args[3]), null, null, null, null);
-                            dbUtil.setJson(
-                                dbUtil.firstIndexJson("name", args[1], sender),
-                                "owner",
-                                newOwner.uniqueId.toString(),
-                                sender
-                            )
+                            dbUtil.setJson(index, "owner", newOwner.uniqueId.toString(), sender)
                             sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " のオーナーを " + oldowner!!.name + " から " + newOwner.name + " に変更しました")
                             println("§a[PlateGate] §bゲート " + args[1] + " のオーナーを " + oldowner!!.name + " から " + newOwner.name + " に変更しました")
                             return true
@@ -87,11 +83,7 @@ class PGModify {
                 return false
             }
             if (!Bukkit.getPlayer(
-                    UUID.fromString(
-                        dbUtil.getJson(
-                            dbUtil.firstIndexJson("name", args[1], (sender as Player)),"owner",sender
-                        )
-                    )
+                    UUID.fromString(dbUtil.getJson(index,"owner",sender))
                 )?.name.equals(sender.getName(), ignoreCase = true)
             ) {
                 sender.sendMessage("")
@@ -100,7 +92,6 @@ class PGModify {
             if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[3]))) {
                 //JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null).getAsJsonObject();
                 if (!dbUtil.gateExists(null, args[1], sender)) return false
-                val index = dbUtil.firstIndexJson("name", args[1], sender)
                 if (Bukkit.getOnlinePlayers()
                         .contains(Bukkit.getPlayer(UUID.fromString(dbUtil.getJson(index, "owner", sender))))
                 ) {

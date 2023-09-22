@@ -21,11 +21,7 @@ class PGDelete {
         val p = sender as Player
 
         if (dbUtil.isDuplicateName(args[1], sender)) return false
-        val index = dbUtil.firstIndexJson("name", args[1], sender)
-        if (index == "-1") {
-            p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-            return false
-        }
+        val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         if (Bukkit.getPlayer(dbUtil.getJson(index, "owner", sender)!!) !== p) {
             if (!p.hasPermission("plategate.admin")) {
                 p.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
@@ -43,7 +39,7 @@ class PGDelete {
         val oldUnderLoc = util.underLocation(oldLoc)
         oldLoc.block.type = Material.AIR
         oldUnderLoc.block.type = dbUtil.underBlock(index, sender)
-        dbUtil.removeJson(dbUtil.firstIndexJson("name", args[1], sender), sender)
+        dbUtil.removeJson(index, sender)
         if (args[2].equals("force", ignoreCase = true)) {
             p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}" +
                     "(Owner:${dbUtil.getJson(index, "Owner", sender)})を強制的に削除しました。")
