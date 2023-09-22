@@ -6,8 +6,6 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Bukkit
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -21,16 +19,15 @@ class PGJump {
         val p = sender as Player
 
         val index = dbUtil.firstIndexJson("name", args[1], sender)
-        val rotate = dbUtil.getJson(index, "rotate", sender)
-        val yaw = util.convFacing2Yaw(rotate)
+        if (index == "-1") {
+            p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            return false
+        }
+        val rotate = dbUtil.getJson(index, "rotate", sender)!!
 
-        val toloc = Location(
-            Bukkit.getServer().getWorld(dbUtil.getJson(index, "world", sender)),
-            dbUtil.getJson(index, "x", sender).toInt() + 0.5,
-            dbUtil.getJson(index, "y", sender).toInt().toDouble(),
-            dbUtil.getJson(index, "z", sender).toInt() + 0.5,
-            yaw, 0f
-        )
+        val toloc = dbUtil.gateLocation(index, sender)
+        toloc.x += 0.5
+        toloc.z += 0.5
         when (rotate.lowercase()) {
             "north" -> toloc.z -= 1
             "east"  -> toloc.x += 1

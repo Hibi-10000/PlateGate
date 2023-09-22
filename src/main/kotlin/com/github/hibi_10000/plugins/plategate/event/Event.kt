@@ -7,7 +7,6 @@ package com.github.hibi_10000.plugins.plategate.event
 import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -61,14 +60,11 @@ class Event : Listener {
             }
 
             //JsonObject gateto = new JsonHandler(plugin).JsonRead(gate.get("to").getAsString(), null);
-            val gateto = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p), p)
-            val rotate = dbUtil.getJson(index, "rotate", p)
-            val yaw = util.convFacing2Yaw(rotate)
-            val toloc = Location(
-                Bukkit.getServer().getWorld(dbUtil.getJson(gateto, "world", p)),
-                dbUtil.getJson(gateto, "x", p).toInt() + 0.5, dbUtil.getJson(index, "y", p).toInt().toDouble(),
-                dbUtil.getJson(gateto, "z", p).toInt() + 0.5, yaw, 0f
-            )
+            val gateto = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p)!!, p)
+            val rotate = dbUtil.getJson(index, "rotate", p)!!
+            val toloc = dbUtil.gateLocation(gateto, p)
+            toloc.x += 0.5
+            toloc.z += 0.5
             when (rotate.lowercase()) {
                 "north" -> toloc.z -= 1
                 "east"  -> toloc.x += 1
@@ -105,7 +101,7 @@ class Event : Listener {
                     //p.sendMessage("");
                     return
                 }
-                val facing = dbUtil.getJson(gate, "rotate", p)
+                val facing = dbUtil.getJson(gate, "rotate", p)!!
                 val yaw = when (facing.lowercase()) {
                     "south" ->   "0"
                     "west"  ->  "90"
@@ -116,7 +112,7 @@ class Event : Listener {
                 val to: String = if (dbUtil.getJson(gate, "to", p).equals("", ignoreCase = true)) {
                     "§6None"
                 } else {
-                    dbUtil.getJson(gate, "to", p)
+                    dbUtil.getJson(gate, "to", p)!!
                 }
                 p.sendMessage(
                     "§a[PlateGate]§b Name: §a" + dbUtil.getJson(gate, "name", p) + " §b Owner: §a"

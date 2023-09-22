@@ -46,7 +46,7 @@ class PGCreate {
                 loc.blockZ.toString(),
                 d,
                 loc.getWorld().toString(),
-                beforeUnderBlock.toString()
+                beforeUnderBlock.name
             ), sender
         )
         sender.sendMessage("§a[PlateGate] §bPlateGate " + args[1] + " を " + loc + " に作成しました")

@@ -194,7 +194,7 @@ class JsonDB(private val gateDB: File) {
     @Throws(IOException::class, RuntimeException::class)
     fun lastIndexOf(key: String?, value: String?): String {
         val json = read()
-        var back = "0"
+        var back = "-1"
         for (element in json) {
             val jo = element.asJsonObject
             if (jo[key].asString.equals(value, ignoreCase = true)

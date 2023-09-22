@@ -6,7 +6,6 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -41,19 +40,11 @@ class PGMove {
 
         //JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null);
         var index = dbUtil.firstIndexJson("name", args[1], sender)
-        val oldloc = Location(
-            Bukkit.getWorld(dbUtil.getJson(index, "world", sender)),
-            dbUtil.getJson(
-                index, "x", sender
-            ).toInt().toDouble(),
-            dbUtil.getJson(index, "y", sender).toInt().toDouble(),
-            dbUtil.getJson(index, "z", sender).toInt()
-                .toDouble()
-        )
+        val oldloc = dbUtil.gateLocation(index, sender)
         val olddownloc =
             Location(sender.world, oldloc.blockX.toDouble(), (oldloc.blockY - 1).toDouble(), oldloc.blockZ.toDouble())
         oldloc.block.type = Material.AIR
-        olddownloc.block.type = Material.valueOf(dbUtil.getJson(index, "beforeblock", sender))
+        olddownloc.block.type = Material.getMaterial(dbUtil.getJson(index, "beforeblock", sender)!!)!!
 
         //new JsonHandler(plugin).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
         //float yaw = loc.getYaw();
