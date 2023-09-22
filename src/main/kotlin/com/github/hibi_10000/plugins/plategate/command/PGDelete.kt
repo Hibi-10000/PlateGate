@@ -20,17 +20,6 @@ class PGDelete {
             return util.commandInvalid(sender, label)
         val p = sender as Player
 
-        /*
-		new JsonHandler(plugin).JsonRemove(args[1]);
-		//plugin.arrayJson.remove(plugin.arrayJson.firstIndexOf("name", args[1]));
-		if ((args[2].equalsIgnoreCase("force"))) {
-			p.sendMessage("§a[PlateGate] §bGate:" + jo.get("name").getAsString() + "(Owner:" + jo.get("Owner").getAsString() + ")を強制的に削除しました。");
-			System.out.println("§a[PlateGate] §b" + p.getName() + " がGate:" + jo.get("name").getAsString() + "(Owner:" + jo.get("Owner").getAsString() + ")を強制的に削除しました。");
-		} else {
-			p.sendMessage("§a[PlateGate] §bGate:" + jo.get("name").getAsString() + "を削除しました。");
-			System.out.println("§a[PlateGate] §b" + p.getName() + " がGate:" + jo.get("name").getAsString() + "を削除しました。");
-		}
-		*/
         if (dbUtil.isDuplicateName(args[1], sender)) return false
         val index = dbUtil.firstIndexJson("name", args[1], sender)
         if (index == "-1") {
@@ -53,20 +42,18 @@ class PGDelete {
         val oldLoc = dbUtil.gateLocation(index, sender)
         val oldUnderLoc = util.underLocation(oldLoc)
         oldLoc.block.type = Material.AIR
-        oldUnderLoc.block.type = Material.getMaterial(dbUtil.getJson(index, "beforeblock", sender)!!)!!
+        oldUnderLoc.block.type = dbUtil.underBlock(index, sender)
         dbUtil.removeJson(dbUtil.firstIndexJson("name", args[1], sender), sender)
         if (args[2].equals("force", ignoreCase = true)) {
-            p.sendMessage(
-                "§a[PlateGate] §bGate:" + dbUtil.getJson(index, "name", sender)
-                        + "(Owner:" + dbUtil.getJson(index, "Owner", sender) + ")を強制的に削除しました。"
-            )
-            println(
-                "§a[PlateGate] §b" + p.name + " がGate:" + dbUtil.getJson(index, "name", sender)
-                        + "(Owner:" + dbUtil.getJson(index, "Owner", sender) + ")を§c強制的に§b削除しました。"
-            )
+            p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}" +
+                    "(Owner:${dbUtil.getJson(index, "Owner", sender)})を強制的に削除しました。")
+            println("§a[PlateGate] §b${p.name} が" +
+                    "Gate:${dbUtil.getJson(index, "name", sender)}" +
+                    "(Owner:${dbUtil.getJson(index, "Owner", sender)})" +
+                    "を§c強制的に§b削除しました。")
         } else {
-            p.sendMessage("§a[PlateGate] §bGate:" + dbUtil.getJson(index, "name", sender) + "を削除しました。")
-            println("§a[PlateGate] §b" + p.name + " がGate:" + dbUtil.getJson(index, "name", sender) + "を削除しました。")
+            p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
+            println("§a[PlateGate] §b${p.name} がGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
         }
         return true
     }

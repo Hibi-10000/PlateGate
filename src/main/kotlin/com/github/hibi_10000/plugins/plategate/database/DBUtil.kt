@@ -9,6 +9,7 @@ import com.github.hibi_10000.plugins.plategate.jsonDB
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class DBUtil {
@@ -156,5 +157,9 @@ class DBUtil {
             x.toDouble(), y.toDouble(), z.toDouble(),
             yaw, 0f
         ).clone()
+    }
+
+    fun underBlock(id: String, sender: Player?): Material {
+        return Material.getMaterial(getJson(id, "beforeblock", sender)!!)!!
     }
 }

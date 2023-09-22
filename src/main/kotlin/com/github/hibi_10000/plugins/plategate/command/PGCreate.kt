@@ -49,8 +49,8 @@ class PGCreate {
                 beforeUnderBlock.name
             ), sender
         )
-        sender.sendMessage("§a[PlateGate] §bPlateGate " + args[1] + " を " + loc + " に作成しました")
-        println("§a[PlateGate] §b" + sender.name + " がPlateGate " + args[1] + " を " + loc + " に作成しました")
+        sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を $loc に作成しました")
+        println("§a[PlateGate] §b${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
         return true
     }
 
