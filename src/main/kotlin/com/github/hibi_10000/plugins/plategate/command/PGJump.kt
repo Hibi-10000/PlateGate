@@ -21,20 +21,19 @@ class PGJump {
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val rotate = dbUtil.getJson(index, "rotate", sender)!!
 
-        val toloc = dbUtil.gateLocation(index, sender)
-        toloc.x += 0.5
-        toloc.z += 0.5
+        val toLoc = dbUtil.gateLocation(index, sender)
+        toLoc.x += 0.5
+        toLoc.z += 0.5
         when (rotate.lowercase()) {
-            "north" -> toloc.z -= 1
-            "east"  -> toloc.x += 1
-            "south" -> toloc.z += 1
-            "west"  -> toloc.x -= 1
+            "north" -> toLoc.z -= 1
+            "east"  -> toLoc.x += 1
+            "south" -> toLoc.z += 1
+            "west"  -> toLoc.x -= 1
         }
-        val touploc = toloc.clone()
-        touploc.y = toloc.y + 1
-        touploc.block.type = Material.AIR
-        toloc.block.type = Material.AIR
-        p.teleport(toloc)
+        val toUpperLoc = util.upperLocation(toLoc)
+        toUpperLoc.block.type = Material.AIR
+        toLoc.block.type = Material.AIR
+        p.teleport(toLoc)
         return true
     }
 

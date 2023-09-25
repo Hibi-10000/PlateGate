@@ -50,4 +50,10 @@ class Util {
         underLocation.y -= 1
         return underLocation
     }
+
+    fun upperLocation(location: Location): Location {
+        val upperLocation = location.clone()
+        upperLocation.y += 1
+        return upperLocation
+    }
 }
