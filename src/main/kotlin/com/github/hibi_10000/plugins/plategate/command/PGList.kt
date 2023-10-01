@@ -17,11 +17,11 @@ class PGList {
         if (!util.checkPermission(sender, "plategate.command.list")) return false
         if (!(args.size == 2 || args.size == 1)) return util.commandInvalid(sender, label)
 
-        val searchP: Player?
+        var searchP: Player = sender as Player
         if (sender.hasPermission("plategate.admin") && args.size == 2) {
             var args1player = false
             for (p in Bukkit.getOnlinePlayers()) {
-                if (p.name.equals(args[1], ignoreCase = true)) {
+                if (p.name.equals(args[1], ignoreCase = true)) { //TODO: ignoreCaseが必要かどうか調べる
                     args1player = true
                     break
                 }
@@ -36,25 +36,22 @@ class PGList {
                 sender.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
                 return false
             }
-            searchP = Bukkit.getPlayer(args[1])
-        } else {
-            searchP = sender as Player
+            searchP = Bukkit.getPlayer(args[1])!!
         }
 
-        //List<JsonObject> jolist = new JsonHandler(plugin).JsonRead(searchp, null);
-        for (index in dbUtil.allIndexJson("owner", searchP!!.uniqueId.toString(), (sender as Player))) {
-            sender.sendMessage("§a[PlateGate] §bPlayer §6" + searchP.name + " §bが所有しているGate一覧")
+        sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
+        for (index in dbUtil.allIndexJson("owner", searchP.uniqueId.toString(), sender)) {
             if (dbUtil.getJson(index, "to", sender).equals("", ignoreCase = true)) {
-                sender.sendMessage(" §b" + dbUtil.getJson(index, "name", sender))
-                //} else if (new JsonHandler(plugin).JsonRead(jog.get("to").getAsString(), null).getAsJsonObject()
-                //		.get("to").getAsString() == jog.get("name").getAsString()) {
-                //	sender.sendMessage(" " + jog.get("name").getAsString() + " <--> " + jog.get("to").getAsString());
+                sender.sendMessage(" §b${dbUtil.getJson(index, "name", sender)}")
             } else {
-                sender.sendMessage(
-                    " §b" + dbUtil.getJson(index, "name", sender) + " §a---> §b" + dbUtil.getJson(
-                        index, "to", sender
-                    )
-                )
+                /*
+                if (dbUtil.getJson(dbUtil.firstIndexJson("name", dbUtil.getJson(index, "to", sender)!!, sender)!!, "to", sender)
+                        .equals(dbUtil.getJson(index, "name", sender), ignoreCase = true)) {
+                    sender.sendMessage(" §b${dbUtil.getJson(index, "name", sender)} §a<--> §b${dbUtil.getJson(index, "to", sender)}")
+                    continue
+                }
+                */
+                sender.sendMessage(" §b${dbUtil.getJson(index, "name", sender)} §a---> §b${dbUtil.getJson(index, "to", sender)}")
             }
         }
         return true
