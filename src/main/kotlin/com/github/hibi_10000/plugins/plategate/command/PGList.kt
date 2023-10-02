@@ -18,25 +18,27 @@ class PGList {
         if (!(args.size == 2 || args.size == 1)) return util.commandInvalid(sender, label)
 
         var searchP: Player = sender as Player
-        if (sender.hasPermission("plategate.admin") && args.size == 2) {
-            var args1player = false
+        if (args.size == 2) {
+            if (!util.checkPermission(sender, "plategate.admin")) return false
+            var args1player: Player? = null
             for (p in Bukkit.getOnlinePlayers()) {
-                if (p.name.equals(args[1], ignoreCase = true)) { //TODO: ignoreCaseが必要かどうか調べる
-                    args1player = true
+                if (p.name.equals(args[1], ignoreCase = true)) {
+                    args1player = p
                     break
                 }
             }
             for (p in Bukkit.getOfflinePlayers()) {
+                if (args1player == null) break
                 if (p.name.equals(args[1], ignoreCase = true)) {
-                    args1player = true
+                    args1player = p as Player
                     break
                 }
             }
-            if (!args1player) {
+            if (args1player == null) {
                 sender.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
                 return false
             }
-            searchP = Bukkit.getPlayer(args[1])!!
+            searchP = args1player
         }
 
         sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
