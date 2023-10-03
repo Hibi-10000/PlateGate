@@ -6,7 +6,6 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -20,25 +19,7 @@ class PGList {
         var searchP: Player = sender as Player
         if (args.size == 2) {
             if (!util.checkPermission(sender, "plategate.admin")) return false
-            var args1player: Player? = null
-            for (p in Bukkit.getOnlinePlayers()) {
-                if (p.name.equals(args[1], ignoreCase = true)) {
-                    args1player = p
-                    break
-                }
-            }
-            for (p in Bukkit.getOfflinePlayers()) {
-                if (args1player == null) break
-                if (p.name.equals(args[1], ignoreCase = true)) {
-                    args1player = p as Player
-                    break
-                }
-            }
-            if (args1player == null) {
-                sender.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
-                return false
-            }
-            searchP = args1player
+            searchP = util.getPlayer(args[1], sender) ?: return false
         }
 
         sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
