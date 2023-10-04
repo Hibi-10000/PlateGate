@@ -19,9 +19,10 @@ class PGMove {
         if (args.size != 2) return util.commandInvalid(sender, label)
 
         if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
-        val ploc = sender.location
-        val loc = Location(ploc.getWorld(), ploc.x, ploc.y, ploc.z, ploc.yaw, 0f)
-        val downloc = Location(sender.world, loc.x, loc.y - 1, loc.z, loc.yaw, 0f)
+        val pLoc = sender.location
+        val loc = pLoc.clone()
+        loc.pitch = 0f
+        val underLoc = util.underLocation(loc)
         if (loc.block.type != Material.AIR) {
             sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
@@ -30,34 +31,31 @@ class PGMove {
             sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります。")
             return false
         }
-        val downblockbefore = downloc.block.type
-        downloc.block.type = Material.IRON_BLOCK
+        val beforeUnderBlock = underLoc.block.type
+        underLoc.block.type = Material.IRON_BLOCK
         loc.block.type = Material.STONE_PRESSURE_PLATE
-        //Powerable ppbd = (Powerable) Material.STONE_PRESSURE_PLATE.createBlockData();
-        //ppbd.setPowered(false);
-        //loc.getBlock().setBlockData(ppbd);
+        /*
+        Powerable blockData = (Powerable) Material.STONE_PRESSURE_PLATE.createBlockData();
+        blockData.setPowered(false);
+        loc.getBlock().setBlockData(blockData);
+        */
 
-
-        //JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null);
         var index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        val oldloc = dbUtil.gateLocation(index, sender)
-        val olddownloc =
-            Location(sender.world, oldloc.blockX.toDouble(), (oldloc.blockY - 1).toDouble(), oldloc.blockZ.toDouble())
-        oldloc.block.type = Material.AIR
-        olddownloc.block.type = Material.getMaterial(dbUtil.getJson(index, "beforeblock", sender)!!)!!
+        val oldLoc = dbUtil.gateLocation(index, sender)
+        val oldUnderLoc = Location(oldLoc.world, oldLoc.blockX.toDouble(), (oldLoc.blockY - 1).toDouble(), oldLoc.blockZ.toDouble())
+        oldLoc.block.type = Material.AIR
+        oldUnderLoc.block.type = dbUtil.underBlock(index, sender)
 
-        //new JsonHandler(plugin).JsonChange(args[1], null, null, null, loc, downblockbefore, p);
-        //float yaw = loc.getYaw();
-        val d = util.convBlockFace2Facing(sender.facing)
+        val rotate = util.convBlockFace2Facing(sender.facing)
         index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        dbUtil.setJson(index, "x", loc.blockX.toString(), sender)
-        dbUtil.setJson(index, "y", loc.blockY.toString(), sender)
-        dbUtil.setJson(index, "z", loc.blockZ.toString(), sender)
-        dbUtil.setJson(index, "rotate", d, sender)
-        dbUtil.setJson(index, "world", sender.world.name, sender)
-        dbUtil.setJson(index, "beforeblock", downblockbefore.toString(), sender)
-        sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " を " + loc + " に移動しました")
-        println("§a[PlateGate] §b" + sender.name + " がゲート " + args[1] + " を " + loc + " に移動しました")
+        dbUtil.setJson(index, "x"          , loc.blockX.toString()      , sender)
+        dbUtil.setJson(index, "y"          , loc.blockY.toString()      , sender)
+        dbUtil.setJson(index, "z"          , loc.blockZ.toString()      , sender)
+        dbUtil.setJson(index, "rotate"     , rotate                     , sender)
+        dbUtil.setJson(index, "world"      , sender.world.name          , sender)
+        dbUtil.setJson(index, "beforeblock", beforeUnderBlock.toString(), sender)
+        sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
+        println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} を $loc に移動しました")
         return true
     }
 
