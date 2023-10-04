@@ -35,7 +35,8 @@ class DBUtil {
                 "z",
                 "rotate",
                 "world",
-                "beforeblock"
+                "beforeBlock"
+                //TODO: createDate, updateDate
             )
             val map = keys.associateBy({ it }, { values[keys.indexOf(it)] })
             jsonDB!!.add(map)
@@ -175,6 +176,6 @@ class DBUtil {
     }
 
     fun underBlock(id: String, sender: Player?): Material {
-        return Material.getMaterial(getJson(id, "beforeblock", sender)!!)!!
+        return Material.getMaterial(getJson(id, "beforeBlock", sender)!!)!!
     }
 }

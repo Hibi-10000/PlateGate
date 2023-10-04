@@ -53,7 +53,7 @@ class PGMove {
         dbUtil.setJson(index, "z"          , loc.blockZ.toString()      , sender)
         dbUtil.setJson(index, "rotate"     , rotate                     , sender)
         dbUtil.setJson(index, "world"      , sender.world.name          , sender)
-        dbUtil.setJson(index, "beforeblock", beforeUnderBlock.toString(), sender)
+        dbUtil.setJson(index, "beforeBlock", beforeUnderBlock.toString(), sender)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
         println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} を $loc に移動しました")
         return true
