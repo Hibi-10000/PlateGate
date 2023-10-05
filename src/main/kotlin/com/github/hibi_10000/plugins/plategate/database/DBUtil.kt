@@ -117,17 +117,16 @@ class DBUtil {
 
     fun allIndexJson(loc: Location, p: Player?): String? {
         val xIndexList = allIndexJson("x", loc.blockX.toString(), p)
-        //List<String> yIndex = util.IndexJson("y", String.valueOf(loc.getBlockY()), p);
-        //List<String> zIndex = util.IndexJson("z", String.valueOf(loc.getBlockZ()), p);
-        //List<String> worldIndex = util.IndexJson("world", String.valueOf(loc.getWorld()), p);
-        //String index = "0";
+        //val yIndex = allIndexJson("y", loc.blockY.toString(), p)
+        //val zIndex = allIndexJson("z", loc.blockZ.toString(), p)
+        //val worldIndex = allIndexJson("world", loc.world?.name, p)
+        //val index = "0"
         for (xIndex in xIndexList) {
-            //boolean x = util.getJson(xIndex, "x", p).equalsIgnoreCase(String.valueOf(loc.getBlockX()));
+            //val x = getJson(xIndex, "x", p).equals(loc.blockX.toString(), ignoreCase = true)
             val y = getJson(xIndex, "y", p).equals(loc.blockY.toString(), ignoreCase = true)
             val z = getJson(xIndex, "z", p).equals(loc.blockZ.toString(), ignoreCase = true)
-            val w = getJson(xIndex, "world", p).equals(loc.getWorld().toString(), ignoreCase = true)
-            //if (y && z && w) index = xIndex;
-            if (y && z && w) return xIndex
+            val w = getJson(xIndex, "world", p).equals(loc.world?.name, ignoreCase = true)
+            if (y && z && w) return xIndex //index = xIndex
         }
         return null
     }
@@ -135,9 +134,9 @@ class DBUtil {
     fun gateExists(id: String?, name: String?, sender: Player?): Boolean {
         return try {
             if (id != null) {
-                return if (id.equals("0", ignoreCase = true)) false else jsonDB!!.get(id, "name") != null
+                return jsonDB!!.get(id, "name") != null
             } else if (name != null) {
-                if (jsonDB!!.firstIndexOf("name", name).equals("0", ignoreCase = true)) {
+                if (jsonDB!!.firstIndexOf("name", name).equals("-1", ignoreCase = true)) {
                     sender?.sendMessage("§a[PlateGate] §cゲート名が間違っています")
                     return false
                 }
