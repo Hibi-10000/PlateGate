@@ -23,33 +23,30 @@ import java.util.*
 class Event : Listener {
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
-        //if (!plugin.isEnabled()) return;
-        //if (e.useInteractedBlock() == e.useInteractedBlock().DENY
-        //		|| e.useItemInHand() == e.useItemInHand().DENY) return;
-        //Powerable spp = (Powerable) e.getClickedBlock().getBlockData();
-        //if ((spp.isPowered())) {
-        //e.getPlayer().sendMessage("");
-        //	return;
-        //}
+        /*
+        if (e.useInteractedBlock() == e.useInteractedBlock().DENY || e.useItemInHand() == e.useItemInHand().DENY) return
+        val spp = e.clickedBlock?.blockData as Powerable
+        if (spp.isPowered()) {
+            e.player.sendMessage("")
+            return
+        }
+        */
         val p = e.player
-        //Location pLoc = e.getPlayer().getLocation();
         if (e.action == Action.PHYSICAL) {
             if (!util.checkPermission(p, "plategate.use")) return
 
-            //if (pLoc.getBlock().getType() == Material.STONE_PRESSURE_PLATE) {
-
+            if (e.clickedBlock?.type == Material.STONE_PRESSURE_PLATE) return
             val index: String? = dbUtil.allIndexJson(e.clickedBlock!!.location, null)
             if (!dbUtil.gateExists(index, null, p)) return
 
-            if (dbUtil.getJson(index!!, "to", p).equals("", ignoreCase = true)) {
+            if (dbUtil.getJson(index!!, "to", p).equals("")) {
                 e.setCancelled(false)
                 e.player.sendMessage("§a[PlateGate] §bこのゲート ${dbUtil.getJson(index, "name", p)} はリンクされていません。")
                 //spp.setPowered(false);
                 return
             }
 
-            //JsonObject gateTo = JsonRead(gate.get("to").getAsString(), null);
-            val gateTo = dbUtil.firstIndexJson("to", dbUtil.getJson(index, "name", p)!!, p) ?: return
+            val gateTo = dbUtil.firstIndexJson("name", dbUtil.getJson(index, "to", p)!!, p) ?: return
             val rotate = dbUtil.getJson(index, "rotate", p)!!
             val toLoc = dbUtil.gateLocation(gateTo, p)
             toLoc.x += 0.5
@@ -80,11 +77,7 @@ class Event : Listener {
                     "east"  -> "-90"
                     else    ->   "0"
                 }
-                val to: String = if (dbUtil.getJson(gate, "to", p).equals("", ignoreCase = true)) {
-                    "§6None"
-                } else {
-                    dbUtil.getJson(gate, "to", p)!!
-                }
+                val to = if (dbUtil.getJson(gate, "to", p).equals("")) "§6None" else dbUtil.getJson(gate, "to", p)!!
                 p.sendMessage(
                     "§a[PlateGate]§b Name: §a${dbUtil.getJson(gate, "name", p)} §b Owner: §a${
                         instance!!.server.getPlayer(UUID.fromString(dbUtil.getJson(gate, "owner", p)))!!.name
