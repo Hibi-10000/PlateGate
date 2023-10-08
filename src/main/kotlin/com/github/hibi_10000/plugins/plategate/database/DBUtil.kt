@@ -153,7 +153,7 @@ class DBUtil {
         val search = dbUtil.firstIndexJson("name", name, sender)
         if (search != null) {
             if (jsonDB!!.get(search, "name").equals(name)) {
-                sender?.sendMessage("§a[PlateGate] §cその名前は使用されています。")
+                sender?.sendMessage("§a[PlateGate] §c\"${name}\"は使用されています。")
             } else sender?.sendMessage("§a[PlateGate] §cERROR!")
             return true
         }

@@ -24,20 +24,7 @@ class PGModify {
         if (!util.checkPermission(sender, "plategate.command.modify")) return false
         if (args.size <= 2) return util.commandInvalid(sender, label)
 
-        if (args[2].equals("name", ignoreCase = true)) {
-            if (args.size <= 3) {
-                sender.sendMessage("")
-                return false
-            }
-
-            //new JsonHandler(plugin).JsonChange(args[1], args[3], null, null, null, null, null);
-            if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
-            val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-            dbUtil.setJson(index, "name", args[3], sender)
-            sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " の名前を " + args[3] + " に変更しました")
-            println("§a[PlateGate] §bゲート " + args[1] + " の名前を " + args[3] + " に変更しました")
-            return true
-        } else if (args[2].equals("owner", ignoreCase = true)) {
+        if (args[2].equals("owner", ignoreCase = true)) {
             if (args.size <= 3) {
                 sender.sendMessage("")
                 return false
@@ -123,7 +110,6 @@ class PGModify {
         val list: MutableList<String> = ArrayList()
         if (args.size <= 2) return list
         if (args.size == 3) {
-            list.add("name")
             list.add("owner")
             list.add("accept")
             return list

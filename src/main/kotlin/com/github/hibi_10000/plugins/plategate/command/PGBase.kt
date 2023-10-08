@@ -27,6 +27,7 @@ class PGBase : CommandExecutor, TabCompleter {
             "list"   -> PGList  ().onCommand(sender, command, label, args)
             "modify" -> PGModify().onCommand(sender, command, label, args)
             "move"   -> PGMove  ().onCommand(sender, command, label, args)
+            "rename" -> PGRename().onCommand(sender, command, label, args)
             //"test"   -> {true}
             else -> util.commandInvalid(sender, label)
         }
@@ -46,9 +47,10 @@ class PGBase : CommandExecutor, TabCompleter {
             "list"   -> PGList  ().onTabComplete(sender, command, alias, args)
             "modify" -> PGModify().onTabComplete(sender, command, alias, args)
             "move"   -> PGMove  ().onTabComplete(sender, command, alias, args)
+            "rename" -> PGRename().onTabComplete(sender, command, alias, args)
             else -> {
                 if (args.size == 1) {
-                    arrayListOf("create", "move", "delete", "link", "modify", "list", "help", "jump")
+                    arrayListOf("create", "delete", "help", "jump", "link", "list", "modify", "move", "rename")
                 } else {
                     null
                 }

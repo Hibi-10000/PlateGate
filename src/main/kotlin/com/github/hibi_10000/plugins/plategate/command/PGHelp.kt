@@ -33,12 +33,13 @@ class PGHelp {
         sender.sendMessage(" §6Command§r:")
 
         sender.spigot().sendMessage(commandHelp(label, "create", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label,   "move", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label, "delete", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label,   "link", "[GateName:ここから] [GateName:ここへ飛ぶ]"))
-        sender.spigot().sendMessage(commandHelp(label, "modify", "[TargetGateName] [Object:<name/owner(OPOnly)>] [値:<NewGateName/Player>]"))
-        sender.spigot().sendMessage(commandHelp(label,   "list", "[Player(OPOnly)]"))
         sender.spigot().sendMessage(commandHelp(label,   "jump", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label,   "link", "[GateName:ここから] [GateName:ここへ飛ぶ]"))
+        sender.spigot().sendMessage(commandHelp(label,   "list", "[Player(OPOnly)]"))
+        sender.spigot().sendMessage(commandHelp(label, "modify", "[TargetGateName] [Object:owner(OPOnly)] [値:Player]"))
+        sender.spigot().sendMessage(commandHelp(label,   "move", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label, "rename", "[GateName] [NewGateName]"))
 
         val help = TextComponent(" - §b/$label help")
         help.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで§b\"/$label help\"§aを実行"))
