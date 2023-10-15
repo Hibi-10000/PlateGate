@@ -36,18 +36,19 @@ class PGModify {
             val index = dbUtil.firstIndexJson("name", args[1], sender as Player) ?: return false
             if (args.size == 5) {
                 if (args[4].equals("force", ignoreCase = true)) {
+                    if (!util.checkPermission(sender, "plategate.admin")) return false
                     /*
 					JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null).getAsJsonObject();
 					if (jo.get("name").getAsString().equalsIgnoreCase("null")) {
 						sender.sendMessage("§[PlateGate] §cゲート名が間違っています");
 						return false;
 					}
-					Player gateoldowner = Bukkit.getPlayer(UUID.fromString(jo.get("owner").getAsString()));
+					Player gateOldOwner = Bukkit.getPlayer(UUID.fromString(jo.get("owner").getAsString()));
 					*/
-                    //val gateoldowner: Player?
+                    //val gateOldOwner: Player?
                     if (!dbUtil.gateExists(null, args[1], sender)) return false
                     //val index = util.firstIndexJson("name", args[1], sender)
-                    //gateoldowner = Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender)))
+                    //gateOldOwner = Bukkit.getPlayer(UUID.fromString(util.getJson(index, "owner", sender)))
                     for (lp in Bukkit.getOnlinePlayers()) {
                         if (lp.name.equals(args[3], ignoreCase = true)) {
                             val newOwner = Bukkit.getPlayer(args[3])
@@ -56,14 +57,13 @@ class PGModify {
                                 return false
                             }
 
-                            //new JsonHandler(plugin).JsonChange(args[1], null, Bukkit.getPlayer(args[3]), null, null, null, null);
                             dbUtil.setJson(index, "owner", newOwner.uniqueId.toString(), sender)
-                            sender.sendMessage("§a[PlateGate] §bゲート " + args[1] + " のオーナーを " + oldowner!!.name + " から " + newOwner.name + " に変更しました")
-                            println("§a[PlateGate] §bゲート " + args[1] + " のオーナーを " + oldowner!!.name + " から " + newOwner.name + " に変更しました")
+                            sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} のオーナーを ${oldowner!!.name} から ${newOwner.name} に変更しました")
+                            println("§a[PlateGate] §bゲート ${args[1]} のオーナーを ${oldowner!!.name} から ${newOwner.name} に変更しました")
                             return true
                         }
                     }
-                    sender.sendMessage("" + args[3] + "")
+                    sender.sendMessage(" ${args[3]} ")
                     return false
                 }
                 sender.sendMessage("")
@@ -77,23 +77,22 @@ class PGModify {
                 return false
             }
             if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[3]))) {
-                //JsonObject jo = new JsonHandler(plugin).JsonRead(args[1], null).getAsJsonObject();
                 if (!dbUtil.gateExists(null, args[1], sender)) return false
                 if (Bukkit.getOnlinePlayers()
                         .contains(Bukkit.getPlayer(UUID.fromString(dbUtil.getJson(index, "owner", sender))))
                 ) {
                     oldowner = sender
-                    val ttop = Bukkit.getPlayer(args[3])
-                    val ttopgn = args[1]
-                    ttop!!.sendMessage("")
-                    val tonewowner = TextComponent("[] 受け入れる")
-                    tonewowner.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("クリックで要求を受け入れる"))
-                    tonewowner.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $ttopgn accept")
-                    ttop.spigot().sendMessage(tonewowner)
+                    val ttOldOwner = Bukkit.getPlayer(args[3])
+                    val ttOldOwnerGateName = args[1]
+                    ttOldOwner!!.sendMessage("")
+                    val toNewOwner = TextComponent("[] 受け入れる")
+                    toNewOwner.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("クリックで要求を受け入れる"))
+                    toNewOwner.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $ttOldOwnerGateName accept")
+                    ttOldOwner.spigot().sendMessage(toNewOwner)
                     return true
                 }
             }
-            sender.sendMessage("" + args[3] + "")
+            sender.sendMessage(" ${args[3]} ")
             return false
         } else if (args[2].equals("accept", ignoreCase = true)) {
             if (oldowner!!.name.equals(sender.name, ignoreCase = true)) {
@@ -115,7 +114,7 @@ class PGModify {
             return list
         } else if (args[2].equals("owner", ignoreCase = true)) {
             for (p in Bukkit.getOnlinePlayers()) {
-                if (args[3].equals(p.name, ignoreCase = true) && (p.isOp || p.hasPermission("          "))) {
+                if (args[3].equals(p.name, ignoreCase = true) && p.hasPermission("plategate.admin")) {
                     list.clear()
                     list.add("force")
                     return list
