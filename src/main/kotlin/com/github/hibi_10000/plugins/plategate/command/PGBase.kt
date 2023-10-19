@@ -9,13 +9,14 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
+import org.bukkit.entity.Player
 
 class PGBase : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (!command.name.equals("plategate", ignoreCase = true)) return false
         if (!util.checkPermission(sender, "plategate.command")) return false
         //if (args[0].lowercase() == "test") {return true}
-        if (sender !is org.bukkit.entity.Player) return false
+        if (sender !is Player) return false
         if (args.isEmpty()) return util.commandInvalid(sender, label)
 
         return when (args[0].lowercase()) {
@@ -36,7 +37,7 @@ class PGBase : CommandExecutor, TabCompleter {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         if (!command.name.equals("plategate", ignoreCase = true)) return null
         if (!sender.hasPermission("plategate.command")) return null
-        if (sender !is org.bukkit.entity.Player) return null
+        if (sender !is Player) return null
 
         return when (args[0].lowercase()) {
             "create" -> PGCreate().onTabComplete(sender, command, alias, args)

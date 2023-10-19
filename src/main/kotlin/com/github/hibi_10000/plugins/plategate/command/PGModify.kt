@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -14,6 +15,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.metadata.FixedMetadataValue
 import java.util.*
 
 class PGModify {
@@ -22,16 +24,27 @@ class PGModify {
         if (args.size < 3) return util.commandInvalid(sender, label)
 
         val gateName = args[1]
+        sender as Player
         when (args[2].lowercase()) {
             "accept" -> {
-                //TODO: 新しい所有者か確認 → /pg modify <name> accept 許可したときの処理
+                //TODO: 新しい所有者か確認
+                if (sender.hasMetadata("plategate_NewOwner")) {
+                    //TODO: /pg modify <name> accept 許可したときの処理
+                }
+                return false
+            }
+
+            "reject" -> {
+                //TODO: 新しい所有者か確認
+                //TODO: /pg modify <name> reject 拒否したときの処理
                 return false
             }
             "owner" -> {
                 if (!util.checkPermission(sender, "plategate.command.modify")) return false
                 if (args.size < 4 || 5 < args.size) return util.commandInvalid(sender, label)
 
-                val gateIndex = dbUtil.firstIndexJson("name", gateName, sender as Player) ?: return false
+                //val newOwnerName = args[3]
+                val gateIndex = dbUtil.firstIndexJson("name", gateName, sender) ?: return false
                 val oldOwner = Bukkit.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gateIndex, "owner", sender)))
                 if (args.size == 5) {
                     if (args[4].equals("force", ignoreCase = true)) {
@@ -52,19 +65,25 @@ class PGModify {
                 }
                 //senderのPlateGateかどうか確認
                 if (oldOwner.uniqueId != sender.uniqueId) {
-                    sender.sendMessage("")
+                    sender.sendMessage("§a[PlateGate] §cそれはあなたのゲートではありません！")
                     return false
                 }
                 if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[3]))) {
                     if (!dbUtil.gateExists(null, gateName, sender)) return false
                     val ttNewOwner = Bukkit.getPlayer(args[3])
-                    ttNewOwner!!.sendMessage("")
-                    val toNewOwner = TextComponent("[] 受け入れる")
-                    toNewOwner.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("クリックで要求を受け入れる"))
-                    toNewOwner.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $gateName accept")
-                    ttNewOwner.spigot().sendMessage(toNewOwner)
+                    //TODO: MetadataValueに何を入れるか
+                    ttNewOwner!!.setMetadata("plategate_NewOwner", FixedMetadataValue(instance!!, ""))
+                    //TODO: gateNameをホバーしたときにゲートの情報を表示
+                    ttNewOwner.sendMessage("[PlateGate] §b${sender.name} があなたにゲート $gateName の所有権を譲渡しようとしています。")
+                    println("[PlateGate] §b${sender.name} が $ttNewOwner にゲート $gateName の所有権を譲渡しようとしています。")
+                    val accept = TextComponent("§a[受け入れる]§r")
+                    accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
+                    accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $gateName accept")
+                    val reject = TextComponent("§c[拒否する]§r")
+                    reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
+                    reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $gateName reject")
+                    ttNewOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
                     return true
-
                 }
                 sender.sendMessage(" ${args[3]} ")
                 return false
