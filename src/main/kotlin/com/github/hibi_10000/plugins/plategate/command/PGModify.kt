@@ -73,8 +73,24 @@ class PGModify {
                     val ttNewOwner = Bukkit.getPlayer(args[3])
                     //TODO: MetadataValueに何を入れるか
                     ttNewOwner!!.setMetadata("plategate_NewOwner", FixedMetadataValue(instance!!, ""))
-                    //TODO: gateNameをホバーしたときにゲートの情報を表示
-                    ttNewOwner.sendMessage("[PlateGate] §b${sender.name} があなたにゲート $gateName の所有権を譲渡しようとしています。")
+                    //TODO: いい感じに色を付ける
+                    val gateInfo = TextComponent(gateName)
+                    gateInfo.hoverEvent = HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT, Text(
+                              "Name: ${gateName
+                            }\nOwner: ${sender.name
+                            }\nWorld: ${dbUtil.getJson(gateIndex, "world", sender)
+                            }\nX: ${dbUtil.getJson(gateIndex, "x", sender)
+                            }\nY: ${dbUtil.getJson(gateIndex, "y", sender)
+                            }\nZ: ${dbUtil.getJson(gateIndex, "z", sender)
+                            }\nRotate: ${dbUtil.getJson(gateIndex, "rotate", sender)
+                            }\nTo: ${dbUtil.getJson(gateIndex, "to", sender)}"
+                        )
+                    )
+                    ttNewOwner.spigot().sendMessage(
+                        TextComponent("§a[PlateGate] §b${sender.name} があなたにゲート "), gateInfo,
+                        TextComponent(" の所有権を譲渡しようとしています。")
+                    )
                     println("[PlateGate] §b${sender.name} が $ttNewOwner にゲート $gateName の所有権を譲渡しようとしています。")
                     val accept = TextComponent("§a[受け入れる]§r")
                     accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
