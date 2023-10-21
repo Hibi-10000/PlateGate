@@ -18,7 +18,7 @@ import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
 import java.util.*
 
-class PGModify {
+class PGTransfer {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (args.size < 3) return util.commandInvalid(sender, label)
@@ -29,18 +29,18 @@ class PGModify {
             "accept" -> {
                 //TODO: 新しい所有者か確認
                 if (sender.hasMetadata("plategate_NewOwner")) {
-                    //TODO: /pg modify <name> accept 許可したときの処理
+                    //TODO: /plategate transfer <name> accept 許可したときの処理
                 }
                 return false
             }
 
             "reject" -> {
                 //TODO: 新しい所有者か確認
-                //TODO: /pg modify <name> reject 拒否したときの処理
+                //TODO: /plategate transfer <name> reject 拒否したときの処理
                 return false
             }
             "owner" -> {
-                if (!util.checkPermission(sender, "plategate.command.modify")) return false
+                if (!util.checkPermission(sender, "plategate.command.transfer")) return false
                 if (args.size < 4 || 5 < args.size) return util.commandInvalid(sender, label)
 
                 //val newOwnerName = args[3]
@@ -94,10 +94,10 @@ class PGModify {
                     println("[PlateGate] §b${sender.name} が $ttNewOwner にゲート $gateName の所有権を譲渡しようとしています。")
                     val accept = TextComponent("§a[受け入れる]§r")
                     accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
-                    accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $gateName accept")
+                    accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName accept")
                     val reject = TextComponent("§c[拒否する]§r")
                     reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
-                    reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label modify $gateName reject")
+                    reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName reject")
                     ttNewOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
                     return true
                 }

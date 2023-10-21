@@ -32,20 +32,14 @@ class PGHelp {
         sender.sendMessage("§a[PlateGate $version] §6Help")
         sender.sendMessage(" §6Command§r:")
 
-        sender.spigot().sendMessage(commandHelp(label, "create", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label, "delete", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label,   "jump", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label,   "link", "[GateName:ここから] [GateName:ここへ飛ぶ]"))
-        sender.spigot().sendMessage(commandHelp(label,   "list", "[Player(OPOnly)]"))
-        sender.spigot().sendMessage(
-            commandHelp(
-                label,
-                "modify",
-                "[TargetGateName] <accept|reject|owner> [Player:NewOwner] <force(OPOnly)>"
-            )
-        )
-        sender.spigot().sendMessage(commandHelp(label,   "move", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label, "rename", "[GateName] [NewGateName]"))
+        sender.spigot().sendMessage(commandHelp(label,   "create", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label,   "delete", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label,     "jump", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label,     "link", "[GateName:ここから] [GateName:ここへ飛ぶ]"))
+        sender.spigot().sendMessage(commandHelp(label,     "list", "[Player(OPOnly)]"))
+        sender.spigot().sendMessage(commandHelp(label,     "move", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label,   "rename", "[GateName] [NewGateName]"))
+        sender.spigot().sendMessage(commandHelp(label, "transfer", "[TargetGateName] <accept|reject|owner> [Player:NewOwner] <force(OPOnly)>"))
 
         val help = TextComponent(" - §b/$label help")
         help.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで§b\"/$label help\"§aを実行"))
