@@ -4,7 +4,6 @@
 
 package com.github.hibi_10000.plugins.plategate.event
 
-import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
@@ -68,8 +67,9 @@ class Event : Listener {
 
                 val gate: String? = dbUtil.allIndexJson(e.clickedBlock!!.location, null)
                 if (!dbUtil.gateExists(gate, null, p)) return
+                val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)
 
-                val facing = dbUtil.getJson(gate!!, "rotate", p)!!
+                val facing = dbUtil.getJson(gate, "rotate", p)!!
                 val yaw = when (facing.lowercase()) {
                     "south" ->   "0"
                     "west"  ->  "90"
@@ -79,8 +79,7 @@ class Event : Listener {
                 }
                 val to = if (dbUtil.getJson(gate, "to", p).equals("")) "§6None" else dbUtil.getJson(gate, "to", p)!!
                 p.sendMessage(
-                    "§a[PlateGate]§b Name: §a${dbUtil.getJson(gate, "name", p)} §b Owner: §a${
-                        instance!!.server.getPlayer(UUID.fromString(dbUtil.getJson(gate, "owner", p)))!!.name
+                    "§a[PlateGate]§b Name: §a${dbUtil.getJson(gate, "name", p)} §b Owner: §a${owner.name
                     } §b GoTo: §a$to §b Rotate: §a$facing§b (§a$yaw§b)"
                 )
                 e.setCancelled(true)

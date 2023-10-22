@@ -6,7 +6,6 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -22,7 +21,7 @@ class PGDelete {
 
         if (dbUtil.isDuplicateName(args[1], sender)) return false
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        if (Bukkit.getPlayer(dbUtil.getJson(index, "owner", sender)!!) !== p) {
+        if (dbUtil.getJson(index, "owner", sender)!! != p.uniqueId.toString()) {
             if (!p.hasPermission("plategate.admin")) {
                 p.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
                 return false

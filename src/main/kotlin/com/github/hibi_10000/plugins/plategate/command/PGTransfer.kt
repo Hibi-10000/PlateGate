@@ -45,21 +45,17 @@ class PGTransfer {
 
                 //val newOwnerName = args[3]
                 val gateIndex = dbUtil.firstIndexJson("name", gateName, sender) ?: return false
-                val oldOwner = Bukkit.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gateIndex, "owner", sender)))
+                val oldOwner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gateIndex, "owner", sender)), sender)
                 if (args.size == 5) {
                     if (args[4].equals("force", ignoreCase = true)) {
                         //強制的にownerを変更
                         if (!util.checkPermission(sender, "plategate.admin")) return false
                         if (!dbUtil.gateExists(null, gateName, sender)) return false
-                        if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[3]))) {
-                            val newOwner = Bukkit.getPlayer(args[3])!!
-                            dbUtil.setJson(gateIndex, "owner", newOwner.uniqueId.toString(), sender)
-                            sender.sendMessage("§a[PlateGate] §bゲート $gateName のオーナーを ${oldOwner.name} から ${newOwner.name} に変更しました")
-                            println("§a[PlateGate] §bゲート $gateName のオーナーを ${oldOwner.name} から ${newOwner.name} に変更しました")
-                            return true
-                        }
-                        sender.sendMessage("§a[PlateGate] §cプレイヤーが存在しないか、オフラインです")
-                        return false
+                        val newOwner = util.getPlayer(args[3], sender) ?: return false
+                        dbUtil.setJson(gateIndex, "owner", newOwner.uniqueId.toString(), sender)
+                        sender.sendMessage("§a[PlateGate] §bゲート $gateName のオーナーを ${oldOwner.name} から ${newOwner.name} に変更しました")
+                        println("§a[PlateGate] §bゲート $gateName のオーナーを ${oldOwner.name} から ${newOwner.name} に変更しました")
+                        return true
                     }
                     return util.commandInvalid(sender, label)
                 }
@@ -68,41 +64,37 @@ class PGTransfer {
                     sender.sendMessage("§a[PlateGate] §cそれはあなたのゲートではありません！")
                     return false
                 }
-                if (Bukkit.getOnlinePlayers().contains(Bukkit.getPlayer(args[3]))) {
-                    if (!dbUtil.gateExists(null, gateName, sender)) return false
-                    val ttNewOwner = Bukkit.getPlayer(args[3])
-                    //TODO: MetadataValueに何を入れるか
-                    ttNewOwner!!.setMetadata("plategate_NewOwner", FixedMetadataValue(instance!!, ""))
-                    //TODO: いい感じに色を付ける
-                    val gateInfo = TextComponent(gateName)
-                    gateInfo.hoverEvent = HoverEvent(
-                        HoverEvent.Action.SHOW_TEXT, Text(
-                              "Name: ${gateName
-                            }\nOwner: ${sender.name
-                            }\nWorld: ${dbUtil.getJson(gateIndex, "world", sender)
-                            }\nX: ${dbUtil.getJson(gateIndex, "x", sender)
-                            }\nY: ${dbUtil.getJson(gateIndex, "y", sender)
-                            }\nZ: ${dbUtil.getJson(gateIndex, "z", sender)
-                            }\nRotate: ${dbUtil.getJson(gateIndex, "rotate", sender)
-                            }\nTo: ${dbUtil.getJson(gateIndex, "to", sender)}"
-                        )
+                if (!dbUtil.gateExists(null, gateName, sender)) return false
+                val newOwner = util.getPlayer(args[3], sender) ?: return false
+                //TODO: MetadataValueに何を入れるか
+                newOwner.setMetadata("plategate_NewOwner", FixedMetadataValue(instance!!, ""))
+                //TODO: いい感じに色を付ける
+                val gateInfo = TextComponent(gateName)
+                gateInfo.hoverEvent = HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT, Text(
+                        "Name: ${gateName
+                        }\nOwner: ${sender.name
+                        }\nWorld: ${dbUtil.getJson(gateIndex, "world", sender)
+                        }\nX: ${dbUtil.getJson(gateIndex, "x", sender)
+                        }\nY: ${dbUtil.getJson(gateIndex, "y", sender)
+                        }\nZ: ${dbUtil.getJson(gateIndex, "z", sender)
+                        }\nRotate: ${dbUtil.getJson(gateIndex, "rotate", sender)
+                        }\nTo: ${dbUtil.getJson(gateIndex, "to", sender)}"
                     )
-                    ttNewOwner.spigot().sendMessage(
-                        TextComponent("§a[PlateGate] §b${sender.name} があなたにゲート "), gateInfo,
-                        TextComponent(" の所有権を譲渡しようとしています。")
-                    )
-                    println("[PlateGate] §b${sender.name} が $ttNewOwner にゲート $gateName の所有権を譲渡しようとしています。")
-                    val accept = TextComponent("§a[受け入れる]§r")
-                    accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
-                    accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName accept")
-                    val reject = TextComponent("§c[拒否する]§r")
-                    reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
-                    reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName reject")
-                    ttNewOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
-                    return true
-                }
-                sender.sendMessage(" ${args[3]} ")
-                return false
+                )
+                newOwner.spigot().sendMessage(
+                    TextComponent("§a[PlateGate] §b${sender.name} があなたにゲート "), gateInfo,
+                    TextComponent(" の所有権を譲渡しようとしています。")
+                )
+                println("[PlateGate] §b${sender.name} が $newOwner にゲート $gateName の所有権を譲渡しようとしています。")
+                val accept = TextComponent("§a[受け入れる]§r")
+                accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
+                accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName accept")
+                val reject = TextComponent("§c[拒否する]§r")
+                reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
+                reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName reject")
+                newOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
+                return true
             }
             else -> return util.commandInvalid(sender, label)
         }

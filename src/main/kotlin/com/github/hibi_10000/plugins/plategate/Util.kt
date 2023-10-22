@@ -10,9 +10,12 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.OfflinePlayer
 import org.bukkit.block.BlockFace
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.*
+import java.util.regex.Pattern
 
 class Util {
     fun checkPermission(sender: CommandSender, permission: String): Boolean {
@@ -64,23 +67,43 @@ class Util {
     }
 
     fun getPlayer(name: String, sender: Player?): Player? {
-        var args1player: Player? = null
-        for (p in Bukkit.getOnlinePlayers()) {
-            if (p.name.equals(name, ignoreCase = true)) {
-                args1player = p
-                break
+        var player = Bukkit.getPlayer(name)
+        if (player == null) {
+            if (Bukkit.getOfflinePlayer(name).hasPlayedBefore()) {
+                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
+            } else {
+                if (isUUID(name)) {
+                    player = getPlayer(UUID.fromString(name), null)
+                }
+                if (player == null) {
+                    sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+                }
             }
         }
-        for (p in Bukkit.getOfflinePlayers()) {
-            if (args1player == null) break
-            if (p.name.equals(name, ignoreCase = true)) {
-                args1player = p.player
-                break
+        return player
+    }
+
+    fun getPlayer(uuid: UUID, sender: Player?): Player? {
+        val player = Bukkit.getPlayer(uuid)
+        if (player == null) {
+            if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
+                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
+            } else {
+                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
             }
         }
-        if (args1player == null) {
+        return player
+    }
+
+    fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer {
+        val player = Bukkit.getOfflinePlayer(uuid)
+        if (!player.hasPlayedBefore()) {
             sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
         }
-        return args1player
+        return player
+    }
+
+    fun isUUID(string: String): Boolean {
+        return Pattern.compile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$").matcher(string).find()
     }
 }
