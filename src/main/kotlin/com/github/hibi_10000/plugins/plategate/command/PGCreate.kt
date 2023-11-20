@@ -40,13 +40,13 @@ class PGCreate {
         dbUtil.addJson(
             arrayOf(
                 args[1],
-                sender.name,
+                sender.uniqueId.toString(),
                 "",
                 loc.blockX.toString(),
                 loc.blockY.toString(),
                 loc.blockZ.toString(),
                 d,
-                loc.getWorld().toString(),
+                loc.world!!.name,
                 beforeUnderBlock.name
             ), sender
         )

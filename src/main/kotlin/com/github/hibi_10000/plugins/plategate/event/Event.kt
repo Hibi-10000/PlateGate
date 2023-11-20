@@ -107,7 +107,7 @@ class Event : Listener {
         var isPlateGateBlock = false
         for (b in blocks) {
             if (b.type == Material.IRON_BLOCK) {
-                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperLocation(b.location), player), null, player)
+                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperLocation(b.location), null), null, player)
             }
             else if (b.type == Material.STONE_PRESSURE_PLATE) {
                 isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(b.location, null), null, player)

@@ -19,7 +19,10 @@ class PGDelete {
             return util.commandInvalid(sender, label)
         val p = sender as Player
 
-        if (dbUtil.isDuplicateName(args[1], sender)) return false
+        if (!dbUtil.isDuplicateName(args[1], null)) {
+            sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            return false
+        }
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         if (dbUtil.getJson(index, "owner", sender)!! != p.uniqueId.toString()) {
             if (!p.hasPermission("plategate.admin")) {
@@ -39,17 +42,24 @@ class PGDelete {
         oldLoc.block.type = Material.AIR
         oldUnderLoc.block.type = dbUtil.underBlock(index, sender)
         dbUtil.removeJson(index, sender)
-        if (args[2].equals("force", ignoreCase = true)) {
-            p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}" +
-                    "(Owner:${dbUtil.getJson(index, "Owner", sender)})を強制的に削除しました。")
-            println("§a[PlateGate] §b${p.name} が" +
-                    "Gate:${dbUtil.getJson(index, "name", sender)}" +
-                    "(Owner:${dbUtil.getJson(index, "Owner", sender)})" +
-                    "を§c強制的に§b削除しました。")
-        } else {
-            p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
-            println("§a[PlateGate] §b${p.name} がGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
+        if (args.size == 3) {
+            if (args[2].equals("force", ignoreCase = true)) {
+                p.sendMessage(
+                    "§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}" +
+                            "(Owner:${dbUtil.getJson(index, "Owner", sender)})を強制的に削除しました。"
+                )
+                println(
+                    "§a[PlateGate] §b${p.name} が" +
+                            "Gate:${dbUtil.getJson(index, "name", sender)}" +
+                            "(Owner:${dbUtil.getJson(index, "Owner", sender)})" +
+                            "を§c強制的に§b削除しました。"
+                )
+                return true
+            }
+            return util.commandInvalid(sender, label)
         }
+        p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
+        println("§a[PlateGate] §b${p.name} がGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
         return true
     }
 

@@ -150,7 +150,7 @@ class DBUtil {
     }
 
     fun isDuplicateName(name: String, sender: Player?): Boolean {
-        val search = dbUtil.firstIndexJson("name", name, sender)
+        val search = dbUtil.firstIndexJson("name", name, null)
         if (search != null) {
             if (jsonDB!!.get(search, "name").equals(name)) {
                 sender?.sendMessage("§a[PlateGate] §c\"${name}\"は使用されています。")

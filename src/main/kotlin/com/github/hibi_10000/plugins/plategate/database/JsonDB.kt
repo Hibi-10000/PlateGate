@@ -85,15 +85,16 @@ class JsonDB(private val gateDB: File) {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun add(values: Map<String, String>) {
-        var lastid = 1
+        var lastId = 0
         val json = read()
         for (element in json) {
             val jo = element.asJsonObject
             val id = jo["id"].asString.toInt()
-            if (lastid < id) lastid = id
+            if (lastId < id) lastId = id
         }
+        lastId++
         val idJo = JsonObject()
-        idJo.addProperty("id", lastid.toString())
+        idJo.addProperty("id", lastId.toString())
         for (value in values) {
             idJo.addProperty(value.key, value.value)
         }
