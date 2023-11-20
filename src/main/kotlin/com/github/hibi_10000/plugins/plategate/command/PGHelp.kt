@@ -33,11 +33,11 @@ class PGHelp {
         sender.sendMessage(" §6Command§r:")
 
         sender.spigot().sendMessage(commandHelp(label,   "create", "[GateName]"))
-        sender.spigot().sendMessage(commandHelp(label,   "delete", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label,     "jump", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label,     "link", "[GateName:ここから] [GateName:ここへ飛ぶ]"))
         sender.spigot().sendMessage(commandHelp(label,     "list", "[Player(OPOnly)]"))
         sender.spigot().sendMessage(commandHelp(label,     "move", "[GateName]"))
+        sender.spigot().sendMessage(commandHelp(label,   "remove", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label,   "rename", "[GateName] [NewGateName]"))
         sender.spigot().sendMessage(commandHelp(label, "transfer", "[TargetGateName] <accept|reject|owner> [Player:NewOwner] <force(OPOnly)>"))
 

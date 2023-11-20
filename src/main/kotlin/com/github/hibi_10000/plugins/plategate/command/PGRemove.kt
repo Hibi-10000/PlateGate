@@ -11,10 +11,10 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class PGDelete {
+class PGRemove {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!util.checkPermission(sender, "plategate.command.delete")) return false
+        if (!util.checkPermission(sender, "plategate.command.remove")) return false
         if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true)))
             return util.commandInvalid(sender, label)
         val p = sender as Player

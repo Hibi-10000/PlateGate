@@ -21,12 +21,12 @@ class PGBase : CommandExecutor, TabCompleter {
 
         return when (args[0].lowercase()) {
             "create"   -> PGCreate  ().onCommand(sender, command, label, args)
-            "delete"   -> PGDelete  ().onCommand(sender, command, label, args)
             "help"     -> PGHelp    ().onCommand(sender, command, label, args)
             "jump"     -> PGJump    ().onCommand(sender, command, label, args)
             "link"     -> PGLink    ().onCommand(sender, command, label, args)
             "list"     -> PGList    ().onCommand(sender, command, label, args)
             "move"     -> PGMove    ().onCommand(sender, command, label, args)
+            "remove"   -> PGRemove  ().onCommand(sender, command, label, args)
             "rename"   -> PGRename  ().onCommand(sender, command, label, args)
             "transfer" -> PGTransfer().onCommand(sender, command, label, args)
             //"test"   -> {true}
@@ -41,17 +41,17 @@ class PGBase : CommandExecutor, TabCompleter {
 
         return when (args[0].lowercase()) {
             "create"   -> PGCreate  ().onTabComplete(sender, command, alias, args)
-            "delete"   -> PGDelete  ().onTabComplete(sender, command, alias, args)
             "help"     -> PGHelp    ().onTabComplete(sender, command, alias, args)
             "jump"     -> PGJump    ().onTabComplete(sender, command, alias, args)
             "link"     -> PGLink    ().onTabComplete(sender, command, alias, args)
             "list"     -> PGList    ().onTabComplete(sender, command, alias, args)
             "move"     -> PGMove    ().onTabComplete(sender, command, alias, args)
+            "remove"   -> PGRemove  ().onTabComplete(sender, command, alias, args)
             "rename"   -> PGRename  ().onTabComplete(sender, command, alias, args)
             "transfer" -> PGTransfer().onTabComplete(sender, command, alias, args)
             else -> {
                 if (args.size == 1) {
-                    arrayListOf("create", "delete", "help", "jump", "link", "list", "move", "rename", "transfer")
+                    arrayListOf("create", "help", "jump", "link", "list", "move", "remove", "rename", "transfer")
                 } else {
                     null
                 }

@@ -78,11 +78,11 @@ bukkit {
             children = listOf(
                 "plategate.command",
                 "plategate.command.create",
-                "plategate.command.delete",
                 "plategate.command.help",
                 "plategate.command.link",
                 "plategate.command.list",
                 "plategate.command.move",
+                "plategate.command.remove",
                 "plategate.command.rename",
                 "plategate.command.transfer",
                 "plategate.info",
@@ -100,10 +100,6 @@ bukkit {
         }
         register("plategate.command.create") {
             description = "\"/plategate create\" Command Use Permission"
-            children = listOf("plategate.command")
-        }
-        register("plategate.command.delete") {
-            description = "\"/plategate delete\" Command Use Permission"
             children = listOf("plategate.command")
         }
         register("plategate.command.help") {
@@ -124,6 +120,10 @@ bukkit {
         }
         register("plategate.command.move") {
             description = "\"/plategate move\" Command Use Permission"
+            children = listOf("plategate.command")
+        }
+        register("plategate.command.remove") {
+            description = "\"/plategate remove\" Command Use Permission"
             children = listOf("plategate.command")
         }
         register("plategate.command.rename") {
