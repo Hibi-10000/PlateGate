@@ -34,6 +34,8 @@ class PGJump {
         toUpperLoc.block.type = Material.AIR
         toLoc.block.type = Material.AIR
         p.teleport(toLoc)
+        p.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
+        println("§a[PlateGate] §b${p.name} がゲート ${args[1]} にジャンプしました。")
         return true
     }
 
