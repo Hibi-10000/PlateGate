@@ -56,8 +56,7 @@ class Event : Listener {
                 "south" -> toLoc.z += 1
                 "west"  -> toLoc.x -= 1
             }
-            val toUpperLoc = util.upperLocation(toLoc)
-            toUpperLoc.block.type = Material.AIR
+            util.upperBlock(toLoc.block).type = Material.AIR
             toLoc.block.type = Material.AIR
             p.teleport(toLoc)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
@@ -107,7 +106,7 @@ class Event : Listener {
         var isPlateGateBlock = false
         for (b in blocks) {
             if (b.type == Material.IRON_BLOCK) {
-                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperLocation(b.location), null), null, player)
+                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperBlock(b).location, null), null, player)
             }
             else if (b.type == Material.STONE_PRESSURE_PLATE) {
                 isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(b.location, null), null, player)

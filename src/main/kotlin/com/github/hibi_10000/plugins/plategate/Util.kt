@@ -11,6 +11,7 @@ import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.OfflinePlayer
+import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -54,16 +55,12 @@ class Util {
         }
     }
 
-    fun underLocation(location: Location): Location {
-        val underLocation = location.clone()
-        underLocation.y -= 1
-        return underLocation
+    fun underBlock(block: Block): Block {
+        return block.getRelative(BlockFace.DOWN)
     }
 
-    fun upperLocation(location: Location): Location {
-        val upperLocation = location.clone()
-        upperLocation.y += 1
-        return upperLocation
+    fun upperBlock(block: Block): Block {
+        return block.getRelative(BlockFace.UP)
     }
 
     fun getPlayer(name: String, sender: Player?): Player? {

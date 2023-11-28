@@ -19,10 +19,8 @@ class PGMove {
         if (args.size != 2) return util.commandInvalid(sender, label)
 
         if (!dbUtil.gateExists(null, args[1], (sender as Player))) return false
-        val pLoc = sender.location
-        val loc = pLoc.clone()
+        val loc = sender.location.clone()
         loc.pitch = 0f
-        val underLoc = util.underLocation(loc)
         if (loc.block.type != Material.AIR) {
             sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
@@ -31,9 +29,10 @@ class PGMove {
             sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります。")
             return false
         }
-        val beforeUnderBlock = underLoc.block.type
-        underLoc.block.type = Material.IRON_BLOCK
+        val underBlock = util.underBlock(loc.block)
+        val beforeUnderBlock = underBlock.type
         loc.block.type = Material.STONE_PRESSURE_PLATE
+        underBlock.type = Material.IRON_BLOCK
         /*
         Powerable blockData = (Powerable) Material.STONE_PRESSURE_PLATE.createBlockData();
         blockData.setPowered(false);
@@ -48,12 +47,12 @@ class PGMove {
 
         val rotate = util.convBlockFace2Facing(sender.facing)
         index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        dbUtil.setJson(index, "x"          , loc.blockX.toString()      , sender)
-        dbUtil.setJson(index, "y"          , loc.blockY.toString()      , sender)
-        dbUtil.setJson(index, "z"          , loc.blockZ.toString()      , sender)
-        dbUtil.setJson(index, "rotate"     , rotate                     , sender)
-        dbUtil.setJson(index, "world"      , sender.world.name          , sender)
-        dbUtil.setJson(index, "beforeBlock", beforeUnderBlock.toString(), sender)
+        dbUtil.setJson(index, "x"          , loc.blockX.toString(), sender)
+        dbUtil.setJson(index, "y"          , loc.blockY.toString(), sender)
+        dbUtil.setJson(index, "z"          , loc.blockZ.toString(), sender)
+        dbUtil.setJson(index, "rotate"     , rotate               , sender)
+        dbUtil.setJson(index, "world"      , sender.world.name    , sender)
+        dbUtil.setJson(index, "beforeBlock", beforeUnderBlock.name, sender)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
         println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} を $loc に移動しました")
         return true

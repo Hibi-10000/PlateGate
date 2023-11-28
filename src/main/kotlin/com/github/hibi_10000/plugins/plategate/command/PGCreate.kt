@@ -28,10 +28,10 @@ class PGCreate {
             sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります。")
             return false
         }
-        val underLoc = util.underLocation(loc)
-        val beforeUnderBlock = underLoc.block.type
-        underLoc.block.type = Material.IRON_BLOCK
+        val underBlock = util.underBlock(loc.block)
+        val beforeUnderBlock = underBlock.type
         loc.block.type = Material.STONE_PRESSURE_PLATE
+        underBlock.type = Material.IRON_BLOCK
         //val poweredBlockData = Material.STONE_PRESSURE_PLATE.createBlockData() as Powerable
         //poweredBlockData.isPowered = true
         //loc.block.blockData = poweredBlockData

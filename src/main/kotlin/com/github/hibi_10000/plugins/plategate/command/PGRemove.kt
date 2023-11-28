@@ -37,10 +37,10 @@ class PGRemove {
                 }
             }
         }
-        val oldLoc = dbUtil.gateLocation(index, sender)
-        val oldUnderLoc = util.underLocation(oldLoc)
-        oldLoc.block.type = Material.AIR
-        oldUnderLoc.block.type = dbUtil.underBlock(index, sender)
+        val oldLocBlock = dbUtil.gateLocation(index, sender).block
+        val oldLocUnderBlock = util.underBlock(oldLocBlock)
+        oldLocBlock.type = Material.AIR
+        oldLocUnderBlock.type = dbUtil.underBlock(index, sender)
         dbUtil.removeJson(index, sender)
         if (args.size == 3) {
             if (args[2].equals("force", ignoreCase = true)) {
