@@ -35,7 +35,7 @@ class Event : Listener {
             if (!util.checkPermission(p, "plategate.use")) return
 
             if (e.clickedBlock?.type == Material.STONE_PRESSURE_PLATE) return
-            val index: String? = dbUtil.allIndexJson(e.clickedBlock!!.location, null)
+            val index: String? = dbUtil.allIndexJson(e.clickedBlock!!, null)
             if (!dbUtil.gateExists(index, null, p)) return
 
             if (dbUtil.getJson(index!!, "to", p).equals("")) {
@@ -64,7 +64,7 @@ class Event : Listener {
             if (e.clickedBlock?.type == Material.STONE_PRESSURE_PLATE) {
                 if (!util.checkPermission(p, "plategate.info")) return
 
-                val gate: String? = dbUtil.allIndexJson(e.clickedBlock!!.location, null)
+                val gate: String? = dbUtil.allIndexJson(e.clickedBlock!!, null)
                 if (!dbUtil.gateExists(gate, null, p)) return
                 val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)
 
@@ -106,10 +106,10 @@ class Event : Listener {
         var isPlateGateBlock = false
         for (b in blocks) {
             if (b.type == Material.IRON_BLOCK) {
-                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperBlock(b).location, null), null, player)
+                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperBlock(b), null), null, player)
             }
             else if (b.type == Material.STONE_PRESSURE_PLATE) {
-                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(b.location, null), null, player)
+                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(b, null), null, player)
             }
             if (isPlateGateBlock) break
         }

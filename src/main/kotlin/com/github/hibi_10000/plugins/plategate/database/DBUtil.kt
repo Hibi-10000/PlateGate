@@ -10,6 +10,7 @@ import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.block.Block
 import org.bukkit.entity.Player
 
 class DBUtil {
@@ -115,17 +116,17 @@ class DBUtil {
         }
     }
 
-    fun allIndexJson(loc: Location, p: Player?): String? {
-        val xIndexList = allIndexJson("x", loc.blockX.toString(), p)
+    fun allIndexJson(b: Block, p: Player?): String? {
+        val xIndexList = allIndexJson("x", b.x.toString(), p)
         //val yIndex = allIndexJson("y", loc.blockY.toString(), p)
         //val zIndex = allIndexJson("z", loc.blockZ.toString(), p)
         //val worldIndex = allIndexJson("world", loc.world?.name, p)
         //val index = "0"
         for (xIndex in xIndexList) {
             //val x = getJson(xIndex, "x", p).equals(loc.blockX.toString(), ignoreCase = true)
-            val y = getJson(xIndex, "y", p).equals(loc.blockY.toString(), ignoreCase = true)
-            val z = getJson(xIndex, "z", p).equals(loc.blockZ.toString(), ignoreCase = true)
-            val w = getJson(xIndex, "world", p).equals(loc.world?.name, ignoreCase = true)
+            val y = getJson(xIndex, "y", p).equals(b.y.toString(), ignoreCase = true)
+            val z = getJson(xIndex, "z", p).equals(b.z.toString(), ignoreCase = true)
+            val w = getJson(xIndex, "world", p).equals(b.world.name, ignoreCase = true)
             if (y && z && w) return xIndex //index = xIndex
         }
         return null
