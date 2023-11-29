@@ -20,12 +20,12 @@ class PGCreate {
         if (dbUtil.isDuplicateName(args[1], sender as Player)) return false
         val loc = sender.location.clone()
         loc.pitch = 0f
-        if (loc.block.type != Material.AIR) {
-            sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
-            return false
-        }
         if (loc.y != loc.blockY.toDouble()) {
             sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります。")
+            return false
+        }
+        if (loc.block.type != Material.AIR) {
+            sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
         }
         val underBlock = util.underBlock(loc.block)
