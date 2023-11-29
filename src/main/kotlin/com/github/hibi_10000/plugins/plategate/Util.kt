@@ -64,17 +64,15 @@ class Util {
     }
 
     fun getPlayer(name: String, sender: Player?): Player? {
-        var player = Bukkit.getPlayer(name)
+        val player = Bukkit.getPlayer(name)
         if (player == null) {
             if (Bukkit.getOfflinePlayer(name).hasPlayedBefore()) {
                 sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
             } else {
                 if (isUUID(name)) {
-                    player = getPlayer(UUID.fromString(name), null)
+                    return getPlayer(UUID.fromString(name), sender)
                 }
-                if (player == null) {
-                    sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
-                }
+                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
             }
         }
         return player
