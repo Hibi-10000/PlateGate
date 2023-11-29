@@ -90,6 +90,19 @@ class Util {
         return player
     }
 
+    fun getOfflinePlayer(name: String, sender: Player?): OfflinePlayer {
+        val player = Bukkit.getOfflinePlayer(name)
+        if (player.hasPlayedBefore()) {
+            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
+        } else {
+            if (isUUID(name)) {
+                return getOfflinePlayer(UUID.fromString(name), sender)
+            }
+            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+        }
+        return player
+    }
+
     fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {

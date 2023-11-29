@@ -24,7 +24,9 @@ class PGRemove {
             return false
         }
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        if (dbUtil.getJson(index, "owner", sender)!! != p.uniqueId.toString()) {
+        val name = dbUtil.getJson(index, "name", sender)!!
+        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)
+        if (owner.uniqueId.toString() != p.uniqueId.toString()) {
             if (!p.hasPermission("plategate.admin")) {
                 p.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
                 return false
@@ -44,22 +46,14 @@ class PGRemove {
         dbUtil.removeJson(index, sender)
         if (args.size == 3) {
             if (args[2].equals("force", ignoreCase = true)) {
-                p.sendMessage(
-                    "§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}" +
-                            "(Owner:${dbUtil.getJson(index, "Owner", sender)})を強制的に削除しました。"
-                )
-                println(
-                    "§a[PlateGate] §b${p.name} が" +
-                            "Gate:${dbUtil.getJson(index, "name", sender)}" +
-                            "(Owner:${dbUtil.getJson(index, "Owner", sender)})" +
-                            "を§c強制的に§b削除しました。"
-                )
+                p.sendMessage("§a[PlateGate] §bGate:${name}(Owner:${owner.name}) を強制的に削除しました。")
+                println("§a[PlateGate] §b${p.name} が Gate:${name}(Owner:${owner.name}) を§c強制的に§b削除しました。")
                 return true
             }
             return util.commandInvalid(sender, label)
         }
-        p.sendMessage("§a[PlateGate] §bGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
-        println("§a[PlateGate] §b${p.name} がGate:${dbUtil.getJson(index, "name", sender)}を削除しました。")
+        p.sendMessage("§a[PlateGate] §bGate:${name} を削除しました。")
+        println("§a[PlateGate] §b${p.name} が Gate:${name} を削除しました。")
         return true
     }
 
