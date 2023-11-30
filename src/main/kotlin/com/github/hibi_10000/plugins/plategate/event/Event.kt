@@ -103,16 +103,14 @@ class Event : Listener {
 	}
 
     private fun isPlateGateBlock(blocks: List<Block>, player: Player?): Boolean {
-        var isPlateGateBlock = false
         for (b in blocks) {
-            if (b.type == Material.IRON_BLOCK) {
-                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(util.upperBlock(b), null), null, player)
+            val isPlateGateBlock = when (b.type) {
+                Material.IRON_BLOCK -> dbUtil.gateExists(dbUtil.allIndexJson(util.upperBlock(b), null), null, player)
+                Material.STONE_PRESSURE_PLATE -> dbUtil.gateExists(dbUtil.allIndexJson(b, null), null, player)
+                else -> false
             }
-            else if (b.type == Material.STONE_PRESSURE_PLATE) {
-                isPlateGateBlock = dbUtil.gateExists(dbUtil.allIndexJson(b, null), null, player)
-            }
-            if (isPlateGateBlock) break
+            if (isPlateGateBlock) return true
         }
-        return isPlateGateBlock
+        return false
     }
 }
