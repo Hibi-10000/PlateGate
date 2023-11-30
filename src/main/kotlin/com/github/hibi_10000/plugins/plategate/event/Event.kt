@@ -46,7 +46,7 @@ class Event : Listener {
             }
 
             val gateTo = dbUtil.firstIndexJson("name", dbUtil.getJson(index, "to", p)!!, p) ?: return
-            val rotate = dbUtil.getJson(index, "rotate", p)!!
+            val rotate = dbUtil.getJson(gateTo, "rotate", p)!!
             val toLoc = dbUtil.gateLocation(gateTo, p)
             toLoc.x += 0.5
             toLoc.z += 0.5
