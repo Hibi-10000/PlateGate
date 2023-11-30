@@ -64,7 +64,7 @@ class Event : Listener {
             if (e.hand == EquipmentSlot.OFF_HAND) return
             if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
 
-            val gate: String? = dbUtil.allIndexJson(e.clickedBlock!!, null)
+            val gate = dbUtil.allIndexJson(e.clickedBlock!!, null)
             if (!dbUtil.gateExists(gate, null, p)) return
             if (!util.checkPermission(p, "plategate.info")) return
 
@@ -80,7 +80,7 @@ class Event : Listener {
             val to = if (dbUtil.getJson(gate, "to", p).equals("")) "§6None" else dbUtil.getJson(gate, "to", p)!!
             p.sendMessage(
                 "§a[PlateGate]§b Name: §a${dbUtil.getJson(gate, "name", p)} §b Owner: §a${owner.name
-                } §b GoTo: §a$to §b Rotate: §a$facing§b (§a$yaw§b)"
+                } §b GoTo: §a${to} §b Rotate: §a${facing}§b (§a${yaw}§b)"
             )
             e.setCancelled(true)
         }
