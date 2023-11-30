@@ -22,6 +22,7 @@ class PGJump {
         val rotate = dbUtil.getJson(index, "rotate", sender)!!
 
         val toLoc = dbUtil.gateLocation(index, sender)
+        toLoc.pitch = p.location.pitch
         toLoc.x += 0.5
         toLoc.z += 0.5
         when (rotate.lowercase()) {
