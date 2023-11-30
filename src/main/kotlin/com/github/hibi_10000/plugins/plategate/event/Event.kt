@@ -32,11 +32,11 @@ class Event : Listener {
         */
         val p = e.player
         if (e.action == Action.PHYSICAL) {
-            if (!util.checkPermission(p, "plategate.use")) return
-
             if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
+
             val index = dbUtil.allIndexJson(e.clickedBlock!!, null)
             if (!dbUtil.gateExists(index, null, p)) return
+            if (!util.checkPermission(p, "plategate.use")) return
 
             if (dbUtil.getJson(index!!, "to", p).equals("")) {
                 e.setCancelled(false)
@@ -63,12 +63,12 @@ class Event : Listener {
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
             if (e.hand == EquipmentSlot.OFF_HAND) return
             if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
-            if (!util.checkPermission(p, "plategate.info")) return
 
             val gate: String? = dbUtil.allIndexJson(e.clickedBlock!!, null)
             if (!dbUtil.gateExists(gate, null, p)) return
-            val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)
+            if (!util.checkPermission(p, "plategate.info")) return
 
+            val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)
             val facing = dbUtil.getJson(gate, "rotate", p)!!
             val yaw = when (facing.lowercase()) {
                 "south" ->   "0"
