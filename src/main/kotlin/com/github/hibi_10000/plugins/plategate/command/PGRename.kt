@@ -16,9 +16,13 @@ class PGRename {
         if (!util.checkPermission(sender, "plategate.command.rename")) return false
         if (args.size != 3) return util.commandInvalid(sender, label)
 
-        if (!dbUtil.gateExists(null, args[1], sender as Player)) return false
-        if (dbUtil.isDuplicateName(args[2], sender)) return false
+        if (dbUtil.isDuplicateName(args[2], sender as Player)) return false
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
+        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
+        if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
+            sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
+            return false
+        }
         dbUtil.setJson(index, "name", args[2], sender)
         sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を ${args[2]} にリネームしました")
         println("§a[PlateGate] §b${sender.name} がPlateGate ${args[1]} を ${args[2]} にリネームしました")

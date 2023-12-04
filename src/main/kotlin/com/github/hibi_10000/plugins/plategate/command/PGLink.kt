@@ -17,6 +17,11 @@ class PGLink {
         if (args.size != 3) return util.commandInvalid(sender, label)
 
         val index = dbUtil.firstIndexJson("name", args[1], sender as Player) ?: return false
+        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
+        if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
+            sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
+            return false
+        }
         dbUtil.setJson(index, "to", args[2], sender)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
         println("§a[PlateGate] §bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
