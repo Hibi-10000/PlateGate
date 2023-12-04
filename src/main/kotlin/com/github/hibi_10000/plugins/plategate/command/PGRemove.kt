@@ -25,7 +25,7 @@ class PGRemove {
         }
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val name = dbUtil.getJson(index, "name", sender)!!
-        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)
+        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
         if (owner.uniqueId.toString() != p.uniqueId.toString()) {
             if (!p.hasPermission("plategate.admin")) {
                 p.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")

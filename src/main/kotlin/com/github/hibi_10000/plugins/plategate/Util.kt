@@ -66,12 +66,10 @@ class Util {
     fun getPlayer(name: String, sender: Player?): Player? {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
-            if (Bukkit.getOfflinePlayer(name).hasPlayedBefore()) {
+            if (Bukkit.getOfflinePlayers().find { it.name.equals(name, ignoreCase = true) } != null) {
                 sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
             } else {
-                if (isUUID(name)) {
-                    return getPlayer(UUID.fromString(name), sender)
-                }
+                if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
                 sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
             }
         }
@@ -90,23 +88,21 @@ class Util {
         return player
     }
 
-    fun getOfflinePlayer(name: String, sender: Player?): OfflinePlayer {
-        val player = Bukkit.getOfflinePlayer(name)
-        if (player.hasPlayedBefore()) {
-            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
-        } else {
-            if (isUUID(name)) {
-                return getOfflinePlayer(UUID.fromString(name), sender)
-            }
+    fun getOfflinePlayer(name: String, sender: Player?): OfflinePlayer? {
+        val player = Bukkit.getOfflinePlayers().find { it.name.equals(name, ignoreCase = true) }
+        if (player == null) {
+            if (isUUID(name)) return getOfflinePlayer(UUID.fromString(name), sender)
             sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+            return null
         }
         return player
     }
 
-    fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer {
+    fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
             sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+            return null
         }
         return player
     }

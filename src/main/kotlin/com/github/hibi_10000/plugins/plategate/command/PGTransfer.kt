@@ -45,7 +45,7 @@ class PGTransfer {
 
                 //val newOwnerName = args[3]
                 val gateIndex = dbUtil.firstIndexJson("name", gateName, sender) ?: return false
-                val oldOwner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gateIndex, "owner", sender)), sender)
+                val oldOwner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gateIndex, "owner", sender)), sender)!!
                 if (args.size == 5) {
                     if (args[4].equals("force", ignoreCase = true)) {
                         //強制的にownerを変更

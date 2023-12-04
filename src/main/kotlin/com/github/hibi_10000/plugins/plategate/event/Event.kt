@@ -68,7 +68,7 @@ class Event : Listener {
             if (!dbUtil.gateExists(gate, null, p)) return
             if (!util.checkPermission(p, "plategate.info")) return
 
-            val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)
+            val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)!!
             val facing = dbUtil.getJson(gate, "rotate", p)!!
             val yaw = when (facing.lowercase()) {
                 "south" ->   "0"
