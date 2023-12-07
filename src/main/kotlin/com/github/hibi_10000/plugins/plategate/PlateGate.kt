@@ -5,9 +5,9 @@
 package com.github.hibi_10000.plugins.plategate
 
 import com.github.hibi_10000.plugins.plategate.command.PGBase
-import com.github.hibi_10000.plugins.plategate.event.Event
-import com.github.hibi_10000.plugins.plategate.database.JsonDB
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
+import com.github.hibi_10000.plugins.plategate.database.JsonDB
+import com.github.hibi_10000.plugins.plategate.event.Event
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
