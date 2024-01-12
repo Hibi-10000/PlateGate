@@ -9,11 +9,12 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileWriter
 import java.io.IOException
+import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.InvalidPathException
-import java.util.stream.Collectors
 
 /**
  * @since 1.1.0
@@ -32,8 +33,8 @@ class JsonDB(private val gateDB: File) {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun read(): JsonArray {
-        val content = Files.lines(gateDB.toPath()).use { lines ->
-            lines.collect(Collectors.joining(System.lineSeparator()))
+        val content = FileInputStream(gateDB).use { fileInput ->
+            String(fileInput.readAllBytes(), StandardCharsets.UTF_8)
         }
         val array = Gson().fromJson(content, JsonArray::class.java)
         check(array.isJsonArray) { "The contents of File are not JsonArray" }
