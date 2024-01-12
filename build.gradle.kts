@@ -15,7 +15,7 @@ description = "PlateGate plugin"
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://hub.spigotmc.org/nexus/content/groups/public/") }
+    maven (url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 }
 
 dependencies {
