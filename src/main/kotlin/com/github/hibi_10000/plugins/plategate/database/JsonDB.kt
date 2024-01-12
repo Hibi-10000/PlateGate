@@ -46,7 +46,7 @@ class JsonDB(private val gateDB: File) {
     fun write(json: JsonArray) {
         val write = GsonBuilder().setPrettyPrinting().create()
         val writeToJson = write.toJson(json)
-        FileWriter(gateDB, false).use { fw ->
+        FileWriter(gateDB, StandardCharsets.UTF_8, false).use { fw ->
             fw.write(writeToJson)
         }
     }
