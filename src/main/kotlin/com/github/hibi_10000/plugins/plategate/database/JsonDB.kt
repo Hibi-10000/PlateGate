@@ -32,9 +32,9 @@ class JsonDB(private val gateDB: File) {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun read(): JsonArray {
-        val lines = Files.lines(gateDB.toPath())
-        val content = lines.collect(Collectors.joining(System.lineSeparator()))
-        lines.close()
+        val content = Files.lines(gateDB.toPath()).use { lines ->
+            lines.collect(Collectors.joining(System.lineSeparator()))
+        }
         val array = Gson().fromJson(content, JsonArray::class.java)
         check(array.isJsonArray) { "The contents of File are not JsonArray" }
         return array.asJsonArray
@@ -50,9 +50,9 @@ class JsonDB(private val gateDB: File) {
     fun write(json: JsonArray) {
         val write = GsonBuilder().setPrettyPrinting().create()
         val writeToJson = write.toJson(json)
-        val fw = FileWriter(gateDB, false)
-        fw.write(writeToJson)
-        fw.close()
+        FileWriter(gateDB, false).use { fw ->
+            fw.write(writeToJson)
+        }
     }
 
     /**
