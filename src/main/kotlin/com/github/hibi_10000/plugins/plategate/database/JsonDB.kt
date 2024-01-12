@@ -8,13 +8,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import java.io.File
-import java.io.FileInputStream
-import java.io.FileWriter
-import java.io.IOException
+import java.io.*
 import java.nio.charset.StandardCharsets
-import java.nio.file.Files
-import java.nio.file.InvalidPathException
 
 /**
  * @since 1.1.0
@@ -25,10 +20,10 @@ class JsonDB(private val gateDB: File) {
     /**
      * Read [JsonArray] in [gateDB]
      * @return [JsonArray] in File
-     * @throws IOException [JsonDB(gateDB)][JsonDB] [gateDB] isn't found
-     * @throws IllegalStateException The contents of File are not JsonArray
-     * @throws SecurityException [Files.lines(gateDB.toPath())][Files.lines] Is security manager installed to [gateDB]?
-     * @throws InvalidPathException [gateDB.toPath()][File.toPath] If [gateDB] path string cannot be converted
+     * @throws IOException [InputStream.readAllBytes()][FileInputStream.readAllBytes] If an I/O error occurs
+     * @throws IllegalStateException If contents of [File] are not [JsonArray]
+     * @throws SecurityException [FileInputStream(gateDB)][FileInputStream] If [gateDB] denies read access
+     * @throws FileNotFoundException If [gateDB] isn't found
      * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
