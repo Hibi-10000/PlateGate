@@ -5,8 +5,7 @@
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 
 plugins {
-    java
-    kotlin("jvm") version "1.9.20"
+    kotlin("jvm") version "1.9.22"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
