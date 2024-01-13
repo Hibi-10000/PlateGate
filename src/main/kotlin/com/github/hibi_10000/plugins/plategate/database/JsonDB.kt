@@ -66,8 +66,8 @@ class JsonDB(private val gateDB: File) {
     }
 
     /**
-     * Add an entry to the table
-     * @param values Set the default values in the order of  (id is set automatically)
+     * Add an entry to the table (id is set automatically)
+     * @param values Map with property name as the key and value as value
      * @throws IOException see [read]
      * @throws RuntimeException see [read]
      * @since 1.1.0
