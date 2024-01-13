@@ -4,10 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.database
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
+import com.google.gson.*
 import java.io.*
 import java.nio.charset.StandardCharsets
 
@@ -20,35 +17,31 @@ class JsonDB(private val gateDB: File) {
     /**
      * Read [JsonArray] in [gateDB]
      * @return [JsonArray] in File
-     * @throws IOException [InputStream.readAllBytes()][FileInputStream.readAllBytes] If an I/O error occurs
-     * @throws IllegalStateException If contents of [File] are not [JsonArray]
-     * @throws SecurityException [FileInputStream(gateDB)][FileInputStream] If [gateDB] denies read access
-     * @throws FileNotFoundException If [gateDB] isn't found
+     * @throws IOException [FileReader(gateDB, Charset)][FileReader] If [gateDB] isn't found or some reasons
+     * @throws JsonIOException [Gson.fromJson(Reader, Class)][Gson.fromJson] If there was a problem reading from the [FileReader]
+     * @throws JsonSyntaxException [Gson.fromJson(Reader, Class)][Gson.fromJson] If contents of [File] are not [JsonArray]
+     * @throws IllegalStateException [JsonArray.getAsJsonArray] If contents of [File] are not [JsonArray]
      * @since 1.1.0
      */
     @Throws(IOException::class, RuntimeException::class)
     fun read(): JsonArray {
-        val content = FileInputStream(gateDB).use { fileInput ->
-            String(fileInput.readAllBytes(), StandardCharsets.UTF_8)
-        }
-        val array = Gson().fromJson(content, JsonArray::class.java)
-        check(array.isJsonArray) { "The contents of File are not JsonArray" }
+        val reader = FileReader(gateDB, StandardCharsets.UTF_8)
+        val array = Gson().fromJson(reader, JsonArray::class.java)
         return array.asJsonArray
     }
 
     /**
      * Write JsonArray to [gateDB]
      * @param json JsonArray to write to [gateDB]
-     * @throws IOException see [FileWriter] and [FileWriter.write]
+     * @throws IOException [FileWriter(gateDB, Charset)][FileWriter] If [gateDB] cannot be opened
+     * @throws JsonIOException [Gson.toJson(json, writer)][Gson.toJson] If there was a problem writing to the [FileWriter]
      * @since 1.1.0
      */
     @Throws(IOException::class)
     fun write(json: JsonArray) {
-        val write = GsonBuilder().setPrettyPrinting().create()
-        val writeToJson = write.toJson(json)
-        FileWriter(gateDB, StandardCharsets.UTF_8, false).use { fw ->
-            fw.write(writeToJson)
-        }
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        val writer = FileWriter(gateDB, StandardCharsets.UTF_8, false)
+        gson.toJson(json, writer)
     }
 
     /**
