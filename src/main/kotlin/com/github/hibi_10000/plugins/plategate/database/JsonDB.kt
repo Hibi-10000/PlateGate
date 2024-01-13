@@ -99,7 +99,7 @@ class JsonDB(private val gateDB: File) {
     }
 
     /**
-     * Change the value of the specified column of the specified existing entry
+     * Changes the value of a specified column in a specified existing entry
      * @param id Specifies the id of the entry for which you want to change the value of a column
      * @param key Specify the name of the column whose value you want to change
      * @param value Specifies a value that replaces the value in the specified column
