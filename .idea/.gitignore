@@ -1,0 +1,14 @@
+/inspectionProfiles/
+/modules/
+/sonarlint/
+*.iml
+*.xml
+!/copyright/*.xml
+!/dictionaries/plategate.xml
+!/compiler.xml
+!/kotlinc.xml
+!/vcs.xml
+
+# デフォルトの無視対象ファイル
+/shelf/
+/workspace.xml
