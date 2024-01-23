@@ -41,7 +41,6 @@ class PGJump {
 
     @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, cmd: Command, alias: String, args: Array<String>): List<String>? {
-        //List<String> list = new ArrayList<>();
         return null
     }
 }

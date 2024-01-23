@@ -39,11 +39,6 @@ class PGMove {
         val beforeUnderBlock = underBlock.type
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        /*
-        Powerable blockData = (Powerable) Material.STONE_PRESSURE_PLATE.createBlockData();
-        blockData.setPowered(false);
-        loc.getBlock().setBlockData(blockData);
-        */
 
         val oldLoc = dbUtil.gateLocation(index, sender)
         val oldUnderLoc = Location(oldLoc.world, oldLoc.blockX.toDouble(), (oldLoc.blockY - 1).toDouble(), oldLoc.blockZ.toDouble())

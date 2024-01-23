@@ -22,14 +22,6 @@ import java.util.*
 class Event : Listener {
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
-        /*
-        if (e.useInteractedBlock() == e.useInteractedBlock().DENY || e.useItemInHand() == e.useItemInHand().DENY) return
-        val spp = e.clickedBlock?.blockData as Powerable
-        if (spp.isPowered()) {
-            e.player.sendMessage("")
-            return
-        }
-        */
         val p = e.player
         if (e.action == Action.PHYSICAL) {
             if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
@@ -41,7 +33,6 @@ class Event : Listener {
             if (dbUtil.getJson(index!!, "to", p).equals("")) {
                 e.setCancelled(false)
                 e.player.sendMessage("§a[PlateGate] §bこのゲート ${dbUtil.getJson(index, "name", p)} はリンクされていません。")
-                //spp.setPowered(false);
                 return
             }
 

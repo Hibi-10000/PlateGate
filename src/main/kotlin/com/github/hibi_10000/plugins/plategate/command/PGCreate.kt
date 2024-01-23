@@ -32,9 +32,6 @@ class PGCreate {
         val beforeUnderBlock = underBlock.type
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        //val poweredBlockData = Material.STONE_PRESSURE_PLATE.createBlockData() as Powerable
-        //poweredBlockData.isPowered = true
-        //loc.block.blockData = poweredBlockData
 
         val d = util.convBlockFace2Facing(sender.facing)
         dbUtil.addJson(
@@ -57,11 +54,6 @@ class PGCreate {
 
     @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
-        //List<String> list = new ArrayList<>();
-        //list.removeAll(list);
-
-
-        //list.removeAll(list);
         return null
     }
 }
