@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "com.github.hibi_10000.plugins"
-version = "1.2.0"
+version = "1.2.0-SNAPSHOT"
 description = "PlateGate plugin"
 kotlin.compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 
