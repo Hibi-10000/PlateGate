@@ -37,11 +37,7 @@ bukkit {
     website = "https://github.com/Hibi-10000/PlateGate"
     main = "com.github.hibi_10000.plugins.plategate.PlateGate"
     apiVersion = "1.13"
-
-    // Mark plugin for supporting Folia
     foliaSupported = true
-
-    //prefix = "PG"
     defaultPermission = BukkitPluginDescription.Permission.Default.FALSE
 
     commands {
@@ -54,13 +50,6 @@ bukkit {
     }
 
     permissions {
-        register("plategate") {
-            description = "PlateGate Admin Permission"
-            default = BukkitPluginDescription.Permission.Default.OP
-            children = listOf("plategate.admin")
-            // You can also specify the values of the permissions
-            //childrenMap = mapOf("plategate.admin" to true)
-        }
         register("plategate.admin") {
             description = "PlateGate Admin Permission"
             default = BukkitPluginDescription.Permission.Default.OP
