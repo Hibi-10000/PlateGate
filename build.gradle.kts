@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "1.9.22"
@@ -12,10 +13,11 @@ plugins {
 group = "com.github.hibi_10000.plugins"
 version = "1.2.0"
 description = "PlateGate plugin"
+kotlin.compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
 
 repositories {
     mavenCentral()
-    maven (url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 }
 
 dependencies {
@@ -23,16 +25,11 @@ dependencies {
     compileOnly("org.spigotmc", "spigot-api", "1.19.4-R0.1-SNAPSHOT")
 }
 
-kotlin {
-    jvmToolchain(17)
-}
-
 tasks.withType<Jar> {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     from("LICENSE.txt", "README.md")
-    from(sourceSets.main.get().output)
     dependsOn(configurations.runtimeClasspath)
-    from({ configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) } })
+    from(configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) })
 }
 
 bukkit {
