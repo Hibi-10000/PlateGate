@@ -11,9 +11,9 @@ import com.github.hibi_10000.plugins.plategate.event.Event
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
-var instance: PlateGate? = null
-var version: String? = null
-var jsonDB: JsonDB? = null
+lateinit var instance: PlateGate
+lateinit var version: String
+lateinit var jsonDB: JsonDB
 val dbUtil: DBUtil = DBUtil()
 val util: Util = Util()
 

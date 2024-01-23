@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
 class DBUtil {
     fun getJson(id: String, key: String, sender: Player?): String? {
         return try {
-            val value = jsonDB!!.get(id, key)
+            val value = jsonDB.get(id, key)
             if (value == null) sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             value
         } catch (e: Exception) {
@@ -40,7 +40,7 @@ class DBUtil {
                 //TODO: createDate, updateDate
             )
             val map = keys.associateBy({ it }, { values[keys.indexOf(it)] })
-            jsonDB!!.add(map)
+            jsonDB.add(map)
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -49,7 +49,7 @@ class DBUtil {
 
     fun setJson(id: String, key: String, value: String, sender: Player?) {
         try {
-            jsonDB!!.set(id, key, value)
+            jsonDB.set(id, key, value)
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -58,7 +58,7 @@ class DBUtil {
 
     fun removeJson(id: String, sender: Player?) {
         try {
-            jsonDB!!.remove(id)
+            jsonDB.remove(id)
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -67,7 +67,7 @@ class DBUtil {
 
     fun firstIndexJson(key: String, value: String, sender: Player?): String? {
         return try {
-            val id = jsonDB!!.firstIndexOf(key, value)
+            val id = jsonDB.firstIndexOf(key, value)
             if (id == "-1") {
                 sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                 return null
@@ -81,7 +81,7 @@ class DBUtil {
 
     fun lastIndexJson(key: String?, value: String?, sender: Player?): String? {
         return try {
-            val id = jsonDB!!.lastIndexOf(key, value)
+            val id = jsonDB.lastIndexOf(key, value)
             if (id == "-1") {
                 sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                 return null
@@ -95,7 +95,7 @@ class DBUtil {
 
     fun allIndexJson(key: String?, value: String?, sender: Player?): List<String> {
         return try {
-            val idList = jsonDB!!.allIndexOf(key, value)
+            val idList = jsonDB.allIndexOf(key, value)
             if (idList.isEmpty()) {
                 sender?.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                 return emptyList()
@@ -109,7 +109,7 @@ class DBUtil {
 
     fun clearJson(sender: Player?) {
         try {
-            jsonDB!!.clear()
+            jsonDB.clear()
         } catch (e: Exception) {
             sender?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             throw RuntimeException(e)
@@ -135,9 +135,9 @@ class DBUtil {
     fun gateExists(id: String?, name: String?, sender: Player?): Boolean {
         return try {
             if (id != null) {
-                return jsonDB!!.get(id, "name") != null
+                return jsonDB.get(id, "name") != null
             } else if (name != null) {
-                if (jsonDB!!.firstIndexOf("name", name).equals("-1", ignoreCase = true)) {
+                if (jsonDB.firstIndexOf("name", name).equals("-1", ignoreCase = true)) {
                     sender?.sendMessage("§a[PlateGate] §cゲート名が間違っています")
                     return false
                 }
@@ -153,7 +153,7 @@ class DBUtil {
     fun isDuplicateName(name: String, sender: Player?): Boolean {
         val search = dbUtil.firstIndexJson("name", name, null)
         if (search != null) {
-            if (jsonDB!!.get(search, "name").equals(name)) {
+            if (jsonDB.get(search, "name").equals(name)) {
                 sender?.sendMessage("§a[PlateGate] §c\"${name}\"は使用されています。")
             } else sender?.sendMessage("§a[PlateGate] §cERROR!")
             return true

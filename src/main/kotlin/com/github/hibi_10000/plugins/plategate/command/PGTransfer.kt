@@ -67,7 +67,7 @@ class PGTransfer {
                 if (!dbUtil.gateExists(null, gateName, sender)) return false
                 val newOwner = util.getPlayer(args[3], sender) ?: return false
                 //TODO: MetadataValueに何を入れるか
-                newOwner.setMetadata("plategate_NewOwner", FixedMetadataValue(instance!!, ""))
+                newOwner.setMetadata("plategate_NewOwner", FixedMetadataValue(instance, ""))
                 //TODO: いい感じに色を付ける
                 val gateInfo = TextComponent(gateName)
                 gateInfo.hoverEvent = HoverEvent(
