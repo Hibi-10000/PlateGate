@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -16,13 +16,13 @@ class PGLink {
         if (!util.checkPermission(sender, "plategate.command.link")) return false
         if (args.size != 3) return util.commandInvalid(sender, label)
 
-        val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
-        if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
-            sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
+        try {
+            jsonUtil.link(args[1], sender.uniqueId.toString(), args[2])
+        } catch (e: Exception) {
+            if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }
-        dbUtil.setJson(index, "to", args[2], sender)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
         println("§a[PlateGate] §bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
         return true

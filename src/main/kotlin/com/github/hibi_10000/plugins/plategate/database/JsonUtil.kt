@@ -76,6 +76,24 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
+    fun link(name: String, owner: String, to: String) {
+        val json = read()
+        if (json.none { it.asJsonObject["name"].asString == to && it.asJsonObject["owner"].asString == owner }) {
+            throw RuntimeException("gateNotFound")
+        }
+        for (element in json) {
+            val jo = element.asJsonObject
+            if (jo["name"].asString == name && jo["owner"].asString == owner) {
+                jo.addProperty("to", to)
+                json[json.indexOf(element)] = jo
+                write(json)
+                return
+            }
+        }
+        throw RuntimeException("gateNotFound")
+    }
+
+    @Throws(IOException::class, RuntimeException::class)
     fun checkDuplicateName(name: String, owner: String): Boolean {
         return get(name, owner) != null
     }
