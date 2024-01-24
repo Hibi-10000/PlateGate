@@ -4,7 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -17,7 +18,16 @@ class PGCreate {
         if (!util.checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        if (dbUtil.isDuplicateName(args[1], sender as Player)) return false
+        sender as Player
+        try {
+            if (jsonUtil.checkDuplicateName(args[1], sender.uniqueId.toString())) {
+                sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")
+                return false
+            }
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
+            return false
+        }
         val loc = sender.location.clone()
         loc.pitch = 0f
         if (loc.y != loc.blockY.toDouble()) {
@@ -28,25 +38,23 @@ class PGCreate {
             sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
         }
+        try {
+            jsonUtil.add(
+                CraftPlateGate(
+                    sender.uniqueId,
+                    args[1],
+                    loc.block,
+                    sender.facing,
+                    null
+                )
+            )
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
+            return false
+        }
         val underBlock = util.underBlock(loc.block)
-        val beforeUnderBlock = underBlock.type
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-
-        val d = util.convBlockFace2Facing(sender.facing)
-        dbUtil.addJson(
-            arrayOf(
-                args[1],
-                sender.uniqueId.toString(),
-                "",
-                loc.blockX.toString(),
-                loc.blockY.toString(),
-                loc.blockZ.toString(),
-                d,
-                loc.block.world.uid.toString(),
-                beforeUnderBlock.name
-            ), sender
-        )
         sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を $loc に作成しました")
         println("§a[PlateGate] §b${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
         return true
