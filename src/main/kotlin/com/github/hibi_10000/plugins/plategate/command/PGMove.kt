@@ -6,7 +6,6 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -40,10 +39,10 @@ class PGMove {
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
 
-        val oldLoc = dbUtil.gateLocation(index, sender)
-        val oldUnderLoc = Location(oldLoc.world, oldLoc.blockX.toDouble(), (oldLoc.blockY - 1).toDouble(), oldLoc.blockZ.toDouble())
-        oldLoc.block.type = Material.AIR
-        oldUnderLoc.block.type = dbUtil.underBlock(index, sender)
+        val oldBlock = dbUtil.gateLocation(index, sender).block
+        val oldUnderBlock = util.underBlock(oldBlock)
+        oldBlock.type = Material.AIR
+        oldUnderBlock.type = dbUtil.underBlock(index, sender)
 
         val rotate = util.convBlockFace2Facing(sender.facing)
         index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
