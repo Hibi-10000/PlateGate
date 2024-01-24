@@ -12,11 +12,11 @@ import org.bukkit.entity.Player
 
 class PGRename {
     @Suppress("UNUSED_PARAMETER")
-    fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
+    fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.rename")) return false
         if (args.size != 3) return util.commandInvalid(sender, label)
 
-        if (dbUtil.isDuplicateName(args[2], sender as Player)) return false
+        if (dbUtil.isDuplicateName(args[2], sender)) return false
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
         if (owner.uniqueId.toString() != sender.uniqueId.toString()) {

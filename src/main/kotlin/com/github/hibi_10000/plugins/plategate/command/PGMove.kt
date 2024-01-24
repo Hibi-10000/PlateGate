@@ -13,11 +13,11 @@ import org.bukkit.entity.Player
 
 class PGMove {
     @Suppress("UNUSED_PARAMETER")
-    fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
+    fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.move")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        var index = dbUtil.firstIndexJson("name", args[1], sender as Player) ?: return false
+        var index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
         if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
             sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")

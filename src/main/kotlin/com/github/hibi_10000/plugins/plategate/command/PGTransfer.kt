@@ -20,11 +20,10 @@ import java.util.*
 
 class PGTransfer {
     @Suppress("UNUSED_PARAMETER")
-    fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
+    fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (args.size < 3) return util.commandInvalid(sender, label)
 
         val gateName = args[1]
-        sender as Player
         when (args[2].lowercase()) {
             "accept" -> {
                 //TODO: 新しい所有者か確認

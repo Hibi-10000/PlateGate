@@ -12,11 +12,11 @@ import org.bukkit.entity.Player
 
 class PGList {
     @Suppress("UNUSED_PARAMETER")
-    fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
+    fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.list")) return false
         if (!(args.size == 2 || args.size == 1)) return util.commandInvalid(sender, label)
 
-        var searchP: Player = sender as Player
+        var searchP = sender
         if (args.size == 2) {
             if (!util.checkPermission(sender, "plategate.admin")) return false
             searchP = util.getPlayer(args[1], sender) ?: return false

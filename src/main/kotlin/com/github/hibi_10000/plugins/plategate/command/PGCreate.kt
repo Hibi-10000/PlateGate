@@ -14,11 +14,10 @@ import org.bukkit.entity.Player
 
 class PGCreate {
     @Suppress("UNUSED_PARAMETER")
-    fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
+    fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        sender as Player
         try {
             if (jsonUtil.checkDuplicateName(args[1], sender.uniqueId.toString())) {
                 sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")

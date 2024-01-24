@@ -13,16 +13,15 @@ import org.bukkit.entity.Player
 
 class PGJump {
     @Suppress("UNUSED_PARAMETER")
-    fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {
+    fun onCommand(sender: Player, cmd: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.jump")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
-        val p = sender as Player
 
         val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
         val rotate = dbUtil.getJson(index, "rotate", sender)!!
 
         val toLoc = dbUtil.gateLocation(index, sender)
-        toLoc.pitch = p.location.pitch
+        toLoc.pitch = sender.location.pitch
         toLoc.x += 0.5
         toLoc.z += 0.5
         when (rotate.lowercase()) {
@@ -33,9 +32,9 @@ class PGJump {
         }
         toLoc.block.type = Material.AIR
         util.upperBlock(toLoc.block).type = Material.AIR
-        p.teleport(toLoc)
-        p.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
-        println("§a[PlateGate] §b${p.name} がゲート ${args[1]} にジャンプしました。")
+        sender.teleport(toLoc)
+        sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
+        println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} にジャンプしました。")
         return true
     }
 
