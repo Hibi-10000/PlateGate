@@ -12,6 +12,7 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import java.util.*
 
 class DBUtil {
     fun getJson(id: String, key: String, sender: Player?): String? {
@@ -126,7 +127,7 @@ class DBUtil {
             //val x = getJson(xIndex, "x", p).equals(loc.blockX.toString(), ignoreCase = true)
             val y = getJson(xIndex, "y", p).equals(b.y.toString(), ignoreCase = true)
             val z = getJson(xIndex, "z", p).equals(b.z.toString(), ignoreCase = true)
-            val w = getJson(xIndex, "world", p).equals(b.world.name, ignoreCase = true)
+            val w = getJson(xIndex, "world", p).equals(b.world.uid.toString(), ignoreCase = true)
             if (y && z && w) return xIndex //index = xIndex
         }
         return null
@@ -169,7 +170,7 @@ class DBUtil {
         val rotate = getJson(id, "rotate", sender)!!
         val yaw = util.convFacing2Yaw(rotate)
         return Location(
-            Bukkit.getWorld(world),
+            Bukkit.getWorld(UUID.fromString(world)),
             x.toDouble(), y.toDouble(), z.toDouble(),
             yaw, 0f
         ).clone()

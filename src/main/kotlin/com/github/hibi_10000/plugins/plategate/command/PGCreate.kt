@@ -43,7 +43,7 @@ class PGCreate {
                 loc.blockY.toString(),
                 loc.blockZ.toString(),
                 d,
-                loc.world!!.name,
+                loc.block.world.uid.toString(),
                 beforeUnderBlock.name
             ), sender
         )

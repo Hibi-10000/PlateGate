@@ -47,12 +47,12 @@ class PGMove {
 
         val rotate = util.convBlockFace2Facing(sender.facing)
         index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        dbUtil.setJson(index, "x"          , loc.blockX.toString(), sender)
-        dbUtil.setJson(index, "y"          , loc.blockY.toString(), sender)
-        dbUtil.setJson(index, "z"          , loc.blockZ.toString(), sender)
-        dbUtil.setJson(index, "rotate"     , rotate               , sender)
-        dbUtil.setJson(index, "world"      , sender.world.name    , sender)
-        dbUtil.setJson(index, "beforeBlock", beforeUnderBlock.name, sender)
+        dbUtil.setJson(index, "x"          , loc.blockX.toString()         , sender)
+        dbUtil.setJson(index, "y"          , loc.blockY.toString()         , sender)
+        dbUtil.setJson(index, "z"          , loc.blockZ.toString()         , sender)
+        dbUtil.setJson(index, "rotate"     , rotate                        , sender)
+        dbUtil.setJson(index, "world"      , loc.block.world.uid.toString(), sender)
+        dbUtil.setJson(index, "beforeBlock", beforeUnderBlock.name         , sender)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
         println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} を $loc に移動しました")
         return true
