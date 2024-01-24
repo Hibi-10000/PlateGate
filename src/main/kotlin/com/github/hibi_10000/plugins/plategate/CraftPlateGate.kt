@@ -5,7 +5,9 @@
 package com.github.hibi_10000.plugins.plategate
 
 import com.google.gson.JsonObject
+import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
 import java.util.*
@@ -57,6 +59,18 @@ class CraftPlateGate(
         Material.getMaterial(jo["beforeBlock"].asString)!!,
         jo["to"]?.asString
     )
+
+    fun getWorld(): World? {
+        return Bukkit.getWorld(world)
+    }
+
+    fun getBlock(): Block? {
+        return getWorld()?.getBlockAt(x, y, z)
+    }
+
+    fun getTPLocationBlock(): Block? {
+        return getBlock()?.getRelative(rotate)
+    }
 
     override fun toString(): String {
         return "CraftPlateGate{owner=$owner, name=$name, world=$world, x=$x, y=$y, z=$z, rotate=$rotate, beforeBlock=$beforeBlock, to=$to}"

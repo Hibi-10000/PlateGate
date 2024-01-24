@@ -4,7 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -17,21 +18,26 @@ class PGJump {
         if (!util.checkPermission(sender, "plategate.command.jump")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        val rotate = dbUtil.getJson(index, "rotate", sender)!!
-
-        val toLoc = dbUtil.gateLocation(index, sender)
-        toLoc.pitch = sender.location.pitch
-        toLoc.x += 0.5
-        toLoc.z += 0.5
-        when (rotate.lowercase()) {
-            "north" -> toLoc.z -= 1
-            "east"  -> toLoc.x += 1
-            "south" -> toLoc.z += 1
-            "west"  -> toLoc.x -= 1
+        val gate: CraftPlateGate?
+        try {
+            gate = jsonUtil.get(args[1], sender.uniqueId.toString())
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return false
         }
-        toLoc.block.type = Material.AIR
-        util.upperBlock(toLoc.block).type = Material.AIR
+        if (gate == null) {
+            sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            return false
+        }
+        val toBlock = gate.getTPLocationBlock()
+        if (toBlock == null) {
+            sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+            return false
+        }
+        toBlock.type = Material.AIR
+        util.upperBlock(toBlock).type = Material.AIR
+        val toLoc = toBlock.location
+        toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
         println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} にジャンプしました。")
