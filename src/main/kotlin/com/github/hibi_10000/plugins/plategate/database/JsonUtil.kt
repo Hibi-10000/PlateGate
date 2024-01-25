@@ -76,6 +76,19 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
+    fun getList(owner: String): List<CraftPlateGate> {
+        val json = read()
+        val list = mutableListOf<CraftPlateGate>()
+        for (element in json) {
+            val jo = element.asJsonObject
+            if (jo["owner"].asString == owner) {
+                list.add(CraftPlateGate(jo))
+            }
+        }
+        return list
+    }
+
+    @Throws(IOException::class, RuntimeException::class)
     fun link(name: String, owner: String, to: String) {
         val json = read()
         if (json.none { it.asJsonObject["name"].asString == to && it.asJsonObject["owner"].asString == owner }) {

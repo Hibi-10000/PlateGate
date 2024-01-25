@@ -4,7 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -23,18 +24,22 @@ class PGList {
         }
 
         sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
-        for (index in dbUtil.allIndexJson("owner", searchP.uniqueId.toString(), sender)) {
-            if (dbUtil.getJson(index, "to", sender).equals("", ignoreCase = true)) {
-                sender.sendMessage(" §b${dbUtil.getJson(index, "name", sender)}")
+        val gateList: List<CraftPlateGate>
+        try {
+            gateList = jsonUtil.getList(searchP.uniqueId.toString())
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return false
+        }
+        for (gate in gateList) {
+            if (gate.to == null) {
+                sender.sendMessage(" §b${gate.name}")
             } else {
-                /*
-                if (dbUtil.getJson(dbUtil.firstIndexJson("name", dbUtil.getJson(index, "to", sender)!!, sender)!!, "to", sender)
-                        .equals(dbUtil.getJson(index, "name", sender), ignoreCase = true)) {
-                    sender.sendMessage(" §b${dbUtil.getJson(index, "name", sender)} §a<--> §b${dbUtil.getJson(index, "to", sender)}")
+                /*if (jsonUtil.get(gate.to, sender.uniqueId.toString()) != null) {
+                    sender.sendMessage(" §b${gate.name} §a<--> §b${gate.to}")
                     continue
-                }
-                */
-                sender.sendMessage(" §b${dbUtil.getJson(index, "name", sender)} §a---> §b${dbUtil.getJson(index, "to", sender)}")
+                }*/
+                sender.sendMessage(" §b${gate.name} §a---> §b${gate.to}")
             }
         }
         return true
