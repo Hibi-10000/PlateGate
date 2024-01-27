@@ -107,6 +107,26 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
+    fun move(plateGate: CraftPlateGate) {
+        val json = read()
+        for (element in json) {
+            val jo = element.asJsonObject
+            if (jo["name"].asString == plateGate.name && jo["owner"].asString == plateGate.owner.toString()) {
+                jo.addProperty("world", plateGate.world.toString())
+                jo.addProperty("x", plateGate.x)
+                jo.addProperty("y", plateGate.y)
+                jo.addProperty("z", plateGate.z)
+                jo.addProperty("rotate", util.convBlockFace2Facing(plateGate.rotate))
+                jo.addProperty("beforeBlock", plateGate.beforeBlock.name)
+                json[json.indexOf(element)] = jo
+                write(json)
+                return
+            }
+        }
+        throw RuntimeException("gateNotFound")
+    }
+
+    @Throws(IOException::class, RuntimeException::class)
     fun checkDuplicateName(name: String, owner: String): Boolean {
         return get(name, owner) != null
     }

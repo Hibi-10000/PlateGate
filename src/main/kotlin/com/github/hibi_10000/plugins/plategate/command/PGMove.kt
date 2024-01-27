@@ -4,7 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -17,13 +18,6 @@ class PGMove {
         if (!util.checkPermission(sender, "plategate.command.move")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        var index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
-        if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
-            sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
-            return false
-        }
-
         val loc = sender.location.clone()
         loc.pitch = 0f
         if (loc.y != loc.blockY.toDouble()) {
@@ -34,24 +28,43 @@ class PGMove {
             sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
             return false
         }
-        val underBlock = util.underBlock(loc.block)
-        val beforeUnderBlock = underBlock.type
-        loc.block.type = Material.STONE_PRESSURE_PLATE
-        underBlock.type = Material.IRON_BLOCK
 
-        val oldBlock = dbUtil.gateLocation(index, sender).block
+        val oldGate: CraftPlateGate?
+        try {
+            oldGate = jsonUtil.get(args[1], sender.uniqueId.toString())
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return false
+        }
+        if (oldGate == null) {
+            sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            return false
+        }
+        val oldBlock = oldGate.getBlock()
+        if (oldBlock == null) {
+            sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+            return false
+        }
+        try {
+            jsonUtil.move(
+                CraftPlateGate(
+                    sender.uniqueId,
+                    args[1],
+                    loc.block,
+                    sender.facing,
+                    null
+                )
+            )
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return false
+        }
         val oldUnderBlock = util.underBlock(oldBlock)
         oldBlock.type = Material.AIR
-        oldUnderBlock.type = dbUtil.underBlock(index, sender)
-
-        val rotate = util.convBlockFace2Facing(sender.facing)
-        index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        dbUtil.setJson(index, "x"          , loc.blockX.toString()         , sender)
-        dbUtil.setJson(index, "y"          , loc.blockY.toString()         , sender)
-        dbUtil.setJson(index, "z"          , loc.blockZ.toString()         , sender)
-        dbUtil.setJson(index, "rotate"     , rotate                        , sender)
-        dbUtil.setJson(index, "world"      , loc.block.world.uid.toString(), sender)
-        dbUtil.setJson(index, "beforeBlock", beforeUnderBlock.name         , sender)
+        oldUnderBlock.type = oldGate.beforeBlock
+        val underBlock = util.underBlock(loc.block)
+        loc.block.type = Material.STONE_PRESSURE_PLATE
+        underBlock.type = Material.IRON_BLOCK
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
         println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} を $loc に移動しました")
         return true
