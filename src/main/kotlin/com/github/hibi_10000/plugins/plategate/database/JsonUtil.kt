@@ -48,6 +48,9 @@ class JsonUtil(private val gateDB: File) {
     fun add(plateGate: CraftPlateGate) {
         //TODO: createDate, updateDate
         val json = read()
+        if (get(json, plateGate.name, plateGate.owner.toString()) != null) {
+            throw RuntimeException("gateNameDuplicate")
+        }
         val idJo = JsonObject()
         idJo.addProperty("id", getLastId(json) + 1)
         idJo.addProperty("name", plateGate.name)
@@ -66,6 +69,11 @@ class JsonUtil(private val gateDB: File) {
     @Throws(IOException::class, RuntimeException::class)
     fun get(name: String, owner: String): CraftPlateGate? {
         val json = read()
+        return get(json, name, owner)
+    }
+
+    @Throws(IOException::class, RuntimeException::class)
+    private fun get(json: JsonArray, name: String, owner: String): CraftPlateGate? {
         for (element in json) {
             val jo = element.asJsonObject
             if (jo["name"].asString == name && jo["owner"].asString == owner) {
@@ -91,7 +99,7 @@ class JsonUtil(private val gateDB: File) {
     @Throws(IOException::class, RuntimeException::class)
     fun link(name: String, owner: String, to: String) {
         val json = read()
-        if (json.none { it.asJsonObject["name"].asString == to && it.asJsonObject["owner"].asString == owner }) {
+        if (get(json, to, owner) == null) {
             throw RuntimeException("gateNotFound")
         }
         for (element in json) {

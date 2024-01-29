@@ -48,7 +48,8 @@ class PGCreate {
                 )
             )
         } catch (e: Exception) {
-            sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
+            if (e.message == "gateNameDuplicate") sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")
+            else sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
             return false
         }
         val underBlock = util.underBlock(loc.block)
