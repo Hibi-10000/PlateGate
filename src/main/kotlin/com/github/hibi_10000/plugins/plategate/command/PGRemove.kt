@@ -4,7 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -15,44 +16,35 @@ class PGRemove {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.remove")) return false
-        if (!(args.size == 2 || args.size == 3 && args[2].equals("force", ignoreCase = true)))
-            return util.commandInvalid(sender, label)
+        if (args.size != 2) return util.commandInvalid(sender, label)
 
-        if (!dbUtil.isDuplicateName(args[1], null)) {
+        val gate: CraftPlateGate?
+        try {
+            gate = jsonUtil.get(args[1], sender.uniqueId.toString())
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return false
+        }
+        if (gate == null) {
             sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             return false
         }
-        val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        val name = dbUtil.getJson(index, "name", sender)!!
-        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
-        if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
-            if (!sender.hasPermission("plategate.admin")) {
-                sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
-                return false
-            }
-            if (args.size == 3) {
-                if (!args[2].equals("force", ignoreCase = true)) {
-                    sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
-                    sender.sendMessage("                       §b強制的に削除する場合はコマンドの末尾に \" force\" を付けてください。")
-                    return false
-                }
-            }
+        val toBlock = gate.getBlock()
+        if (toBlock == null) {
+            sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+            return false
         }
-        val oldLocBlock = dbUtil.gateLocation(index, sender).block
-        val oldLocUnderBlock = util.underBlock(oldLocBlock)
-        oldLocBlock.type = Material.AIR
-        oldLocUnderBlock.type = dbUtil.underBlock(index, sender)
-        dbUtil.removeJson(index, sender)
-        if (args.size == 3) {
-            if (args[2].equals("force", ignoreCase = true)) {
-                sender.sendMessage("§a[PlateGate] §bGate:${name}(Owner:${owner.name}) を強制的に削除しました。")
-                println("§a[PlateGate] §b${sender.name} が Gate:${name}(Owner:${owner.name}) を§c強制的に§b削除しました。")
-                return true
-            }
-            return util.commandInvalid(sender, label)
+        toBlock.type = Material.AIR
+        val toUnderBlock = util.underBlock(toBlock)
+        toUnderBlock.type = gate.beforeBlock
+        try {
+            jsonUtil.remove(args[1], sender.uniqueId.toString())
+        } catch (e: Exception) {
+            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return false
         }
-        sender.sendMessage("§a[PlateGate] §bGate:${name} を削除しました。")
-        println("§a[PlateGate] §b${sender.name} が Gate:${name} を削除しました。")
+        sender.sendMessage("§a[PlateGate] §bGate:${gate.name} を削除しました。")
+        println("§a[PlateGate] §b${sender.name} が Gate:${gate.name} を削除しました。")
         return true
     }
 
