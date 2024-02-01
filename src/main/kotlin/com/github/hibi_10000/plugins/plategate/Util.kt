@@ -70,7 +70,7 @@ class Util {
                 sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
             } else {
                 if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
-                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             }
         }
         return player
@@ -82,7 +82,7 @@ class Util {
             if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
                 sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
             } else {
-                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             }
         }
         return player
@@ -92,7 +92,7 @@ class Util {
         val player = Bukkit.getOfflinePlayers().find { it.name.equals(name, ignoreCase = true) }
         if (player == null) {
             if (isUUID(name)) return getOfflinePlayer(UUID.fromString(name), sender)
-            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             return null
         }
         return player
@@ -101,7 +101,7 @@ class Util {
     fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
-            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しません。")
+            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             return null
         }
         return player
