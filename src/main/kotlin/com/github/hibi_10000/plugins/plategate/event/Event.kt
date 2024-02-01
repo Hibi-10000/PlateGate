@@ -24,18 +24,19 @@ class Event : Listener {
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
         val p = e.player
+        if (e.hand == EquipmentSlot.OFF_HAND) return
+        if (e.action != Action.PHYSICAL && e.action != Action.RIGHT_CLICK_BLOCK) return
+        if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
+        val gate: CraftPlateGate
+        try {
+            val block = e.clickedBlock ?: throw NullPointerException()
+            gate = jsonUtil.get(block.world.uid.toString(), block.x, block.y, block.z)
+        } catch (e: Exception) {
+            if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return
+        }
         //TODO: When文に変更?
         if (e.action == Action.PHYSICAL) {
-            if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
-
-            val gate: CraftPlateGate
-            try {
-                val block = e.clickedBlock ?: throw NullPointerException()
-                gate = jsonUtil.get(block.world.uid.toString(), block.x, block.y, block.z)
-            } catch (e: Exception) {
-                if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-                return
-            }
             if (!util.checkPermission(p, "plategate.use")) return
 
             if (gate.to == null) {
@@ -64,17 +65,6 @@ class Event : Listener {
             //toLoc.z += 0.5
             p.teleport(toLoc)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
-            if (e.hand == EquipmentSlot.OFF_HAND) return
-            if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
-
-            val gate: CraftPlateGate
-            try {
-                val block = e.clickedBlock ?: throw NullPointerException()
-                gate = jsonUtil.get(block.world.uid.toString(), block.x, block.y, block.z)
-            } catch (e: Exception) {
-                if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-                return
-            }
             e.setCancelled(true)
             if (!util.checkPermission(p, "plategate.info")) return
 
