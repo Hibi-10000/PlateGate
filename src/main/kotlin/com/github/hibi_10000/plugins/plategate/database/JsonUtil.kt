@@ -84,6 +84,18 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
+    fun get(world: String, x: Int, y: Int, z: Int): CraftPlateGate {
+        val json = read()
+        for (element in json) {
+            val jo = element.asJsonObject
+            if (jo["world"].asString == world && jo["x"].asInt == x && jo["y"].asInt == y && jo["z"].asInt == z) {
+                return CraftPlateGate(jo)
+            }
+        }
+        throw RuntimeException("gateNotFound")
+    }
+
+    @Throws(IOException::class, RuntimeException::class)
     fun getList(owner: String): List<CraftPlateGate> {
         val json = read()
         val list = mutableListOf<CraftPlateGate>()

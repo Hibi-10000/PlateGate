@@ -4,10 +4,12 @@
 
 package com.github.hibi_10000.plugins.plategate.event
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -17,61 +19,76 @@ import org.bukkit.event.block.BlockPistonExtendEvent
 import org.bukkit.event.block.BlockPistonRetractEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
-import java.util.*
 
 class Event : Listener {
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
         val p = e.player
+        //TODO: When文に変更?
         if (e.action == Action.PHYSICAL) {
             if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
 
-            val index = dbUtil.allIndexJson(e.clickedBlock!!, null)
-            if (!dbUtil.gateExists(index, null, p)) return
+            val gate: CraftPlateGate
+            try {
+                val block = e.clickedBlock ?: throw NullPointerException()
+                gate = jsonUtil.get(block.world.uid.toString(), block.x, block.y, block.z)
+            } catch (e: Exception) {
+                if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+                return
+            }
             if (!util.checkPermission(p, "plategate.use")) return
 
-            if (dbUtil.getJson(index!!, "to", p).equals("")) {
-                e.setCancelled(false)
-                e.player.sendMessage("§a[PlateGate] §bこのゲート ${dbUtil.getJson(index, "name", p)} はリンクされていません。")
+            if (gate.to == null) {
+                e.player.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
+                return
+            }
+            val gateTo: CraftPlateGate
+            try {
+                gateTo = jsonUtil.get(gate.to ?: throw NullPointerException(), gate.owner.toString())
+            } catch (e: Exception) {
+                if (e.message == "gateNotFound") p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
                 return
             }
 
-            val gateTo = dbUtil.firstIndexJson("name", dbUtil.getJson(index, "to", p)!!, p) ?: return
-            val rotate = dbUtil.getJson(gateTo, "rotate", p)!!
-            val toLoc = dbUtil.gateLocation(gateTo, p)
-            toLoc.pitch = p.location.pitch
-            toLoc.x += 0.5
-            toLoc.z += 0.5
-            when (rotate.lowercase()) {
-                "north" -> toLoc.z -= 1
-                "east"  -> toLoc.x += 1
-                "south" -> toLoc.z += 1
-                "west"  -> toLoc.x -= 1
+            val toBlock = gateTo.getTPLocationBlock()
+            if (toBlock == null) {
+                p.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+                return
             }
-            util.upperBlock(toLoc.block).type = Material.AIR
-            toLoc.block.type = Material.AIR
+            util.upperBlock(toBlock).type = Material.AIR
+            toBlock.type = Material.AIR
+            val toLoc = toBlock.location
+            toLoc.pitch = p.location.pitch
+            //toLoc.x += 0.5
+            //toLoc.z += 0.5
             p.teleport(toLoc)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
             if (e.hand == EquipmentSlot.OFF_HAND) return
             if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
 
-            val gate = dbUtil.allIndexJson(e.clickedBlock!!, null)
-            if (!dbUtil.gateExists(gate, null, p)) return
+            val gate: CraftPlateGate
+            try {
+                val block = e.clickedBlock ?: throw NullPointerException()
+                gate = jsonUtil.get(block.world.uid.toString(), block.x, block.y, block.z)
+            } catch (e: Exception) {
+                if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+                return
+            }
             if (!util.checkPermission(p, "plategate.info")) return
 
-            val owner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gate!!, "owner", p)), p)!!
-            val facing = dbUtil.getJson(gate, "rotate", p)!!
-            val yaw = when (facing.lowercase()) {
-                "south" ->   "0"
-                "west"  ->  "90"
-                "north" -> "180"
-                "east"  -> "-90"
-                else    ->   "0"
+            val owner = util.getOfflinePlayer(gate.owner, p) ?: return
+            val facing = gate.rotate
+            val yaw = when (facing) {
+                BlockFace.SOUTH ->   "0"
+                BlockFace.WEST  ->  "90"
+                BlockFace.NORTH -> "180"
+                BlockFace.EAST  -> "-90"
+                else            ->   "0"
             }
-            val to = if (dbUtil.getJson(gate, "to", p).equals("")) "§6None" else dbUtil.getJson(gate, "to", p)!!
             p.sendMessage(
-                "§a[PlateGate]§b Name: §a${dbUtil.getJson(gate, "name", p)} §b Owner: §a${owner.name
-                } §b GoTo: §a${to} §b Rotate: §a${facing}§b (§a${yaw}§b)"
+                "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
+                }§b To: §a${gate.to ?: "null"}§b Rotate: §a${facing}§b (§a${yaw}§b)"
             )
             e.setCancelled(true)
         }
@@ -95,12 +112,22 @@ class Event : Listener {
 
     private fun isPlateGateBlock(blocks: List<Block>, player: Player?): Boolean {
         for (b in blocks) {
-            val isPlateGateBlock = when (b.type) {
-                Material.IRON_BLOCK -> dbUtil.gateExists(dbUtil.allIndexJson(util.upperBlock(b), null), null, player)
-                Material.STONE_PRESSURE_PLATE -> dbUtil.gateExists(dbUtil.allIndexJson(b, null), null, player)
-                else -> false
+            try {
+                when (b.type) {
+                    Material.IRON_BLOCK -> {
+                        val ub = util.upperBlock(b)
+                        jsonUtil.get(ub.world.uid.toString(), ub.x, ub.y, ub.z)
+                        return true
+                    }
+                    Material.STONE_PRESSURE_PLATE -> {
+                        jsonUtil.get(b.world.uid.toString(), b.x, b.y, b.z)
+                        return true
+                    }
+                    else -> {}
+                }
+            } catch (e: Exception) {
+                if (e.message != "gateNotFound") player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             }
-            if (isPlateGateBlock) return true
         }
         return false
     }
