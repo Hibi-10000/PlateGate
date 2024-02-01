@@ -19,7 +19,7 @@ import java.util.*
 
 class JsonUtil(private val gateDB: File) {
     @Throws(IOException::class, RuntimeException::class)
-    fun read(): JsonArray {
+    private fun read(): JsonArray {
         val reader = FileReader(gateDB, StandardCharsets.UTF_8)
         val array = Gson().fromJson(reader, JsonArray::class.java)
         check(array.isJsonArray) { "The contents of File are not JsonArray" }
@@ -27,7 +27,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class)
-    fun write(json: JsonArray) {
+    private fun write(json: JsonArray) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val writer = FileWriter(gateDB, StandardCharsets.UTF_8, false)
         gson.toJson(json, writer)
