@@ -18,15 +18,12 @@ class PGRemove {
         if (!util.checkPermission(sender, "plategate.command.remove")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        val gate: CraftPlateGate?
+        val gate: CraftPlateGate
         try {
             gate = jsonUtil.get(args[1], sender.uniqueId.toString())
         } catch (e: Exception) {
-            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-            return false
-        }
-        if (gate == null) {
-            sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }
         val toBlock = gate.getBlock()

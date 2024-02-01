@@ -29,15 +29,12 @@ class PGMove {
             return false
         }
 
-        val oldGate: CraftPlateGate?
+        val oldGate: CraftPlateGate
         try {
             oldGate = jsonUtil.get(args[1], sender.uniqueId.toString())
         } catch (e: Exception) {
-            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-            return false
-        }
-        if (oldGate == null) {
-            sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }
         val oldBlock = oldGate.getBlock()

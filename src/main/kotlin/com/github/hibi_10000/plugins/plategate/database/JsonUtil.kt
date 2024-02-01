@@ -67,9 +67,9 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun get(name: String, owner: String): CraftPlateGate? {
+    fun get(name: String, owner: String): CraftPlateGate {
         val json = read()
-        return get(json, name, owner)
+        return get(json, name, owner) ?: throw RuntimeException("gateNotFound")
     }
 
     @Throws(IOException::class, RuntimeException::class)

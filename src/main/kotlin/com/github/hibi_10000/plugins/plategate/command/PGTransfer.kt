@@ -42,15 +42,12 @@ class PGTransfer {
                 if (!util.checkPermission(sender, "plategate.command.transfer")) return false
                 if (args.size != 4) return util.commandInvalid(sender, label)
 
-                val gate: CraftPlateGate?
+                val gate: CraftPlateGate
                 try {
                     gate = jsonUtil.get(gateName, sender.uniqueId.toString())
                 } catch (e: Exception) {
-                    sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-                    return false
-                }
-                if (gate == null) {
-                    sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                    if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                    else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
                     return false
                 }
                 val world = gate.getWorld()
