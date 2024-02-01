@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate
 
 import com.github.hibi_10000.plugins.plategate.command.PGBase
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.database.JsonUtil
 import com.github.hibi_10000.plugins.plategate.event.Event
 import org.bukkit.plugin.java.JavaPlugin
@@ -12,7 +13,7 @@ import java.io.File
 
 lateinit var instance: PlateGate
 lateinit var version: String
-lateinit var jsonUtil: JsonUtil
+lateinit var dbUtil: DBUtil
 val util: Util = Util()
 
 class PlateGate : JavaPlugin() {
@@ -23,7 +24,7 @@ class PlateGate : JavaPlugin() {
         if (!gateDB.exists()) {
             saveResource("gate.json", false)
         }
-        jsonUtil = JsonUtil(gateDB)
+        dbUtil = JsonUtil(gateDB)
         getCommand("plategate")?.setExecutor(PGBase())
         getCommand("plategate")?.tabCompleter = PGBase()
         server.pluginManager.registerEvents(Event(), this)

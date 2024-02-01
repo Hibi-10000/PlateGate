@@ -5,8 +5,8 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -44,7 +44,7 @@ class PGTransfer {
 
                 val gate: CraftPlateGate
                 try {
-                    gate = jsonUtil.get(gateName, sender.uniqueId.toString())
+                    gate = dbUtil.get(gateName, sender.uniqueId.toString())
                 } catch (e: Exception) {
                     if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                     else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")

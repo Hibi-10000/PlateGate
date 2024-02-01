@@ -5,7 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
-import com.github.hibi_10000.plugins.plategate.jsonUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -20,7 +20,7 @@ class PGJump {
 
         val gate: CraftPlateGate
         try {
-            gate = jsonUtil.get(args[1], sender.uniqueId.toString())
+            gate = dbUtil.get(args[1], sender.uniqueId.toString())
         } catch (e: Exception) {
             if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")

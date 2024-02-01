@@ -5,7 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
-import com.github.hibi_10000.plugins.plategate.jsonUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -31,7 +31,7 @@ class PGMove {
 
         val oldGate: CraftPlateGate
         try {
-            oldGate = jsonUtil.get(args[1], sender.uniqueId.toString())
+            oldGate = dbUtil.get(args[1], sender.uniqueId.toString())
         } catch (e: Exception) {
             if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
@@ -43,7 +43,7 @@ class PGMove {
             return false
         }
         try {
-            jsonUtil.move(
+            dbUtil.move(
                 CraftPlateGate(
                     sender.uniqueId,
                     args[1],

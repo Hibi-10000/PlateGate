@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.jsonUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -17,7 +17,7 @@ class PGLink {
         if (args.size != 3) return util.commandInvalid(sender, label)
 
         try {
-            jsonUtil.link(args[1], sender.uniqueId.toString(), args[2])
+            dbUtil.link(args[1], sender.uniqueId.toString(), args[2])
         } catch (e: Exception) {
             if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")

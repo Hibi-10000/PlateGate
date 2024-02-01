@@ -5,7 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
-import com.github.hibi_10000.plugins.plategate.jsonUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -26,7 +26,7 @@ class PGList {
         sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
         val gateList: List<CraftPlateGate>
         try {
-            gateList = jsonUtil.getList(searchP.uniqueId.toString())
+            gateList = dbUtil.getList(searchP.uniqueId.toString())
         } catch (e: Exception) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false

@@ -5,7 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
-import com.github.hibi_10000.plugins.plategate.jsonUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -29,7 +29,7 @@ class PGCreate {
             return false
         }
         try {
-            jsonUtil.add(
+            dbUtil.add(
                 CraftPlateGate(
                     sender.uniqueId,
                     args[1],

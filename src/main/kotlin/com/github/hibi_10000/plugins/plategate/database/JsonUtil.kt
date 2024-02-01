@@ -17,7 +17,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-class JsonUtil(private val gateDB: File) {
+class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     @Throws(IOException::class, RuntimeException::class)
     private fun read(): JsonArray {
         val reader = FileReader(gateDB, StandardCharsets.UTF_8)
@@ -45,7 +45,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun add(plateGate: CraftPlateGate) {
+    override fun add(plateGate: CraftPlateGate) {
         //TODO: createDate, updateDate
         val json = read()
         if (get(json, plateGate.name, plateGate.owner.toString()) != null) {
@@ -67,7 +67,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun get(name: String, owner: String): CraftPlateGate {
+    override fun get(name: String, owner: String): CraftPlateGate {
         val json = read()
         return get(json, name, owner) ?: throw RuntimeException("gateNotFound")
     }
@@ -84,7 +84,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun get(world: String, x: Int, y: Int, z: Int): CraftPlateGate {
+    override fun get(world: String, x: Int, y: Int, z: Int): CraftPlateGate {
         val json = read()
         for (element in json) {
             val jo = element.asJsonObject
@@ -96,7 +96,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun getList(owner: String): List<CraftPlateGate> {
+    override fun getList(owner: String): List<CraftPlateGate> {
         val json = read()
         val list = mutableListOf<CraftPlateGate>()
         for (element in json) {
@@ -109,7 +109,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun link(name: String, owner: String, to: String) {
+    override fun link(name: String, owner: String, to: String) {
         val json = read()
         if (get(json, to, owner) == null) {
             throw RuntimeException("gateNotFound")
@@ -127,7 +127,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun move(plateGate: CraftPlateGate) {
+    override fun move(plateGate: CraftPlateGate) {
         val json = read()
         for (element in json) {
             val jo = element.asJsonObject
@@ -147,7 +147,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun remove(name: String, owner: String) {
+    override fun remove(name: String, owner: String) {
         val json = read()
         for (element in json) {
             val jo = element.asJsonObject
@@ -161,7 +161,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun rename(name: String, owner: String, newName: String) {
+    override fun rename(name: String, owner: String, newName: String) {
         val json = read()
         if (get(json, newName, owner) != null) {
             throw RuntimeException("gateNameDuplicate")
@@ -179,7 +179,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun transfer(name: String, owner: String, newOwner: String) {
+    override fun transfer(name: String, owner: String, newOwner: String) {
         val json = read()
         if (get(json, name, newOwner) != null) {
             throw RuntimeException("gateNameDuplicate")

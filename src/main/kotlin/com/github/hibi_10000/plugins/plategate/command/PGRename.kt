@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.jsonUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -17,7 +17,7 @@ class PGRename {
         if (args.size != 3) return util.commandInvalid(sender, label)
 
         try {
-            jsonUtil.rename(args[1], sender.uniqueId.toString(), args[2])
+            dbUtil.rename(args[1], sender.uniqueId.toString(), args[2])
         } catch (e: Exception) {
             when (e.message) {
                 "gateNameDuplicate" -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")
