@@ -75,6 +75,7 @@ class Event : Listener {
                 if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
                 return
             }
+            e.setCancelled(true)
             if (!util.checkPermission(p, "plategate.info")) return
 
             val owner = util.getOfflinePlayer(gate.owner, p) ?: return
@@ -90,7 +91,6 @@ class Event : Listener {
                 "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
                 }§b To: §a${gate.to ?: "null"}§b Rotate: §a${facing}§b (§a${yaw}§b)"
             )
-            e.setCancelled(true)
         }
     }
 
