@@ -149,6 +149,24 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
+    fun rename(name: String, owner: String, newName: String) {
+        val json = read()
+        if (get(json, newName, owner) != null) {
+            throw RuntimeException("gateNameDuplicate")
+        }
+        for (element in json) {
+            val jo = element.asJsonObject
+            if (jo["name"].asString == name && jo["owner"].asString == owner) {
+                jo.addProperty("name", newName)
+                json[json.indexOf(element)] = jo
+                write(json)
+                return
+            }
+        }
+        throw RuntimeException("gateNotFound")
+    }
+
+    @Throws(IOException::class, RuntimeException::class)
     fun checkDuplicateName(name: String, owner: String): Boolean {
         return get(name, owner) != null
     }

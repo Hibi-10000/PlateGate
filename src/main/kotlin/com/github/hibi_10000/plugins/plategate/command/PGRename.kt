@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -16,14 +16,16 @@ class PGRename {
         if (!util.checkPermission(sender, "plategate.command.rename")) return false
         if (args.size != 3) return util.commandInvalid(sender, label)
 
-        if (dbUtil.isDuplicateName(args[2], sender)) return false
-        val index = dbUtil.firstIndexJson("name", args[1], sender) ?: return false
-        val owner = util.getOfflinePlayer(dbUtil.getJson(index, "owner", sender)!!, null)!!
-        if (owner.uniqueId.toString() != sender.uniqueId.toString()) {
-            sender.sendMessage("§a[PlateGate] §cそれはあなたのPlateGateではありません。")
+        try {
+            jsonUtil.rename(args[1], sender.uniqueId.toString(), args[2])
+        } catch (e: Exception) {
+            when (e.message) {
+                "gateNameDuplicate" -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")
+                "gateNotFound" -> sender.sendMessage("§a[PlateGate]§c ゲートが見つかりませんでした")
+                else -> sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
+            }
             return false
         }
-        dbUtil.setJson(index, "name", args[2], sender)
         sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を ${args[2]} にリネームしました")
         println("§a[PlateGate] §b${sender.name} がPlateGate ${args[1]} を ${args[2]} にリネームしました")
         return true
