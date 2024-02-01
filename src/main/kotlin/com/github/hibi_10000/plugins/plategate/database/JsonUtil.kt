@@ -179,7 +179,7 @@ class JsonUtil(private val gateDB: File) {
     }
 
     @Throws(IOException::class, RuntimeException::class)
-    fun transfer(name: String, owner: String, newOwner: String): Boolean {
+    fun transfer(name: String, owner: String, newOwner: String) {
         val json = read()
         if (get(json, name, newOwner) != null) {
             throw RuntimeException("gateNameDuplicate")
@@ -190,7 +190,7 @@ class JsonUtil(private val gateDB: File) {
                 jo.addProperty("owner", newOwner)
                 json[json.indexOf(element)] = jo
                 write(json)
-                return true
+                return
             }
         }
         throw RuntimeException("gateNotFound")
