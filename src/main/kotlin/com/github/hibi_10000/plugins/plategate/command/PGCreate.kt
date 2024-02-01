@@ -18,15 +18,6 @@ class PGCreate {
         if (!util.checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
-        try {
-            if (jsonUtil.checkDuplicateName(args[1], sender.uniqueId.toString())) {
-                sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")
-                return false
-            }
-        } catch (e: Exception) {
-            sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
-            return false
-        }
         val loc = sender.location.clone()
         loc.pitch = 0f
         if (loc.y != loc.blockY.toDouble()) {

@@ -183,9 +183,4 @@ class JsonUtil(private val gateDB: File) {
         }
         throw RuntimeException("gateNotFound")
     }
-
-    @Throws(IOException::class, RuntimeException::class)
-    fun checkDuplicateName(name: String, owner: String): Boolean {
-        return get(name, owner) != null
-    }
 }
