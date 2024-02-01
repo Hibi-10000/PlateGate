@@ -4,8 +4,9 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.instance
+import com.github.hibi_10000.plugins.plategate.jsonUtil
 import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -16,7 +17,6 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
-import java.util.*
 
 class PGTransfer {
     @Suppress("UNUSED_PARAMETER")
@@ -40,59 +40,54 @@ class PGTransfer {
             }
             "owner" -> {
                 if (!util.checkPermission(sender, "plategate.command.transfer")) return false
-                if (args.size < 4 || 5 < args.size) return util.commandInvalid(sender, label)
+                if (args.size != 4) return util.commandInvalid(sender, label)
 
-                //val newOwnerName = args[3]
-                val gateIndex = dbUtil.firstIndexJson("name", gateName, sender) ?: return false
-                val oldOwner = util.getOfflinePlayer(UUID.fromString(dbUtil.getJson(gateIndex, "owner", sender)), sender)!!
-                if (args.size == 5) {
-                    if (args[4].equals("force", ignoreCase = true)) {
-                        //強制的にownerを変更
-                        if (!util.checkPermission(sender, "plategate.admin")) return false
-                        if (!dbUtil.gateExists(null, gateName, sender)) return false
-                        val newOwner = util.getPlayer(args[3], sender) ?: return false
-                        dbUtil.setJson(gateIndex, "owner", newOwner.uniqueId.toString(), sender)
-                        sender.sendMessage("§a[PlateGate] §bゲート $gateName のオーナーを ${oldOwner.name} から ${newOwner.name} に変更しました")
-                        println("§a[PlateGate] §bゲート $gateName のオーナーを ${oldOwner.name} から ${newOwner.name} に変更しました")
-                        return true
-                    }
-                    return util.commandInvalid(sender, label)
-                }
-                //senderのPlateGateかどうか確認
-                if (oldOwner.uniqueId != sender.uniqueId) {
-                    sender.sendMessage("§a[PlateGate] §cそれはあなたのゲートではありません！")
+                val gate: CraftPlateGate?
+                try {
+                    gate = jsonUtil.get(gateName, sender.uniqueId.toString())
+                } catch (e: Exception) {
+                    sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
                     return false
                 }
-                if (!dbUtil.gateExists(null, gateName, sender)) return false
+                if (gate == null) {
+                    sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                    return false
+                }
+                val world = gate.getWorld()
+                if (world == null) {
+                    sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+                    return false
+                }
                 val newOwner = util.getPlayer(args[3], sender) ?: return false
                 //TODO: MetadataValueに何を入れるか
                 newOwner.setMetadata("plategate_NewOwner", FixedMetadataValue(instance, ""))
                 //TODO: いい感じに色を付ける
-                val gateInfo = TextComponent(gateName)
+                val gateInfo = TextComponent(gate.name)
                 gateInfo.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT, Text(
-                        "Name: ${gateName
+                        "Name: ${gate.name
                         }\nOwner: ${sender.name
-                        }\nWorld: ${dbUtil.getJson(gateIndex, "world", sender)
-                        }\nX: ${dbUtil.getJson(gateIndex, "x", sender)
-                        }\nY: ${dbUtil.getJson(gateIndex, "y", sender)
-                        }\nZ: ${dbUtil.getJson(gateIndex, "z", sender)
-                        }\nRotate: ${dbUtil.getJson(gateIndex, "rotate", sender)
-                        }\nTo: ${dbUtil.getJson(gateIndex, "to", sender)}"
+                        }\nWorld: ${world.name
+                        }\nX: ${gate.x
+                        }\nY: ${gate.y
+                        }\nZ: ${gate.z
+                        }\nRotate: ${gate.rotate.name
+                        }\nTo: ${gate.to}"
                     )
                 )
                 newOwner.spigot().sendMessage(
                     TextComponent("§a[PlateGate] §b${sender.name} があなたにゲート "), gateInfo,
-                    TextComponent(" の所有権を譲渡しようとしています。")
+                    TextComponent(" §bの所有権を譲渡しようとしています。")
                 )
-                println("[PlateGate] §b${sender.name} が $newOwner にゲート $gateName の所有権を譲渡しようとしています。")
                 val accept = TextComponent("§a[受け入れる]§r")
                 accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
-                accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName accept")
+                accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} accept")
                 val reject = TextComponent("§c[拒否する]§r")
                 reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
-                reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer $gateName reject")
+                reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} reject")
                 newOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
+                sender.sendMessage("§a[PlateGate] §b${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています。")
+                println("[PlateGate] §b${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています。")
                 return true
             }
             else -> return util.commandInvalid(sender, label)
