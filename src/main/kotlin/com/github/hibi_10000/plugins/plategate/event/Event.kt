@@ -22,7 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
 class Event: Listener {
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     fun onPlayerInteract(e: PlayerInteractEvent) {
         if (e.hand == EquipmentSlot.OFF_HAND) return
         if (e.action != Action.PHYSICAL && e.action != Action.RIGHT_CLICK_BLOCK) return
@@ -92,18 +92,18 @@ class Event: Listener {
         )
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     fun onBlockBreak(e: BlockBreakEvent) {
         e.isCancelled = isPlateGateBlock(listOf(e.block), e.player)
         if (e.isCancelled) e.player.sendMessage("§a[PlateGate]§c PlateGateを壊すことはできません！")
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
 	fun onPistonExtend(e: BlockPistonExtendEvent) {
         e.isCancelled = isPlateGateBlock(e.blocks, null)
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	fun onPistonRetract(e: BlockPistonRetractEvent) {
         e.isCancelled = isPlateGateBlock(e.blocks, null)
 	}
