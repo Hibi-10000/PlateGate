@@ -71,6 +71,7 @@ class Event: Listener {
         util.upperBlock(toBlock).type = Material.AIR
         toBlock.type = Material.AIR
         val toLoc = util.getBlockCenter(toBlock)
+        toLoc.yaw = util.convBlockFace2Yaw(gate.rotate)
         toLoc.pitch = p.location.pitch
         p.teleport(toLoc)
     }

@@ -55,6 +55,16 @@ class Util {
         }
     }
 
+    fun convBlockFace2Yaw(blockFace: BlockFace): Float {
+        return when (blockFace) {
+            BlockFace.SOUTH ->   0f /* yaw >= 315 || yaw <=  45 */
+            BlockFace.WEST  ->  90f /* yaw >   45 && yaw <  135 */
+            BlockFace.NORTH -> 180f /* yaw >= 135 && yaw <= 225 */
+            BlockFace.EAST  -> 270f /* yaw >  225 && yaw <  315 */
+            else            ->   0f
+        }
+    }
+
     fun getPlayer(name: String, sender: Player?): Player? {
         val player = Bukkit.getPlayer(name)
         if (player == null) {

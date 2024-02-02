@@ -35,6 +35,7 @@ class PGJump {
         toBlock.type = Material.AIR
         util.upperBlock(toBlock).type = Material.AIR
         val toLoc = util.getBlockCenter(toBlock)
+        toLoc.yaw = util.convBlockFace2Yaw(gate.rotate)
         toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
