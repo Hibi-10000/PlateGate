@@ -72,10 +72,10 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         }
         val idJo = JsonObject()
         idJo.addProperty("id", getLastId(json) + 1)
-        idJo.addProperty("name", plateGate.name)
         idJo.addProperty("owner", plateGate.owner.toString())
-        idJo.addProperty("toName", plateGate.toName)
+        idJo.addProperty("name", plateGate.name)
         idJo.addProperty("toOwner", plateGate.toOwner?.toString())
+        idJo.addProperty("toName", plateGate.toName)
         idJo.addProperty("x", plateGate.x)
         idJo.addProperty("y", plateGate.y)
         idJo.addProperty("z", plateGate.z)
