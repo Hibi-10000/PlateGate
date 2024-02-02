@@ -5,7 +5,6 @@
 package com.github.hibi_10000.plugins.plategate.database
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
-import com.github.hibi_10000.plugins.plategate.util
 import com.google.gson.*
 import java.io.File
 import java.io.FileReader
@@ -79,7 +78,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         idJo.addProperty("x", plateGate.x)
         idJo.addProperty("y", plateGate.y)
         idJo.addProperty("z", plateGate.z)
-        idJo.addProperty("rotate", util.convBlockFace2Facing(plateGate.rotate))
+        idJo.addProperty("rotate", plateGate.rotate.name.lowercase())
         idJo.addProperty("world", plateGate.world.toString())
         idJo.addProperty("beforeBlock", plateGate.beforeBlock.name)
         json.add(idJo)
@@ -203,7 +202,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 jo.addProperty("x", plateGate.x)
                 jo.addProperty("y", plateGate.y)
                 jo.addProperty("z", plateGate.z)
-                jo.addProperty("rotate", util.convBlockFace2Facing(plateGate.rotate))
+                jo.addProperty("rotate", plateGate.rotate.name.lowercase())
                 jo.addProperty("beforeBlock", plateGate.beforeBlock.name)
                 json[json.indexOf(element)] = jo
                 write(json)
