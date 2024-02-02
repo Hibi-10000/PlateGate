@@ -24,8 +24,9 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
      */
     @Throws(IOException::class, RuntimeException::class)
     private fun read(): JsonArray {
-        val reader = FileReader(gateDB, StandardCharsets.UTF_8)
-        val array = Gson().fromJson(reader, JsonArray::class.java)
+        val array = FileReader(gateDB, StandardCharsets.UTF_8).use { reader->
+            Gson().fromJson(reader, JsonArray::class.java)
+        }
         check(array.isJsonArray) { "The contents of File are not JsonArray" }
         return array.asJsonArray
     }
@@ -39,8 +40,9 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     @Throws(IOException::class, RuntimeException::class)
     private fun write(json: JsonArray) {
         val gson = GsonBuilder().setPrettyPrinting().create()
-        val writer = FileWriter(gateDB, StandardCharsets.UTF_8, false)
-        gson.toJson(json, writer)
+        FileWriter(gateDB, StandardCharsets.UTF_8, false).use { writer->
+            gson.toJson(json, writer)
+        }
     }
 
     @Throws(RuntimeException::class)
