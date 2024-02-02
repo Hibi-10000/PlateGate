@@ -30,7 +30,7 @@ class Event : Listener {
         val gate: CraftPlateGate
         try {
             val block = e.clickedBlock ?: throw NullPointerException()
-            gate = dbUtil.get(block.world.uid.toString(), block.x, block.y, block.z)
+            gate = dbUtil.get(block.world.uid, block.x, block.y, block.z)
         } catch (e: Exception) {
             if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return
@@ -45,7 +45,7 @@ class Event : Listener {
             }
             val gateTo: CraftPlateGate
             try {
-                gateTo = dbUtil.get(gate.to ?: throw NullPointerException(), gate.owner.toString())
+                gateTo = dbUtil.get(gate.owner, gate.to ?: throw NullPointerException())
             } catch (e: Exception) {
                 if (e.message == "gateNotFound") p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                 else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
@@ -106,11 +106,11 @@ class Event : Listener {
                 when (b.type) {
                     Material.IRON_BLOCK -> {
                         val ub = util.upperBlock(b)
-                        dbUtil.get(ub.world.uid.toString(), ub.x, ub.y, ub.z)
+                        dbUtil.get(ub.world.uid, ub.x, ub.y, ub.z)
                         return true
                     }
                     Material.STONE_PRESSURE_PLATE -> {
-                        dbUtil.get(b.world.uid.toString(), b.x, b.y, b.z)
+                        dbUtil.get(b.world.uid, b.x, b.y, b.z)
                         return true
                     }
                     else -> {}

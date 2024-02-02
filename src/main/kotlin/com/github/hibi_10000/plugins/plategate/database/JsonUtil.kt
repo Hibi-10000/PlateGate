@@ -67,7 +67,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     override fun add(plateGate: CraftPlateGate) {
         //TODO: createDate, updateDate
         val json = read()
-        if (get(json, plateGate.name, plateGate.owner.toString()) != null) {
+        if (get(json, plateGate.owner, plateGate.name) != null) {
             throw RuntimeException("gateNameDuplicate")
         }
         val idJo = JsonObject()
@@ -87,24 +87,24 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Get [CraftPlateGate] from name and owner
-     * @param name PlateGate Name
-     * @param owner Player-specific [UUID] string of the gate owner
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to get
      * @return [CraftPlateGate] corresponding to the input values
      * @throws IOException see [read]
      * @throws RuntimeException see [read]
      * @see read
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun get(name: String, owner: String): CraftPlateGate {
+    override fun get(owner: UUID, name: String): CraftPlateGate {
         val json = read()
-        return get(json, name, owner) ?: throw RuntimeException("gateNotFound")
+        return get(json, owner, name) ?: throw RuntimeException("gateNotFound")
     }
 
     @Throws(RuntimeException::class)
-    private fun get(json: JsonArray, name: String, owner: String): CraftPlateGate? {
+    private fun get(json: JsonArray, owner: UUID, name: String): CraftPlateGate? {
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["name"].asString == name && jo["owner"].asString == owner) {
+            if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
                 return CraftPlateGate(jo)
             }
         }
@@ -113,7 +113,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Get [CraftPlateGate] from coordinates
-     * @param world World-specific [UUID] string
+     * @param world World-specific [UUID]
      * @param x X-axis of coordinates
      * @param y Y-axis of coordinates
      * @param z Z-axis of coordinates
@@ -123,11 +123,11 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
      * @see read
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun get(world: String, x: Int, y: Int, z: Int): CraftPlateGate {
+    override fun get(world: UUID, x: Int, y: Int, z: Int): CraftPlateGate {
         val json = read()
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["world"].asString == world && jo["x"].asInt == x && jo["y"].asInt == y && jo["z"].asInt == z) {
+            if (jo["world"].asString == world.toString() && jo["x"].asInt == x && jo["y"].asInt == y && jo["z"].asInt == z) {
                 return CraftPlateGate(jo)
             }
         }
@@ -136,19 +136,19 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Get a list of [CraftPlateGate] owned by the player
-     * @param owner Player-specific [UUID] string of the gate owner
+     * @param owner Player-specific [UUID] of the gate owner
      * @return List of [CraftPlateGate] owned by the player
      * @throws IOException see [read]
      * @throws RuntimeException see [read]
      * @see read
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun getList(owner: String): List<CraftPlateGate> {
+    override fun getList(owner: UUID): List<CraftPlateGate> {
         val json = read()
         val list = mutableListOf<CraftPlateGate>()
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["owner"].asString == owner) {
+            if (jo["owner"].asString == owner.toString()) {
                 list.add(CraftPlateGate(jo))
             }
         }
@@ -157,24 +157,24 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Link the gate to another gate
-     * @param name PlateGate Name
-     * @param owner Player-specific [UUID] string of the gate owner
-     * @param to PlateGate Name to link
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to link
+     * @param toName PlateGate Name to link
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
      * @see read
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun link(name: String, owner: String, to: String) {
+    override fun link(owner: UUID, name: String, toName: String) {
         val json = read()
-        if (get(json, to, owner) == null) {
+        if (get(json, owner, toName) == null) {
             throw RuntimeException("gateNotFound")
         }
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["name"].asString == name && jo["owner"].asString == owner) {
-                jo.addProperty("to", to)
+            if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
+                jo.addProperty("to", toName)
                 json[json.indexOf(element)] = jo
                 write(json)
                 return
@@ -213,19 +213,19 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Remove the gate
-     * @param name PlateGate Name
-     * @param owner Player-specific [UUID] string of the gate owner
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to remove
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
      * @see read
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun remove(name: String, owner: String) {
+    override fun remove(owner: UUID, name: String) {
         val json = read()
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["name"].asString == name && jo["owner"].asString == owner) {
+            if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
                 json.remove(element)
                 write(json)
                 return
@@ -236,8 +236,8 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Rename the gate
-     * @param name PlateGate Name
-     * @param owner Player-specific [UUID] string of the gate owner
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to rename
      * @param newName New PlateGate Name
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
@@ -245,14 +245,14 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun rename(name: String, owner: String, newName: String) {
+    override fun rename(owner: UUID, name: String, newName: String) {
         val json = read()
-        if (get(json, newName, owner) != null) {
+        if (get(json, owner, newName) != null) {
             throw RuntimeException("gateNameDuplicate")
         }
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["name"].asString == name && jo["owner"].asString == owner) {
+            if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
                 jo.addProperty("name", newName)
                 json[json.indexOf(element)] = jo
                 write(json)
@@ -264,24 +264,24 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
 
     /**
      * Transfer the gate
-     * @param name PlateGate Name
-     * @param owner Player-specific [UUID] string of the gate owner
-     * @param newOwner Player-specific [UUID] string of the new gate owner
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to transfer
+     * @param newOwner Player-specific [UUID] of the new gate owner
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
      * @see read
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun transfer(name: String, owner: String, newOwner: String) {
+    override fun transfer(owner: UUID, name: String, newOwner: UUID) {
         val json = read()
-        if (get(json, name, newOwner) != null) {
+        if (get(json, newOwner, name) != null) {
             throw RuntimeException("gateNameDuplicate")
         }
         for (element in json) {
             val jo = element.asJsonObject
-            if (jo["name"].asString == name && jo["owner"].asString == owner) {
-                jo.addProperty("owner", newOwner)
+            if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
+                jo.addProperty("owner", newOwner.toString())
                 json[json.indexOf(element)] = jo
                 write(json)
                 return

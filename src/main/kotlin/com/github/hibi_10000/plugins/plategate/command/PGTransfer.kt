@@ -44,7 +44,7 @@ class PGTransfer {
 
                 val gate: CraftPlateGate
                 try {
-                    gate = dbUtil.get(gateName, sender.uniqueId.toString())
+                    gate = dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
                     if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                     else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")

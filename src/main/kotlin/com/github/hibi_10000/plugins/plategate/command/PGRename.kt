@@ -17,7 +17,7 @@ class PGRename {
         if (args.size != 3) return util.commandInvalid(sender, label)
 
         try {
-            dbUtil.rename(args[1], sender.uniqueId.toString(), args[2])
+            dbUtil.rename(sender.uniqueId, args[1], args[2])
         } catch (e: Exception) {
             when (e.message) {
                 "gateNameDuplicate" -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")

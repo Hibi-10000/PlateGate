@@ -20,7 +20,7 @@ class PGRemove {
 
         val gate: CraftPlateGate
         try {
-            gate = dbUtil.get(args[1], sender.uniqueId.toString())
+            gate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
             if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
@@ -35,7 +35,7 @@ class PGRemove {
         val toUnderBlock = util.underBlock(toBlock)
         toUnderBlock.type = gate.beforeBlock
         try {
-            dbUtil.remove(args[1], sender.uniqueId.toString())
+            dbUtil.remove(sender.uniqueId, args[1])
         } catch (e: Exception) {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false

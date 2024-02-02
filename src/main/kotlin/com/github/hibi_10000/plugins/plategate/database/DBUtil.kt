@@ -18,37 +18,37 @@ abstract class DBUtil(@Suppress("UNUSED_PARAMETER") gateDB: File) {
     abstract fun add(plateGate: CraftPlateGate)
     /**
      * Get [CraftPlateGate] by name and owner
-     * @param name The name of the gate
-     * @param owner The owner of the gate
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to get
      * @return [CraftPlateGate] corresponding to the input values
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun get(name: String, owner: String): CraftPlateGate
+    abstract fun get(owner: UUID, name: String): CraftPlateGate
     /**
      * Get [CraftPlateGate] by coordinates
-     * @param world World-specific [UUID] string
+     * @param world World-specific [UUID]
      * @param x X-axis of coordinates
      * @param y Y-axis of coordinates
      * @param z Z-axis of coordinates
      * @return [CraftPlateGate] corresponding to the input values
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun get(world: String, x: Int, y: Int, z: Int): CraftPlateGate
+    abstract fun get(world: UUID, x: Int, y: Int, z: Int): CraftPlateGate
     /**
      * Get a list of [CraftPlateGate] owned by the input owner
-     * @param owner Player-specific [UUID] string of the gate owner
+     * @param owner Player-specific [UUID] of the gate owner
      * @return List of [CraftPlateGate] owned by the input owner
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun getList(owner: String): List<CraftPlateGate>
+    abstract fun getList(owner: UUID): List<CraftPlateGate>
     /**
      * Link the gate to another gate
+     * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to link
-     * @param owner Player-specific [UUID] string of the gate owner
-     * @param to The name of the gate to link to
+     * @param toName The name of the gate to link to
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun link(name: String, owner: String, to: String)
+    abstract fun link(owner: UUID, name: String, toName: String)
     /**
      * Move the gate to a new location
      * @param plateGate [CraftPlateGate] to move
@@ -57,25 +57,25 @@ abstract class DBUtil(@Suppress("UNUSED_PARAMETER") gateDB: File) {
     abstract fun move(plateGate: CraftPlateGate)
     /**
      * Remove the gate from the database
+     * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to remove
-     * @param owner Player-specific [UUID] string of the gate owner
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun remove(name: String, owner: String)
+    abstract fun remove(owner: UUID, name: String)
     /**
      * Rename the gate
+     * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to rename
-     * @param owner Player-specific [UUID] string of the gate owner
      * @param newName The new name of the gate
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun rename(name: String, owner: String, newName: String)
+    abstract fun rename(owner: UUID, name: String, newName: String)
     /**
      * Transfer the gate to the new owner
+     * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to transfer
-     * @param owner Player-specific [UUID] string of the gate owner
-     * @param newOwner Player-specific [UUID] string of the new gate owner
+     * @param newOwner Player-specific [UUID] of the new gate owner
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun transfer(name: String, owner: String, newOwner: String)
+    abstract fun transfer(owner: UUID, name: String, newOwner: UUID)
 }
