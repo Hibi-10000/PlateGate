@@ -70,7 +70,7 @@ class Event: Listener {
         }
         util.upperBlock(toBlock).type = Material.AIR
         toBlock.type = Material.AIR
-        val toLoc = toBlock.location
+        val toLoc = util.getBlockCenter(toBlock)
         toLoc.pitch = p.location.pitch
         p.teleport(toLoc)
     }

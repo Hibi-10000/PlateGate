@@ -47,6 +47,14 @@ class Util {
         return block.getRelative(BlockFace.UP)
     }
 
+    fun getBlockCenter(block: Block): Location {
+        block.location.let { loc ->
+            loc.x += 0.5
+            loc.z += 0.5
+            return loc
+        }
+    }
+
     fun getPlayer(name: String, sender: Player?): Player? {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
