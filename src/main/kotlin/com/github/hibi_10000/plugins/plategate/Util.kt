@@ -35,6 +35,10 @@ class Util {
         return false
     }
 
+    fun firstUpperCase(str: String): String {
+        return str.substring(0, 1).uppercase() + str.substring(1).lowercase()
+    }
+
     fun underBlock(block: Block): Block {
         return block.getRelative(BlockFace.DOWN)
     }

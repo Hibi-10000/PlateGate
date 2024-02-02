@@ -88,7 +88,7 @@ class Event: Listener {
         p.sendMessage(
             "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
             }§b To: §a${gate.toName ?: "null"} ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"
-            }§b Rotate: §a${facing}§b (§a${yaw}§b)"
+            }§b Rotate: §a${util.firstUpperCase(facing.name)}§b (§a${yaw}§b)"
         )
     }
 
