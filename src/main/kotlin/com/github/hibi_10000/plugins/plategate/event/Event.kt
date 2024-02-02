@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.event
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
@@ -32,7 +33,7 @@ class Event : Listener {
             val block = e.clickedBlock ?: throw NullPointerException()
             gate = dbUtil.get(block.world.uid, block.x, block.y, block.z)
         } catch (e: Exception) {
-            if (e.message != "gateNotFound") p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            if (e !is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return
         }
         //TODO: When文に変更?
@@ -47,7 +48,7 @@ class Event : Listener {
             try {
                 gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
             } catch (e: Exception) {
-                if (e.message == "gateNotFound") p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+                if (e is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                 else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
                 return
             }
@@ -117,7 +118,7 @@ class Event : Listener {
                     else -> {}
                 }
             } catch (e: Exception) {
-                if (e.message != "gateNotFound") player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+                if (e !is DBUtil.GateNotFoundException) player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             }
         }
         return false

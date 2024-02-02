@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
@@ -40,7 +41,7 @@ class PGCreate {
                 )
             )
         } catch (e: Exception) {
-            if (e.message == "gateNameDuplicate") sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")
+            if (e is DBUtil.GateNameDuplicateException) sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")
             else sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
             return false
         }

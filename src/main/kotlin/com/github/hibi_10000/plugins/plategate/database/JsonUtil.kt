@@ -68,7 +68,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         //TODO: createDate, updateDate
         val json = read()
         if (get(json, plateGate.owner, plateGate.name) != null) {
-            throw RuntimeException("gateNameDuplicate")
+            throw GateNameDuplicateException()
         }
         val idJo = JsonObject()
         idJo.addProperty("id", getLastId(json) + 1)
@@ -98,7 +98,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     @Throws(IOException::class, RuntimeException::class)
     override fun get(owner: UUID, name: String): CraftPlateGate {
         val json = read()
-        return get(json, owner, name) ?: throw RuntimeException("gateNotFound")
+        return get(json, owner, name) ?: throw GateNotFoundException()
     }
 
     @Throws(RuntimeException::class)
@@ -132,7 +132,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 return CraftPlateGate(jo)
             }
         }
-        throw RuntimeException("gateNotFound")
+        throw GateNotFoundException()
     }
 
     /**
@@ -170,20 +170,19 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     @Throws(IOException::class, RuntimeException::class)
     override fun link(owner: UUID, name: String, toOwner: UUID, toName: String) {
         val json = read()
-        if (get(json, toOwner, toName) == null) {
-            throw RuntimeException("gateNotFound")
-        }
-        for (element in json) {
-            val jo = element.asJsonObject
-            if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
-                jo.addProperty("toName", toName)
-                jo.addProperty("toOwner", toOwner.toString())
-                json[json.indexOf(element)] = jo
-                write(json)
-                return
+        if (get(json, toOwner, toName) != null) {
+            for (element in json) {
+                val jo = element.asJsonObject
+                if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
+                    jo.addProperty("toName", toName)
+                    jo.addProperty("toOwner", toOwner.toString())
+                    json[json.indexOf(element)] = jo
+                    write(json)
+                    return
+                }
             }
         }
-        throw RuntimeException("gateNotFound")
+        throw GateNotFoundException()
     }
 
     /**
@@ -211,7 +210,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 return
             }
         }
-        throw RuntimeException("gateNotFound")
+        throw GateNotFoundException()
     }
 
     /**
@@ -234,7 +233,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 return
             }
         }
-        throw RuntimeException("gateNotFound")
+        throw GateNotFoundException()
     }
 
     /**
@@ -251,7 +250,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     override fun rename(owner: UUID, name: String, newName: String) {
         val json = read()
         if (get(json, owner, newName) != null) {
-            throw RuntimeException("gateNameDuplicate")
+            throw GateNameDuplicateException()
         }
         for (element in json) {
             val jo = element.asJsonObject
@@ -262,7 +261,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 return
             }
         }
-        throw RuntimeException("gateNotFound")
+        throw GateNotFoundException()
     }
 
     /**
@@ -279,7 +278,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     override fun transfer(owner: UUID, name: String, newOwner: UUID) {
         val json = read()
         if (get(json, newOwner, name) != null) {
-            throw RuntimeException("gateNameDuplicate")
+            throw GateNameDuplicateException()
         }
         for (element in json) {
             val jo = element.asJsonObject
@@ -290,6 +289,6 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 return
             }
         }
-        throw RuntimeException("gateNotFound")
+        throw GateNotFoundException()
     }
 }

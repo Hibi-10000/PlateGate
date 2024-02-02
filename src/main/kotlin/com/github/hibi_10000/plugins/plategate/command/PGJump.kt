@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
@@ -22,7 +23,7 @@ class PGJump {
         try {
             gate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            if (e is DBUtil.GateNotFoundException) sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }

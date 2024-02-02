@@ -4,6 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
@@ -19,9 +20,9 @@ class PGRename {
         try {
             dbUtil.rename(sender.uniqueId, args[1], args[2])
         } catch (e: Exception) {
-            when (e.message) {
-                "gateNameDuplicate" -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")
-                "gateNotFound" -> sender.sendMessage("§a[PlateGate]§c ゲートが見つかりませんでした")
+            when (true) {
+                (e is DBUtil.GateNameDuplicateException) -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")
+                (e is DBUtil.GateNotFoundException) -> sender.sendMessage("§a[PlateGate]§c ゲートが見つかりませんでした")
                 else -> sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
             }
             return false

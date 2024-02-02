@@ -4,6 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
@@ -19,7 +20,7 @@ class PGLink {
         try {
             dbUtil.link(sender.uniqueId, args[1], sender.uniqueId, args[2])
         } catch (e: Exception) {
-            if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            if (e is DBUtil.GateNotFoundException) sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }

@@ -79,4 +79,7 @@ abstract class DBUtil(@Suppress("UNUSED_PARAMETER") gateDB: File) {
      */
     @Throws(IOException::class, RuntimeException::class)
     abstract fun transfer(owner: UUID, name: String, newOwner: UUID)
+
+    class GateNotFoundException: RuntimeException()
+    class GateNameDuplicateException: RuntimeException()
 }
