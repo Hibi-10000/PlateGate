@@ -39,13 +39,13 @@ class Event : Listener {
         if (e.action == Action.PHYSICAL) {
             if (!util.checkPermission(p, "plategate.use")) return
 
-            if (gate.to == null) {
+            if (gate.toOwner == null || gate.toName == null) {
                 e.player.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
                 return
             }
             val gateTo: CraftPlateGate
             try {
-                gateTo = dbUtil.get(gate.owner, gate.to ?: throw NullPointerException())
+                gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
             } catch (e: Exception) {
                 if (e.message == "gateNotFound") p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
                 else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
@@ -79,7 +79,8 @@ class Event : Listener {
             }
             p.sendMessage(
                 "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
-                }§b To: §a${gate.to ?: "null"}§b Rotate: §a${facing}§b (§a${yaw}§b)"
+                }§b To: §a${gate.toName ?: "null"} ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"
+                }§b Rotate: §a${facing}§b (§a${yaw}§b)"
             )
         }
     }

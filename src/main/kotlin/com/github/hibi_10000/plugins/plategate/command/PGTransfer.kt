@@ -69,7 +69,7 @@ class PGTransfer {
                         }\nY: ${gate.y
                         }\nZ: ${gate.z
                         }\nRotate: ${gate.rotate.name
-                        }\nTo: ${gate.to}"
+                        }\nTo: ${gate.toName ?: "null"} (Owner: ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"})"
                     )
                 )
                 newOwner.spigot().sendMessage(

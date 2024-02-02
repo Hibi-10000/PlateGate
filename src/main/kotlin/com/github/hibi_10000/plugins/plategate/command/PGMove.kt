@@ -49,7 +49,8 @@ class PGMove {
                     args[1],
                     loc.block,
                     sender.facing,
-                    oldGate.to,
+                    oldGate.toOwner,
+                    oldGate.toName,
                 )
             )
         } catch (e: Exception) {

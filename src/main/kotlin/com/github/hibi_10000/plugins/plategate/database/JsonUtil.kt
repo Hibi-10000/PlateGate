@@ -74,7 +74,8 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         idJo.addProperty("id", getLastId(json) + 1)
         idJo.addProperty("name", plateGate.name)
         idJo.addProperty("owner", plateGate.owner.toString())
-        idJo.addProperty("to", plateGate.to)
+        idJo.addProperty("toName", plateGate.toName)
+        idJo.addProperty("toOwner", plateGate.toOwner?.toString())
         idJo.addProperty("x", plateGate.x)
         idJo.addProperty("y", plateGate.y)
         idJo.addProperty("z", plateGate.z)
@@ -159,6 +160,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
      * Link the gate to another gate
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to link
+     * @param toOwner Player-specific [UUID] string of the gate owner to link to
      * @param toName PlateGate Name to link
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
@@ -166,15 +168,16 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun link(owner: UUID, name: String, toName: String) {
+    override fun link(owner: UUID, name: String, toOwner: UUID, toName: String) {
         val json = read()
-        if (get(json, owner, toName) == null) {
+        if (get(json, toOwner, toName) == null) {
             throw RuntimeException("gateNotFound")
         }
         for (element in json) {
             val jo = element.asJsonObject
             if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
-                jo.addProperty("to", toName)
+                jo.addProperty("toName", toName)
+                jo.addProperty("toOwner", toOwner.toString())
                 json[json.indexOf(element)] = jo
                 write(json)
                 return

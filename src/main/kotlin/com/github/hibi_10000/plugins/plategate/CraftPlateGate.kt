@@ -21,7 +21,8 @@ class CraftPlateGate(
     z: Int,
     rotate: BlockFace,
     beforeBlock: Material,
-    var to: String?
+    var toOwner: UUID?,
+    var toName: String?
 ) {
     var world: UUID = world
         private set
@@ -36,7 +37,7 @@ class CraftPlateGate(
     var beforeBlock: Material = beforeBlock
         private set
 
-    constructor(owner: UUID, name: String, block: Block, rotate: BlockFace, to: String?) : this(
+    constructor(owner: UUID, name: String, block: Block, rotate: BlockFace, toOwner: UUID?, toName: String?) : this(
         owner,
         name,
         block.world.uid,
@@ -45,7 +46,8 @@ class CraftPlateGate(
         block.z,
         rotate,
         block.getRelative(BlockFace.DOWN).type,
-        to
+        toOwner,
+        toName
     )
 
     constructor(jo: JsonObject) : this(
@@ -57,7 +59,8 @@ class CraftPlateGate(
         jo["z"].asInt,
         BlockFace.valueOf(jo["rotate"].asString),
         Material.getMaterial(jo["beforeBlock"].asString)!!,
-        jo["to"]?.asString
+        jo["toOwner"]?.asString?.let { UUID.fromString(it) },
+        jo["toName"]?.asString
     )
 
     fun getWorld(): World? {

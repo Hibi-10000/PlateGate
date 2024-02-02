@@ -17,7 +17,7 @@ class PGLink {
         if (args.size != 3) return util.commandInvalid(sender, label)
 
         try {
-            dbUtil.link(sender.uniqueId, args[1], args[2])
+            dbUtil.link(sender.uniqueId, args[1], sender.uniqueId, args[2])
         } catch (e: Exception) {
             if (e.message == "gateNotFound") sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")

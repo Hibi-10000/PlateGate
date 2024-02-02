@@ -45,10 +45,11 @@ abstract class DBUtil(@Suppress("UNUSED_PARAMETER") gateDB: File) {
      * Link the gate to another gate
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to link
+     * @param toOwner Player-specific [UUID] of the gate owner to link to
      * @param toName The name of the gate to link to
      */
     @Throws(IOException::class, RuntimeException::class)
-    abstract fun link(owner: UUID, name: String, toName: String)
+    abstract fun link(owner: UUID, name: String, toOwner: UUID, toName: String)
     /**
      * Move the gate to a new location
      * @param plateGate [CraftPlateGate] to move

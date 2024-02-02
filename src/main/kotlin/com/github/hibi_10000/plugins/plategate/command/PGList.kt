@@ -32,14 +32,14 @@ class PGList {
             return false
         }
         for (gate in gateList) {
-            if (gate.to == null) {
+            if (gate.toName == null || gate.toOwner == null) {
                 sender.sendMessage(" §b${gate.name}")
             } else {
-                /*if (jsonUtil.get(gate.to, sender.uniqueId.toString()) != null) {
-                    sender.sendMessage(" §b${gate.name} §a<--> §b${gate.to}")
+                /*if (dbUtil.get(gate.toOwner, gate.toName) != null) {
+                    sender.sendMessage(" §b${gate.name} §a<--> §b${gate.toName}")
                     continue
                 }*/
-                sender.sendMessage(" §b${gate.name} §a---> §b${gate.to}")
+                sender.sendMessage(" §b${gate.name} §a---> §b${gate.toName}")
             }
         }
         return true
