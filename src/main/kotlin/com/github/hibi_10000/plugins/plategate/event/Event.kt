@@ -21,16 +21,16 @@ import org.bukkit.event.block.BlockPistonRetractEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
-class Event : Listener {
+class Event: Listener {
     @EventHandler
     fun onPlayerInteract(e: PlayerInteractEvent) {
-        val p = e.player
         if (e.hand == EquipmentSlot.OFF_HAND) return
         if (e.action != Action.PHYSICAL && e.action != Action.RIGHT_CLICK_BLOCK) return
         if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
+        val p = e.player
         val gate: CraftPlateGate
         try {
-            val block = e.clickedBlock ?: throw NullPointerException()
+            val block = e.clickedBlock!!
             gate = dbUtil.get(block.world.uid, block.x, block.y, block.z)
         } catch (e: Exception) {
             if (e !is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
@@ -38,56 +38,62 @@ class Event : Listener {
         }
         //TODO: When文に変更?
         if (e.action == Action.PHYSICAL) {
-            if (!util.checkPermission(p, "plategate.use")) return
-
-            if (gate.toOwner == null || gate.toName == null) {
-                e.player.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
-                return
-            }
-            val gateTo: CraftPlateGate
-            try {
-                gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
-            } catch (e: Exception) {
-                if (e is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-                else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-                return
-            }
-
-            val toBlock = gateTo.getTPLocationBlock()
-            if (toBlock == null) {
-                p.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
-                return
-            }
-            util.upperBlock(toBlock).type = Material.AIR
-            toBlock.type = Material.AIR
-            val toLoc = toBlock.location
-            toLoc.pitch = p.location.pitch
-            //toLoc.x += 0.5
-            //toLoc.z += 0.5
-            p.teleport(toLoc)
+            usePlateGate(p, gate)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
             e.setCancelled(true)
-            if (!util.checkPermission(p, "plategate.info")) return
-
-            val owner = util.getOfflinePlayer(gate.owner, p) ?: return
-            val facing = gate.rotate
-            val yaw = when (facing) {
-                BlockFace.SOUTH ->   "0"
-                BlockFace.WEST  ->  "90"
-                BlockFace.NORTH -> "180"
-                BlockFace.EAST  -> "-90"
-                else            ->   "0"
-            }
-            p.sendMessage(
-                "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
-                }§b To: §a${gate.toName ?: "null"} ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"
-                }§b Rotate: §a${facing}§b (§a${yaw}§b)"
-            )
+            clickPlateGate(p, gate)
         }
     }
 
+    private fun usePlateGate(p: Player, gate: CraftPlateGate) {
+        if (!util.checkPermission(p, "plategate.use")) return
+
+        if (gate.toOwner == null || gate.toName == null) {
+            p.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
+            return
+        }
+        val gateTo: CraftPlateGate
+        try {
+            gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
+        } catch (e: Exception) {
+            if (e is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
+            else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            return
+        }
+
+        val toBlock = gateTo.getTPLocationBlock()
+        if (toBlock == null) {
+            p.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+            return
+        }
+        util.upperBlock(toBlock).type = Material.AIR
+        toBlock.type = Material.AIR
+        val toLoc = toBlock.location
+        toLoc.pitch = p.location.pitch
+        p.teleport(toLoc)
+    }
+
+    private fun clickPlateGate(p: Player, gate: CraftPlateGate) {
+        if (!util.checkPermission(p, "plategate.info")) return
+
+        val owner = util.getOfflinePlayer(gate.owner, p) ?: return
+        val facing = gate.rotate
+        val yaw = when (facing) {
+            BlockFace.SOUTH ->   "0"
+            BlockFace.WEST  ->  "90"
+            BlockFace.NORTH -> "180"
+            BlockFace.EAST  -> "-90"
+            else            ->   "0"
+        }
+        p.sendMessage(
+            "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
+            }§b To: §a${gate.toName ?: "null"} ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"
+            }§b Rotate: §a${facing}§b (§a${yaw}§b)"
+        )
+    }
+
     @EventHandler
-    fun onPlateGateBlockBreak(e: BlockBreakEvent) {
+    fun onBlockBreak(e: BlockBreakEvent) {
         e.isCancelled = isPlateGateBlock(listOf(e.block), e.player)
         if (e.isCancelled) e.player.sendMessage("§a[PlateGate]§c PlateGateを壊すことはできません！")
     }
