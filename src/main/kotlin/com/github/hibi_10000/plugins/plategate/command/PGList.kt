@@ -40,7 +40,11 @@ class PGList {
                     val toOwner = util.getPlayer(gate.toOwner!!, sender) ?: continue
                     toName += " (Owner: ${toOwner.name})"
                 }
-                sender.sendMessage(" §b${gate.name} §a---> §b${toName}")
+                var arrow = "--->"
+                if (dbUtil.get(gate.toOwner!!, gate.toName!!).let { it.toName == gate.name && it.toOwner == gate.owner } ) {
+                    arrow = "<-->"
+                }
+                sender.sendMessage(" §b${gate.name} §a${arrow} §b${toName}")
             }
         }
         return true
