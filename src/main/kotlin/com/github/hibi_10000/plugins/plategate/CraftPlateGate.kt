@@ -71,8 +71,4 @@ class CraftPlateGate(
     fun getTPLocationBlock(): Block? {
         return getBlock()?.getRelative(rotate)
     }
-
-    override fun toString(): String {
-        return "CraftPlateGate{owner=$owner, name=$name, world=$world, x=$x, y=$y, z=$z, rotate=$rotate, beforeBlock=$beforeBlock, to=$to}"
-    }
 }
