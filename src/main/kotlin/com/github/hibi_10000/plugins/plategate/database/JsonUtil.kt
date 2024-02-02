@@ -6,10 +6,7 @@ package com.github.hibi_10000.plugins.plategate.database
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.util
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
+import com.google.gson.*
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -18,6 +15,14 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 
 class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
+    /**
+     * Read [JsonArray] in [gateDB]
+     * @return [JsonArray] in File
+     * @throws IOException [FileReader(gateDB, Charset)][FileReader] If [gateDB] isn't found or some reasons
+     * @throws JsonIOException [Gson.fromJson(Reader, Class)][Gson.fromJson] If there was a problem reading from the [FileReader]
+     * @throws JsonSyntaxException [Gson.fromJson(Reader, Class)][Gson.fromJson] If contents of [File] are not [JsonArray]
+     * @throws IllegalStateException [JsonArray.getAsJsonArray] If contents of [File] are not [JsonArray]
+     */
     @Throws(IOException::class, RuntimeException::class)
     private fun read(): JsonArray {
         val reader = FileReader(gateDB, StandardCharsets.UTF_8)
@@ -26,7 +31,13 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         return array.asJsonArray
     }
 
-    @Throws(IOException::class)
+    /**
+     * Write JsonArray to [gateDB]
+     * @param json JsonArray to write to [gateDB]
+     * @throws IOException [FileWriter(gateDB, Charset)][FileWriter] If [gateDB] cannot be opened
+     * @throws JsonIOException [Gson.toJson(json, writer)][Gson.toJson] If there was a problem writing to the [FileWriter]
+     */
+    @Throws(IOException::class, RuntimeException::class)
     private fun write(json: JsonArray) {
         val gson = GsonBuilder().setPrettyPrinting().create()
         val writer = FileWriter(gateDB, StandardCharsets.UTF_8, false)
@@ -44,6 +55,14 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         return lastId
     }
 
+    /**
+     * Add an entry to the table (id is set automatically)
+     * @param plateGate [CraftPlateGate] to add
+     * @throws IOException see [read] and [write]
+     * @throws RuntimeException see [read] and [write]
+     * @see read
+     * @see write
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun add(plateGate: CraftPlateGate) {
         //TODO: createDate, updateDate
@@ -66,13 +85,22 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         write(json)
     }
 
+    /**
+     * Get [CraftPlateGate] from name and owner
+     * @param name PlateGate Name
+     * @param owner Player-specific [UUID] string of the gate owner
+     * @return [CraftPlateGate] corresponding to the input values
+     * @throws IOException see [read]
+     * @throws RuntimeException see [read]
+     * @see read
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun get(name: String, owner: String): CraftPlateGate {
         val json = read()
         return get(json, name, owner) ?: throw RuntimeException("gateNotFound")
     }
 
-    @Throws(IOException::class, RuntimeException::class)
+    @Throws(RuntimeException::class)
     private fun get(json: JsonArray, name: String, owner: String): CraftPlateGate? {
         for (element in json) {
             val jo = element.asJsonObject
@@ -83,6 +111,17 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         return null
     }
 
+    /**
+     * Get [CraftPlateGate] from coordinates
+     * @param world World-specific [UUID] string
+     * @param x X-axis of coordinates
+     * @param y Y-axis of coordinates
+     * @param z Z-axis of coordinates
+     * @return [CraftPlateGate] corresponding to the input value
+     * @throws IOException see [read]
+     * @throws RuntimeException see [read]
+     * @see read
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun get(world: String, x: Int, y: Int, z: Int): CraftPlateGate {
         val json = read()
@@ -95,6 +134,14 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         throw RuntimeException("gateNotFound")
     }
 
+    /**
+     * Get a list of [CraftPlateGate] owned by the player
+     * @param owner Player-specific [UUID] string of the gate owner
+     * @return List of [CraftPlateGate] owned by the player
+     * @throws IOException see [read]
+     * @throws RuntimeException see [read]
+     * @see read
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun getList(owner: String): List<CraftPlateGate> {
         val json = read()
@@ -108,6 +155,16 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         return list
     }
 
+    /**
+     * Link the gate to another gate
+     * @param name PlateGate Name
+     * @param owner Player-specific [UUID] string of the gate owner
+     * @param to PlateGate Name to link
+     * @throws IOException see [read] and [write]
+     * @throws RuntimeException see [read] and [write]
+     * @see read
+     * @see write
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun link(name: String, owner: String, to: String) {
         val json = read()
@@ -126,6 +183,14 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         throw RuntimeException("gateNotFound")
     }
 
+    /**
+     * Move the gate to another location
+     * @param plateGate [CraftPlateGate] to move
+     * @throws IOException see [read] and [write]
+     * @throws RuntimeException see [read] and [write]
+     * @see read
+     * @see write
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun move(plateGate: CraftPlateGate) {
         val json = read()
@@ -146,6 +211,15 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         throw RuntimeException("gateNotFound")
     }
 
+    /**
+     * Remove the gate
+     * @param name PlateGate Name
+     * @param owner Player-specific [UUID] string of the gate owner
+     * @throws IOException see [read] and [write]
+     * @throws RuntimeException see [read] and [write]
+     * @see read
+     * @see write
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun remove(name: String, owner: String) {
         val json = read()
@@ -160,6 +234,16 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         throw RuntimeException("gateNotFound")
     }
 
+    /**
+     * Rename the gate
+     * @param name PlateGate Name
+     * @param owner Player-specific [UUID] string of the gate owner
+     * @param newName New PlateGate Name
+     * @throws IOException see [read] and [write]
+     * @throws RuntimeException see [read] and [write]
+     * @see read
+     * @see write
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun rename(name: String, owner: String, newName: String) {
         val json = read()
@@ -178,6 +262,16 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         throw RuntimeException("gateNotFound")
     }
 
+    /**
+     * Transfer the gate
+     * @param name PlateGate Name
+     * @param owner Player-specific [UUID] string of the gate owner
+     * @param newOwner Player-specific [UUID] string of the new gate owner
+     * @throws IOException see [read] and [write]
+     * @throws RuntimeException see [read] and [write]
+     * @see read
+     * @see write
+     */
     @Throws(IOException::class, RuntimeException::class)
     override fun transfer(name: String, owner: String, newOwner: String) {
         val json = read()
