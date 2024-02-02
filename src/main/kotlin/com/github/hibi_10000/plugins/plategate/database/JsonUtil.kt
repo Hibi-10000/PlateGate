@@ -258,6 +258,13 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
             if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
                 jo.addProperty("name", newName)
                 json[json.indexOf(element)] = jo
+                for (element2 in json) {
+                    val jo2 = element2.asJsonObject
+                    if (jo2["toName"]?.asString == name && jo2["toOwner"]?.asString == owner.toString()) {
+                        jo2.addProperty("toName", newName)
+                        json[json.indexOf(element2)] = jo2
+                    }
+                }
                 write(json)
                 return
             }
@@ -286,6 +293,13 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
             if (jo["name"].asString == name && jo["owner"].asString == owner.toString()) {
                 jo.addProperty("owner", newOwner.toString())
                 json[json.indexOf(element)] = jo
+                for (element2 in json) {
+                    val jo2 = element2.asJsonObject
+                    if (jo2["toName"]?.asString == name && jo2["toOwner"]?.asString == owner.toString()) {
+                        jo2.addProperty("toOwner", newOwner.toString())
+                        json[json.indexOf(element2)] = jo2
+                    }
+                }
                 write(json)
                 return
             }
