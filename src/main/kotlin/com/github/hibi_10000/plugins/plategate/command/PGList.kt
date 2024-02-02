@@ -35,11 +35,12 @@ class PGList {
             if (gate.toName == null || gate.toOwner == null) {
                 sender.sendMessage(" §b${gate.name}")
             } else {
-                /*if (dbUtil.get(gate.toOwner, gate.toName) != null) {
-                    sender.sendMessage(" §b${gate.name} §a<--> §b${gate.toName}")
-                    continue
-                }*/
-                sender.sendMessage(" §b${gate.name} §a---> §b${gate.toName}")
+                var toName = gate.toName
+                if (gate.toOwner != searchP.uniqueId) {
+                    val toOwner = util.getPlayer(gate.toOwner!!, sender) ?: continue
+                    toName += " (Owner: ${toOwner.name})"
+                }
+                sender.sendMessage(" §b${gate.name} §a---> §b${toName}")
             }
         }
         return true
