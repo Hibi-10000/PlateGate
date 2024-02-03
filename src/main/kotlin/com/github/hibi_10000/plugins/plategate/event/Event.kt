@@ -25,9 +25,9 @@ class Event: Listener {
     @EventHandler(ignoreCancelled = true)
     fun onPlayerInteract(e: PlayerInteractEvent) {
         if (e.hand == EquipmentSlot.OFF_HAND) return
-        if (e.action != Action.PHYSICAL && e.action != Action.RIGHT_CLICK_BLOCK) return
-        if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
         val p = e.player
+        if (e.action != Action.PHYSICAL && ((e.action != Action.RIGHT_CLICK_BLOCK) && p.isSneaking)) return
+        if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
         val gate: CraftPlateGate
         try {
             val block = e.clickedBlock!!
