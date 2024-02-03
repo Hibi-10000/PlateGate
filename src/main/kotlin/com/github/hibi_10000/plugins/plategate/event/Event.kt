@@ -97,39 +97,36 @@ class Event: Listener {
 
     @EventHandler(ignoreCancelled = true)
     fun onBlockBreak(e: BlockBreakEvent) {
-        e.isCancelled = isPlateGateBlock(listOf(e.block), e.player)
+        e.isCancelled = isPlateGateBlock(e.block, e.player)
         if (e.isCancelled) e.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent("§cPlateGateを壊すことはできません！"))
     }
 
     @EventHandler(ignoreCancelled = true)
 	fun onPistonExtend(e: BlockPistonExtendEvent) {
-        e.isCancelled = isPlateGateBlock(e.blocks, null)
+        e.isCancelled = isPlateGateBlock(e.blocks)
 	}
 
 	@EventHandler(ignoreCancelled = true)
 	fun onPistonRetract(e: BlockPistonRetractEvent) {
-        e.isCancelled = isPlateGateBlock(e.blocks, null)
+        e.isCancelled = isPlateGateBlock(e.blocks)
 	}
 
-    private fun isPlateGateBlock(blocks: List<Block>, player: Player?): Boolean {
+    private fun isPlateGateBlock(blocks: List<Block>): Boolean {
         for (b in blocks) {
-            try {
-                when (b.type) {
-                    Material.IRON_BLOCK -> {
-                        val ub = util.upperBlock(b)
-                        dbUtil.get(ub.world.uid, ub.x, ub.y, ub.z)
-                        return true
-                    }
-                    Material.STONE_PRESSURE_PLATE -> {
-                        dbUtil.get(b.world.uid, b.x, b.y, b.z)
-                        return true
-                    }
-                    else -> {}
-                }
-            } catch (e: Exception) {
-                if (e !is DBUtil.GateNotFoundException) player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
-            }
+            if (isPlateGateBlock(b, null)) return true
         }
         return false
+    }
+
+    private fun isPlateGateBlock(block: Block, player: Player?): Boolean {
+        if (block.type != Material.IRON_BLOCK && block.type != Material.STONE_PRESSURE_PLATE) return false
+        return try {
+            val b = if (block.type == Material.IRON_BLOCK) util.upperBlock(block) else block
+            dbUtil.get(b.world.uid, b.x, b.y, b.z)
+            true
+        } catch (e: Exception) {
+            if (e !is DBUtil.GateNotFoundException) player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            false
+        }
     }
 }
