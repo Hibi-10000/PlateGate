@@ -4,8 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.util
-import com.github.hibi_10000.plugins.plategate.version
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -19,8 +19,8 @@ class PGHelp {
         if (!util.checkPermission(sender, "plategate.command.help")) return false
         if (args.size == 2) {
             if (args[1].equals("plugin", ignoreCase = true)) {
-                sender.sendMessage("§a[PlateGate $version] §6MoreHelp")
-                sender.sendMessage("Version: §b$version")
+                sender.sendMessage("§a[PlateGate ${instance.description.version}] §6MoreHelp")
+                sender.sendMessage("Version: §b${instance.description.version}")
                 sender.sendMessage("Author: Hibi_10000")
                 sender.sendMessage("GitHub: https://github.com/Hibi-10000/PlateGate")
                 sender.sendMessage("BukkitDev: https://dev.bukkit.org/projects/plategate")
@@ -29,7 +29,7 @@ class PGHelp {
             }
         }
         if (args.size != 1) return util.commandInvalid(sender, label)
-        sender.sendMessage("§a[PlateGate $version] §6Help")
+        sender.sendMessage("§a[PlateGate ${instance.description.version}] §6Help")
         sender.sendMessage(" §6Command§r:")
 
         sender.spigot().sendMessage(commandHelp(label,   "create", "[GateName]"))

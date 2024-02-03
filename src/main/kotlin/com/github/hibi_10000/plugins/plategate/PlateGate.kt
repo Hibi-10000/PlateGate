@@ -12,14 +12,12 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
 lateinit var instance: PlateGate
-lateinit var version: String
 lateinit var dbUtil: DBUtil
 val util: Util = Util()
 
 class PlateGate : JavaPlugin() {
     override fun onEnable() {
         instance = this
-        version = description.version
         val gateDB = File(dataFolder, "gate.json")
         if (!gateDB.exists()) {
             saveResource("gate.json", false)
