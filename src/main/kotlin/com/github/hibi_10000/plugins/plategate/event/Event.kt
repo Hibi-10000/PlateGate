@@ -16,10 +16,8 @@ import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.block.Action
-import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.block.BlockPistonExtendEvent
-import org.bukkit.event.block.BlockPistonRetractEvent
+import org.bukkit.event.block.*
+import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
@@ -99,6 +97,30 @@ class Event: Listener {
     fun onBlockBreak(e: BlockBreakEvent) {
         e.isCancelled = isPlateGateBlock(e.block, e.player)
         if (e.isCancelled) e.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent("§cPlateGateを壊すことはできません！"))
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onBlockDamage(e: BlockDamageEvent) {
+        if (isPlateGateBlock(e.block, e.player))
+            e.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent("§cPlateGateを壊すことはできません！"))
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onBlockExplode(e: BlockExplodeEvent) {
+        for (b in e.blockList().toMutableList()) {
+            if (isPlateGateBlock(b, null)) {
+                e.blockList().remove(b)
+            }
+        }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onEntityExplode(e: EntityExplodeEvent) {
+        for (b in e.blockList().toMutableList()) {
+            if (isPlateGateBlock(b, null)) {
+                e.blockList().remove(b)
+            }
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
