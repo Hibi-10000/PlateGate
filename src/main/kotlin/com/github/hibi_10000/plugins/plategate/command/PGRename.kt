@@ -20,9 +20,9 @@ object PGRename {
         try {
             dbUtil.rename(sender.uniqueId, args[1], args[2])
         } catch (e: Exception) {
-            when (true) {
-                (e is DBUtil.GateNameDuplicateException) -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")
-                (e is DBUtil.GateNotFoundException) -> sender.sendMessage("§a[PlateGate]§c ゲートが見つかりませんでした")
+            when (e) {
+                is DBUtil.GateNameDuplicateException -> sender.sendMessage("§a[PlateGate]§c \"${args[2]}\"は既に使用されています。")
+                is DBUtil.GateNotFoundException -> sender.sendMessage("§a[PlateGate]§c ゲートが見つかりませんでした")
                 else -> sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
             }
             return false
