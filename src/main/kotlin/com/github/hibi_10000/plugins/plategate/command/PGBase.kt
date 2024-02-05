@@ -29,7 +29,6 @@ class PGBase : CommandExecutor, TabCompleter {
             "remove"   -> PGRemove  ().onCommand(sender, command, label, args)
             "rename"   -> PGRename  ().onCommand(sender, command, label, args)
             "transfer" -> PGTransfer().onCommand(sender, command, label, args)
-            //"test"   -> {true}
             else -> util.commandInvalid(sender, label)
         }
     }
