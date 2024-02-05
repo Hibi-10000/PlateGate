@@ -37,12 +37,17 @@ object PGList {
             } else {
                 var toName = gate.toName
                 if (gate.toOwner != searchP.uniqueId) {
-                    val toOwner = util.getPlayer(gate.toOwner!!, sender) ?: continue
-                    toName += " (Owner: ${toOwner.name})"
+                    val toOwner = util.getPlayer(gate.toOwner!!, sender)
+                    toName += " (Owner: ${toOwner?.name})"
                 }
                 var arrow = "--->"
-                if (dbUtil.get(gate.toOwner!!, gate.toName!!).let { it.toName == gate.name && it.toOwner == gate.owner } ) {
-                    arrow = "<-->"
+                try {
+                    val toGate = dbUtil.get(gate.toOwner!!, gate.toName!!)
+                    if (toGate.toName == gate.name && toGate.toOwner == gate.owner) {
+                        arrow = "<-->"
+                    }
+                } catch (e: Exception) {
+                    sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
                 }
                 sender.sendMessage(" §b${gate.name} §a${arrow} §b${toName}")
             }
