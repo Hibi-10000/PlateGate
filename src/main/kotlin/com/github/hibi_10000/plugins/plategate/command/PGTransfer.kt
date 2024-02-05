@@ -93,25 +93,19 @@ object PGTransfer {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String> {
-        val list: MutableList<String> = ArrayList()
-        if (args.size <= 2) return list
+    fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
+        if (args.size <= 2) return null
+        val list: MutableList<String> = mutableListOf()
         if (args.size == 3) {
-            list.add("owner")
+            list.add("reject")
             list.add("accept")
             return list
-        } else if (args[2].equals("owner", ignoreCase = true)) {
+        } else if (args[2].lowercase() == "owner") {
             for (p in Bukkit.getOnlinePlayers()) {
-                if (args[3].equals(p.name, ignoreCase = true) && p.hasPermission("plategate.admin")) {
-                    list.clear()
-                    list.add("force")
-                    return list
-                }
                 list.add(p.name)
             }
             return list
         }
-        list.clear()
-        return list
+        return null
     }
 }
