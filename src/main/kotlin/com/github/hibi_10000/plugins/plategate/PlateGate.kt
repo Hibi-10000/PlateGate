@@ -14,7 +14,7 @@ import java.util.*
 
 lateinit var instance: PlateGate
 lateinit var dbUtil: DBUtil
-val util: Util = Util()
+val util: Util = Util
 val noInteract: MutableList<UUID> = mutableListOf()
 
 class PlateGate : JavaPlugin() {
@@ -25,8 +25,8 @@ class PlateGate : JavaPlugin() {
             saveResource("gate.json", false)
         }
         dbUtil = JsonUtil(gateDB)
-        getCommand("plategate")?.setExecutor(PGBase())
-        getCommand("plategate")?.tabCompleter = PGBase()
-        server.pluginManager.registerEvents(Event(), this)
+        getCommand("plategate")?.setExecutor(PGBase)
+        getCommand("plategate")?.tabCompleter = PGBase
+        server.pluginManager.registerEvents(Event, this)
     }
 }

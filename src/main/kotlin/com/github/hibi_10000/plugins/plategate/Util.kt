@@ -18,7 +18,7 @@ import org.bukkit.entity.Player
 import java.util.*
 import java.util.regex.Pattern
 
-class Util {
+object Util {
     fun checkPermission(sender: CommandSender, permission: String): Boolean {
         if (!sender.hasPermission(permission)) {
             sender.sendMessage("§a[PlateGate] §c権限が不足しています。")

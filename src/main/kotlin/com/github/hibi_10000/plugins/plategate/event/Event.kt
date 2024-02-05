@@ -22,7 +22,7 @@ import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
-class Event: Listener {
+object Event: Listener {
     @EventHandler(ignoreCancelled = true)
     fun onPlayerInteract(e: PlayerInteractEvent) {
         if (e.hand == EquipmentSlot.OFF_HAND) return

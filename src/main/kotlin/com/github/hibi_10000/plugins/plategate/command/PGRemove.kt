@@ -13,7 +13,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class PGRemove {
+object PGRemove {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.remove")) return false

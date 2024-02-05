@@ -19,7 +19,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
 
-class PGTransfer {
+object PGTransfer {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (args.size < 3) return util.commandInvalid(sender, label)

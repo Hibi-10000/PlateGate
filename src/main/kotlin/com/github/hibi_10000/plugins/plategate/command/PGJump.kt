@@ -13,7 +13,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class PGJump {
+object PGJump {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, cmd: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.jump")) return false
