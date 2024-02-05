@@ -57,7 +57,7 @@ class CraftPlateGate(
         jo["x"].asInt,
         jo["y"].asInt,
         jo["z"].asInt,
-        BlockFace.valueOf(jo["rotate"].asString.uppercase()),
+        BlockFace.valueOf(jo["rotate"].asString.uppercase(Locale.ROOT)),
         Material.getMaterial(jo["beforeBlock"].asString)!!,
         jo["toOwner"]?.asString?.let { UUID.fromString(it) },
         jo["toName"]?.asString

@@ -36,7 +36,7 @@ object Util {
     }
 
     fun firstUpperCase(str: String): String {
-        return str.substring(0, 1).uppercase() + str.substring(1).lowercase(Locale.ROOT)
+        return str.substring(0, 1).uppercase(Locale.ROOT) + str.substring(1).lowercase(Locale.ROOT)
     }
 
     fun underBlock(block: Block): Block {
