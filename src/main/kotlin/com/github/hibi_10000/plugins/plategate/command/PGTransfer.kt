@@ -18,6 +18,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
+import java.util.*
 
 object PGTransfer {
     @Suppress("UNUSED_PARAMETER")
@@ -25,7 +26,7 @@ object PGTransfer {
         if (args.size < 3) return util.commandInvalid(sender, label)
 
         val gateName = args[1]
-        when (args[2].lowercase()) {
+        when (args[2].lowercase(Locale.ROOT)) {
             "accept" -> {
                 //TODO: 新しい所有者か確認
                 if (sender.hasMetadata("plategate_NewOwner")) {
@@ -100,7 +101,7 @@ object PGTransfer {
             list.add("reject")
             list.add("accept")
             return list
-        } else if (args[2].lowercase() == "owner") {
+        } else if (args[2].lowercase(Locale.ROOT) == "owner") {
             for (p in Bukkit.getOnlinePlayers()) {
                 list.add(p.name)
             }

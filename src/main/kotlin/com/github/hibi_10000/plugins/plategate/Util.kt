@@ -36,7 +36,7 @@ object Util {
     }
 
     fun firstUpperCase(str: String): String {
-        return str.substring(0, 1).uppercase() + str.substring(1).lowercase()
+        return str.substring(0, 1).uppercase() + str.substring(1).lowercase(Locale.ROOT)
     }
 
     fun underBlock(block: Block): Block {
@@ -68,7 +68,7 @@ object Util {
     fun getPlayer(name: String, sender: Player?): Player? {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
-            if (Bukkit.getOfflinePlayers().any { it.name.equals(name, ignoreCase = true) }) {
+            if (Bukkit.getOfflinePlayers().any { it.name?.lowercase(Locale.ROOT) == name }) {
                 sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
             } else {
                 if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
@@ -91,7 +91,7 @@ object Util {
     }
 
     fun getOfflinePlayer(name: String, sender: Player?): OfflinePlayer? {
-        val player = Bukkit.getOfflinePlayers().find { it.name.equals(name, ignoreCase = true) }
+        val player = Bukkit.getOfflinePlayers().find { it.name?.lowercase(Locale.ROOT) == name }
         if (player == null) {
             if (isUUID(name)) return getOfflinePlayer(UUID.fromString(name), sender)
             sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")

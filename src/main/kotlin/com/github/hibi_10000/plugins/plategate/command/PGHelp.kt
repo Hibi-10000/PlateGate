@@ -12,13 +12,14 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import java.util.*
 
 object PGHelp {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (!util.checkPermission(sender, "plategate.command.help")) return false
         if (args.size == 2) {
-            if (args[1].equals("plugin", ignoreCase = true)) {
+            if (args[1].lowercase(Locale.ROOT) == "plugin") {
                 sender.sendMessage("§a[PlateGate ${instance.description.version}] §6MoreHelp")
                 sender.sendMessage("Version: §b${instance.description.version}")
                 sender.sendMessage("Author: Hibi_10000")
