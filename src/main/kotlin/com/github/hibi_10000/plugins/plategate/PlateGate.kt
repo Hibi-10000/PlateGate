@@ -10,10 +10,12 @@ import com.github.hibi_10000.plugins.plategate.database.JsonUtil
 import com.github.hibi_10000.plugins.plategate.event.Event
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.util.*
 
 lateinit var instance: PlateGate
 lateinit var dbUtil: DBUtil
 val util: Util = Util()
+val noInteract: MutableList<UUID> = mutableListOf()
 
 class PlateGate : JavaPlugin() {
     override fun onEnable() {

@@ -112,4 +112,9 @@ class Util {
     fun isUUID(string: String): Boolean {
         return Pattern.compile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$").matcher(string).find()
     }
+
+    fun noInteract(uuid: UUID) {
+        noInteract.add(uuid)
+        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable { noInteract.remove(uuid) }, 20L)
+    }
 }

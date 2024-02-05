@@ -45,6 +45,7 @@ class PGCreate {
             else sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
             return false
         }
+        util.noInteract(sender.uniqueId)
         val underBlock = util.underBlock(loc.block)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK

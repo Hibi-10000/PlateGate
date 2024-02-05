@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate.event
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.noInteract
 import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.chat.TextComponent
@@ -47,6 +48,7 @@ class Event: Listener {
 
     private fun usePlateGate(p: Player, gate: CraftPlateGate) {
         if (!util.checkPermission(p, "plategate.use")) return
+        if (noInteract.contains(p.uniqueId)) return
 
         if (gate.toOwner == null || gate.toName == null) {
             p.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
