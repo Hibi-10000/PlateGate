@@ -55,7 +55,8 @@ object PGMove {
                 )
             )
         } catch (e: Exception) {
-            sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            if (e is DBUtil.GateLocationDuplicateException) sender.sendMessage("§a[PlateGate] §cその場所は他のゲートと干渉します")
+            else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }
         val oldUnderBlock = util.underBlock(oldBlock)

@@ -41,8 +41,11 @@ object PGCreate {
                 )
             )
         } catch (e: Exception) {
-            if (e is DBUtil.GateNameDuplicateException) sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています。")
-            else sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました。")
+            when (e) {
+                is DBUtil.GateNameDuplicateException -> sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています")
+                is DBUtil.GateLocationDuplicateException -> sender.sendMessage("§a[PlateGate] §cその場所は他のゲートと干渉します")
+                else -> sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました")
+            }
             return false
         }
         util.noInteract(sender.uniqueId)

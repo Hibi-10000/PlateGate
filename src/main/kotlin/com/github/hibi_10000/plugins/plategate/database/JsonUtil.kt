@@ -6,6 +6,7 @@ package com.github.hibi_10000.plugins.plategate.database
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.google.gson.*
+import org.bukkit.block.BlockFace
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -56,6 +57,43 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         return lastId
     }
 
+    @Throws(RuntimeException::class)
+    private fun checkLoc(json: JsonArray, plateGate: CraftPlateGate) {
+        val bool = { jo: JsonObject, world: UUID, x: Int, y: Int, z: Int ->
+            jo["world"].asString == world.toString()
+                && jo["x"].asInt == x
+                && jo["y"].asInt == y
+                && jo["z"].asInt == z
+        }
+        for (element in json) {
+            val jo = element.asJsonObject
+            val ys = listOf(2, 1, 0, -1, -2)
+            for (y in ys) {
+                if (bool(jo, plateGate.world, plateGate.x, plateGate.y + y, plateGate.z)) {
+                    throw GateLocationDuplicateException()
+                }
+            }
+            val xs = listOf(1, 0, -1)
+            val zs = listOf(1, 0, -1)
+            for (x in xs) { for (z in zs) { for (y in ys) {
+                if (x == 0 && z == 0) continue
+                if (bool(jo, plateGate.world, plateGate.x + x, plateGate.y + y, plateGate.z + z)) {
+                    if (x == plateGate.rotate.modX && z == plateGate.rotate.modZ) {
+                        throw GateLocationDuplicateException()
+                    }
+                    val dRotate = BlockFace.valueOf(jo["rotate"].asString.uppercase(Locale.ROOT))
+                    if (   dRotate != plateGate.rotate
+                        && dRotate != plateGate.rotate.oppositeFace
+                        && x == dRotate.oppositeFace.modX
+                        && z == dRotate.oppositeFace.modZ
+                    ) {
+                        throw GateLocationDuplicateException()
+                    }
+                }
+            } } }
+        }
+    }
+
     /**
      * Add an entry to the table (id is set automatically)
      * @param plateGate [CraftPlateGate] to add
@@ -71,6 +109,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         if (get(json, plateGate.owner, plateGate.name) != null) {
             throw GateNameDuplicateException()
         }
+        checkLoc(json, plateGate)
         val idJo = JsonObject()
         idJo.addProperty("id", getLastId(json) + 1)
         idJo.addProperty("owner", plateGate.owner.toString())
@@ -197,6 +236,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     @Throws(IOException::class, RuntimeException::class)
     override fun move(plateGate: CraftPlateGate) {
         val json = read()
+        checkLoc(json, plateGate)
         for (element in json) {
             val jo = element.asJsonObject
             if (jo["name"].asString == plateGate.name && jo["owner"].asString == plateGate.owner.toString()) {

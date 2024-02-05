@@ -82,4 +82,5 @@ abstract class DBUtil(@Suppress("UNUSED_PARAMETER") gateDB: File) {
 
     class GateNotFoundException: RuntimeException()
     class GateNameDuplicateException: RuntimeException()
+    class GateLocationDuplicateException: RuntimeException()
 }
