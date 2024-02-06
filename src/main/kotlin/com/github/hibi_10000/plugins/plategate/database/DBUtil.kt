@@ -79,8 +79,16 @@ abstract class DBUtil(@Suppress("UNUSED_PARAMETER") gateDB: File) {
      */
     @Throws(IOException::class, RuntimeException::class)
     abstract fun transfer(owner: UUID, name: String, newOwner: UUID)
+    /**
+     * Unlink the gate from another gate
+     * @param owner Player-specific [UUID] of the gate owner
+     * @param name The name of the gate to unlink
+     */
+    @Throws(IOException::class, RuntimeException::class)
+    abstract fun unlink(owner: UUID, name: String)
 
-    class GateNotFoundException: RuntimeException()
-    class GateNameDuplicateException: RuntimeException()
     class GateLocationDuplicateException: RuntimeException()
+    class GateNameDuplicateException: RuntimeException()
+    class GateNotFoundException: RuntimeException()
+    class GateNotLinkedException: RuntimeException()
 }

@@ -41,6 +41,7 @@ object PGHelp {
         sender.spigot().sendMessage(commandHelp(label,   "remove", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label,   "rename", "[GateName] [NewGateName]"))
         sender.spigot().sendMessage(commandHelp(label, "transfer", "[TargetGateName] <accept|reject|owner> [Player:NewOwner] <force(OPOnly)>"))
+        sender.spigot().sendMessage(commandHelp(label,   "unlink", "[GateName]"))
 
         val help = TextComponent(" - §b/$label help")
         help.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで§b\"/$label help\"§aを実行"))
