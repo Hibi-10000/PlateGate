@@ -119,7 +119,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
         idJo.addProperty("y", plateGate.y)
         idJo.addProperty("z", plateGate.z)
         idJo.addProperty("rotate", plateGate.rotate.name.lowercase(Locale.ROOT))
-        idJo.addProperty("beforeBlock", plateGate.beforeBlock.name)
+        idJo.addProperty("beforeBlock", plateGate.beforeBlock.key.toString())
         idJo.addProperty("toOwner", plateGate.toOwner?.toString())
         idJo.addProperty("toName", plateGate.toName)
         json.add(idJo)
@@ -245,7 +245,7 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
                 jo.addProperty("y", plateGate.y)
                 jo.addProperty("z", plateGate.z)
                 jo.addProperty("rotate", plateGate.rotate.name.lowercase(Locale.ROOT))
-                jo.addProperty("beforeBlock", plateGate.beforeBlock.name)
+                jo.addProperty("beforeBlock", plateGate.beforeBlock.key.toString())
                 json[json.indexOf(element)] = jo
                 write(json)
                 return
