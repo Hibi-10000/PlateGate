@@ -19,14 +19,35 @@ object PGMove {
         if (!util.checkPermission(sender, "plategate.command.move")) return false
         if (args.size != 2) return util.commandInvalid(sender, label)
 
+        if (sender.isFlying) {
+            sender.sendMessage("§a[PlateGate]§c 地面に立っている必要があります")
+            return false
+        }
         val loc = sender.location.clone()
         loc.pitch = 0f
-        if (loc.y != loc.blockY.toDouble()) {
-            sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります。")
+        if (loc.y != loc.block.y.toDouble()) {
+            sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります")
+            return false
+        }
+        val underBlock = util.underBlock(loc.block)
+        if (underBlock.type.hasGravity()) {
+            sender.sendMessage("§a[PlateGate]§c 下のブロックは重力の影響を受けないブロックである必要があります")
+            return false
+        }
+        if (underBlock.type.isInteractable
+            || (underBlock.type.data != Material.AIR.data && underBlock.type.data != Material.GRASS_BLOCK.data)
+        ) {
+            sender.sendMessage("§a[PlateGate]§c 下のブロックはデータ値を持たないブロックである必要があります")
+            return false
+        }
+        if (!underBlock.type.isOccluding && !underBlock.type.isSolid
+            && Material.entries.filter { it.name.contains("GLASS") }.none { it == underBlock.type }
+        ) {
+            sender.sendMessage("§a[PlateGate]§c 下のブロックは非透過ブロックかガラスである必要があります")
             return false
         }
         if (loc.block.type != Material.AIR) {
-            sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください。")
+            sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください")
             return false
         }
 
@@ -63,7 +84,6 @@ object PGMove {
         oldBlock.type = Material.AIR
         oldUnderBlock.type = oldGate.beforeBlock
         util.noInteract(sender.uniqueId)
-        val underBlock = util.underBlock(loc.block)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
