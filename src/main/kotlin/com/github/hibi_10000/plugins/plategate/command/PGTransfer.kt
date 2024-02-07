@@ -12,6 +12,7 @@ import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -61,6 +62,12 @@ object PGTransfer {
                 //TODO: MetadataValueに何を入れるか
                 newOwner.setMetadata("plategate_NewOwner", FixedMetadataValue(instance, ""))
                 //TODO: いい感じに色を付ける
+                val playerInfo = TextComponent(sender.name)
+                playerInfo.hoverEvent = HoverEvent(
+                    HoverEvent.Action.SHOW_ENTITY, Entity(
+                        "minecraft:player", sender.uniqueId.toString(), TextComponent(sender.name)
+                    )
+                )
                 val gateInfo = TextComponent(gate.name)
                 gateInfo.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT, Text(
@@ -75,7 +82,8 @@ object PGTransfer {
                     )
                 )
                 newOwner.spigot().sendMessage(
-                    TextComponent("§a[PlateGate] §b${sender.name} があなたにゲート "), gateInfo,
+                    TextComponent("§a[PlateGate]§b "), playerInfo,
+                    TextComponent(" §bがあなたにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています。")
                 )
                 val accept = TextComponent("§a[受け入れる]§r")
