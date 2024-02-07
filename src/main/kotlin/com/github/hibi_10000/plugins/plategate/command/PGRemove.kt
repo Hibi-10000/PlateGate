@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate.command
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -42,7 +43,7 @@ object PGRemove {
             return false
         }
         sender.sendMessage("§a[PlateGate] §bGate:${gate.name} を削除しました。")
-        println("§a[PlateGate] §b${sender.name} が Gate:${gate.name} を削除しました。")
+        instance.logger.info("§b${sender.name} が Gate:${gate.name} を削除しました。")
         return true
     }
 

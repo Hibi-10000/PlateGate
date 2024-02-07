@@ -4,11 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
-import com.github.hibi_10000.plugins.plategate.dbUtil
-import com.github.hibi_10000.plugins.plategate.transfer
-import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -55,7 +52,7 @@ object PGTransfer {
                 transfer.remove(np.uniqueId)
                 np.sendMessage("§a[PlateGate] §bゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
                 sender.sendMessage("§a[PlateGate] §b${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
-                println("[PlateGate] §b${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
+                instance.logger.info("§b${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
                 return true
             }
             "owner" -> {
@@ -123,7 +120,7 @@ object PGTransfer {
                     TextComponent(" §bにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています "), cancel
                 )
-                println("[PlateGate] §b${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています")
+                instance.logger.info("§b${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています")
                 return true
             }
             else -> return util.commandInvalid(sender, label)

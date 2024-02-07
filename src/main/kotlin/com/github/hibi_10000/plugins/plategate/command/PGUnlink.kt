@@ -6,6 +6,7 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -28,7 +29,7 @@ object PGUnlink {
             return false
         }
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} のリンクを解除しました")
-        println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} のリンクを解除しました")
+        instance.logger.info("§b${sender.name} がゲート ${args[1]} のリンクを解除しました")
         return true
     }
 

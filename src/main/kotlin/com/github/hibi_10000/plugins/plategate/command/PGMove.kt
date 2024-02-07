@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate.command
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -87,7 +88,7 @@ object PGMove {
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} を $loc に移動しました")
-        println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} を $loc に移動しました")
+        instance.logger.info("§b${sender.name} がゲート ${args[1]} を $loc に移動しました")
         return true
     }
 

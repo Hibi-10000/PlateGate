@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate.command
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.instance
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -39,7 +40,7 @@ object PGJump {
         toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
-        println("§a[PlateGate] §b${sender.name} がゲート ${args[1]} にジャンプしました。")
+        instance.logger.info("§b${sender.name} がゲート ${args[1]} にジャンプしました。")
         return true
     }
 
