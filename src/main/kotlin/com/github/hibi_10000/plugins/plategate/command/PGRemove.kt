@@ -5,10 +5,10 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -17,8 +17,8 @@ import org.bukkit.entity.Player
 object PGRemove {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
-        if (!util.checkPermission(sender, "plategate.command.remove")) return false
-        if (args.size != 2) return util.commandInvalid(sender, label)
+        if (!Util.checkPermission(sender, "plategate.command.remove")) return false
+        if (args.size != 2) return Util.commandInvalid(sender, label)
 
         val gate: CraftPlateGate
         try {
@@ -34,7 +34,7 @@ object PGRemove {
             return false
         }
         toBlock.type = Material.AIR
-        val toUnderBlock = util.underBlock(toBlock)
+        val toUnderBlock = Util.underBlock(toBlock)
         toUnderBlock.type = gate.beforeBlock
         try {
             dbUtil.remove(sender.uniqueId, args[1])

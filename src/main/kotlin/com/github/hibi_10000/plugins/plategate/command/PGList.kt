@@ -5,8 +5,8 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.dbUtil
-import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -14,13 +14,13 @@ import org.bukkit.entity.Player
 object PGList {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
-        if (!util.checkPermission(sender, "plategate.command.list")) return false
-        if (!(args.size == 2 || args.size == 1)) return util.commandInvalid(sender, label)
+        if (!Util.checkPermission(sender, "plategate.command.list")) return false
+        if (!(args.size == 2 || args.size == 1)) return Util.commandInvalid(sender, label)
 
         var searchP = sender
         if (args.size == 2) {
-            if (!util.checkPermission(sender, "plategate.admin")) return false
-            searchP = util.getPlayer(args[1], sender) ?: return false
+            if (!Util.checkPermission(sender, "plategate.admin")) return false
+            searchP = Util.getPlayer(args[1], sender) ?: return false
         }
 
         sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
@@ -37,7 +37,7 @@ object PGList {
             } else {
                 var toName = gate.toName
                 if (gate.toOwner != searchP.uniqueId) {
-                    val toOwner = util.getPlayer(gate.toOwner!!, sender)
+                    val toOwner = Util.getPlayer(gate.toOwner!!, sender)
                     toName += " (Owner: ${toOwner?.name})"
                 }
                 var arrow = "--->"

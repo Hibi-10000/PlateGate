@@ -46,7 +46,7 @@ object Event: Listener {
     }
 
     private fun usePlateGate(p: Player, gate: CraftPlateGate) {
-        if (!util.checkPermission(p, "plategate.use")) return
+        if (!Util.checkPermission(p, "plategate.use")) return
         if (noInteract.contains(p.uniqueId)) return
 
         if (gate.toOwner == null || gate.toName == null) {
@@ -67,18 +67,18 @@ object Event: Listener {
             p.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
             return
         }
-        util.upperBlock(toBlock).type = Material.AIR
+        Util.upperBlock(toBlock).type = Material.AIR
         toBlock.type = Material.AIR
-        val toLoc = util.getBlockCenter(toBlock)
-        toLoc.yaw = util.convBlockFace2Yaw(gateTo.rotate)
+        val toLoc = Util.getBlockCenter(toBlock)
+        toLoc.yaw = Util.convBlockFace2Yaw(gateTo.rotate)
         toLoc.pitch = p.location.pitch
         p.teleport(toLoc)
     }
 
     private fun clickPlateGate(p: Player, gate: CraftPlateGate) {
-        if (!util.checkPermission(p, "plategate.info")) return
+        if (!Util.checkPermission(p, "plategate.info")) return
 
-        val owner = util.getOfflinePlayer(gate.owner, p) ?: return
+        val owner = Util.getOfflinePlayer(gate.owner, p) ?: return
         val facing = gate.rotate
         val yaw = when (facing) {
             BlockFace.SOUTH ->   "0"
@@ -89,8 +89,8 @@ object Event: Listener {
         }
         p.sendMessage(
             "§a[PlateGate]§b Name: §a${gate.name}§b Owner: §a${owner.name
-            }§b To: §a${gate.toName ?: "null"} ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"
-            }§b Rotate: §a${util.firstUpperCase(facing.name)}§b (§a${yaw}§b)"
+            }§b To: §a${gate.toName ?: "null"} ${gate.toOwner?.let { Util.getOfflinePlayer(it, null) }?.name ?: "null"
+            }§b Rotate: §a${Util.firstUpperCase(facing.name)}§b (§a${yaw}§b)"
         )
     }
 
@@ -144,7 +144,7 @@ object Event: Listener {
     private fun isPlateGateBlock(block: Block, player: Player?): Boolean {
         if (block.type != Material.IRON_BLOCK && block.type != Material.STONE_PRESSURE_PLATE) return false
         return try {
-            val b = if (block.type == Material.IRON_BLOCK) util.upperBlock(block) else block
+            val b = if (block.type == Material.IRON_BLOCK) Util.upperBlock(block) else block
             dbUtil.get(b.world.uid, b.x, b.y, b.z)
             true
         } catch (e: Exception) {
@@ -160,7 +160,7 @@ object Event: Listener {
         transfer.remove(p.uniqueId)
         //TODO: Asyncで動くのか確認する
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
-            val op = util.getPlayer(gate.owner, null) ?: return@Runnable
+            val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
             op.sendMessage("§a[PlateGate] §c${p.name} が退出したため、ゲートの所有権の譲渡要求がキャンセルされました")
         }, 20L)
     }

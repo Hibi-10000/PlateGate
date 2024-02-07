@@ -14,7 +14,6 @@ import java.util.*
 
 lateinit var instance: PlateGate
 lateinit var dbUtil: DBUtil
-val util: Util = Util
 val noInteract: MutableList<UUID> = mutableListOf()
 val transfer: MutableMap<UUID, CraftPlateGate> = mutableMapOf()
 

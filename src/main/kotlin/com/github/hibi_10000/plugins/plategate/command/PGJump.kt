@@ -5,10 +5,10 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -17,8 +17,8 @@ import org.bukkit.entity.Player
 object PGJump {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, cmd: Command, label: String, args: Array<String>): Boolean {
-        if (!util.checkPermission(sender, "plategate.command.jump")) return false
-        if (args.size != 2) return util.commandInvalid(sender, label)
+        if (!Util.checkPermission(sender, "plategate.command.jump")) return false
+        if (args.size != 2) return Util.commandInvalid(sender, label)
 
         val gate: CraftPlateGate
         try {
@@ -34,9 +34,9 @@ object PGJump {
             return false
         }
         toBlock.type = Material.AIR
-        util.upperBlock(toBlock).type = Material.AIR
-        val toLoc = util.getBlockCenter(toBlock)
-        toLoc.yaw = util.convBlockFace2Yaw(gate.rotate)
+        Util.upperBlock(toBlock).type = Material.AIR
+        val toLoc = Util.getBlockCenter(toBlock)
+        toLoc.yaw = Util.convBlockFace2Yaw(gate.rotate)
         toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")

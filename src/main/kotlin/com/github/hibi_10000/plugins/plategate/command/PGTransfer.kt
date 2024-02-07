@@ -20,12 +20,12 @@ import java.util.*
 object PGTransfer {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
-        if (args.size < 3) return util.commandInvalid(sender, label)
+        if (args.size < 3) return Util.commandInvalid(sender, label)
 
         val gateName = args[1]
         when (args[2].lowercase(Locale.ROOT)) {
             "accept" -> {
-                if (args.size != 3) return util.commandInvalid(sender, label)
+                if (args.size != 3) return Util.commandInvalid(sender, label)
                 //新しい所有者か確認
                 val gate = transfer[sender.uniqueId]
                 if (gate?.name != gateName) return false
@@ -33,7 +33,7 @@ object PGTransfer {
                 return true
             }
             "reject" -> {
-                if (args.size != 3) return util.commandInvalid(sender, label)
+                if (args.size != 3) return Util.commandInvalid(sender, label)
                 //新しい所有者か確認
                 val gate = transfer[sender.uniqueId]
                 if (gate?.name != gateName) return false
@@ -41,14 +41,14 @@ object PGTransfer {
                 return false
             }
             "cancel" -> {
-                if (args.size != 3) return util.commandInvalid(sender, label)
+                if (args.size != 3) return Util.commandInvalid(sender, label)
                 val entry = transfer.entries.find { it.value.name == gateName && it.value.owner == sender.uniqueId }
                 if (entry == null) {
                     sender.sendMessage("§a[PlateGate] §c譲渡要求が存在しないか、削除されています")
                     return false
                 }
                 val gate = entry.value
-                val np = util.getPlayer(entry.key, sender) ?: return false
+                val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
                 np.sendMessage("§a[PlateGate] §bゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
                 sender.sendMessage("§a[PlateGate] §b${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
@@ -56,8 +56,8 @@ object PGTransfer {
                 return true
             }
             "owner" -> {
-                if (!util.checkPermission(sender, "plategate.command.transfer")) return false
-                if (args.size != 4) return util.commandInvalid(sender, label)
+                if (!Util.checkPermission(sender, "plategate.command.transfer")) return false
+                if (args.size != 4) return Util.commandInvalid(sender, label)
 
                 val gate: CraftPlateGate
                 try {
@@ -72,7 +72,7 @@ object PGTransfer {
                     sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
                     return false
                 }
-                val newOwner = util.getPlayer(args[3], sender) ?: return false
+                val newOwner = Util.getPlayer(args[3], sender) ?: return false
                 transfer[newOwner.uniqueId] = gate
                 //TODO: いい感じに色を付ける
                 val senderInfo = TextComponent(sender.name)
@@ -91,7 +91,7 @@ object PGTransfer {
                         }\nY: ${gate.y
                         }\nZ: ${gate.z
                         }\nRotate: ${gate.rotate.name
-                        }\nTo: ${gate.toName ?: "null"} (Owner: ${gate.toOwner?.let { util.getOfflinePlayer(it, null) }?.name ?: "null"})"
+                        }\nTo: ${gate.toName ?: "null"} (Owner: ${gate.toOwner?.let { Util.getOfflinePlayer(it, null) }?.name ?: "null"})"
                     )
                 )
                 newOwner.spigot().sendMessage(
@@ -123,7 +123,7 @@ object PGTransfer {
                 instance.logger.info("§b${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています")
                 return true
             }
-            else -> return util.commandInvalid(sender, label)
+            else -> return Util.commandInvalid(sender, label)
         }
     }
 

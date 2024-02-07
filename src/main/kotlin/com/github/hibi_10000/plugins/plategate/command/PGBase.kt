@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.util
+import com.github.hibi_10000.plugins.plategate.Util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -15,10 +15,10 @@ import java.util.*
 object PGBase : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (command.name.lowercase(Locale.ROOT) != "plategate") return false
-        if (!util.checkPermission(sender, "plategate.command")) return false
+        if (!Util.checkPermission(sender, "plategate.command")) return false
         //if (args[0].lowercase(Locale.ROOT) == "test") {return true}
         if (sender !is Player) return false
-        if (args.isEmpty()) return util.commandInvalid(sender, label)
+        if (args.isEmpty()) return Util.commandInvalid(sender, label)
 
         return when (args[0].lowercase(Locale.ROOT)) {
             "create"   -> PGCreate  .onCommand(sender, command, label, args)
@@ -31,7 +31,7 @@ object PGBase : CommandExecutor, TabCompleter {
             "rename"   -> PGRename  .onCommand(sender, command, label, args)
             "transfer" -> PGTransfer.onCommand(sender, command, label, args)
             "unlink"   -> PGUnlink  .onCommand(sender, command, label, args)
-            else -> util.commandInvalid(sender, label)
+            else -> Util.commandInvalid(sender, label)
         }
     }
 

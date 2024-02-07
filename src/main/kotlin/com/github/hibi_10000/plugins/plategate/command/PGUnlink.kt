@@ -4,10 +4,10 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -15,8 +15,8 @@ import org.bukkit.entity.Player
 object PGUnlink {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
-        if (!util.checkPermission(sender, "plategate.command.unlink")) return false
-        if (args.size != 2) return util.commandInvalid(sender, label)
+        if (!Util.checkPermission(sender, "plategate.command.unlink")) return false
+        if (args.size != 2) return Util.commandInvalid(sender, label)
 
         try {
             dbUtil.unlink(sender.uniqueId, args[1])

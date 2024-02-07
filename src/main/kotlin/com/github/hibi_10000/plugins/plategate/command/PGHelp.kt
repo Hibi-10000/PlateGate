@@ -4,8 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.instance
-import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -17,7 +17,7 @@ import java.util.*
 object PGHelp {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
-        if (!util.checkPermission(sender, "plategate.command.help")) return false
+        if (!Util.checkPermission(sender, "plategate.command.help")) return false
         if (args.size == 2) {
             if (args[1].lowercase(Locale.ROOT) == "plugin") {
                 sender.sendMessage("§a[PlateGate ${instance.description.version}] §6MoreHelp")
@@ -29,7 +29,7 @@ object PGHelp {
                 return true
             }
         }
-        if (args.size != 1) return util.commandInvalid(sender, label)
+        if (args.size != 1) return Util.commandInvalid(sender, label)
         sender.sendMessage("§a[PlateGate ${instance.description.version}] §6Help")
         sender.sendMessage(" §6Command§r:")
 
