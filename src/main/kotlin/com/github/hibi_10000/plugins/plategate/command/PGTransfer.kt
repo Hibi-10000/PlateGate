@@ -105,7 +105,7 @@ object PGTransfer {
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         if (args.size <= 2) return null
         if (args.size == 3) {
-            return listOf("accept", "reject", "owner")
+            return listOf("owner")
         } else if (args[2].lowercase(Locale.ROOT) == "owner") {
             return Bukkit.getOnlinePlayers().map { it.name }
         }
