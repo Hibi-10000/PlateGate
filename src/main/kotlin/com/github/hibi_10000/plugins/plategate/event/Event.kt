@@ -4,13 +4,11 @@
 
 package com.github.hibi_10000.plugins.plategate.event
 
-import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
-import com.github.hibi_10000.plugins.plategate.dbUtil
-import com.github.hibi_10000.plugins.plategate.noInteract
-import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -20,6 +18,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.*
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 
 object Event: Listener {
@@ -152,5 +151,17 @@ object Event: Listener {
             if (e !is DBUtil.GateNotFoundException) player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             false
         }
+    }
+
+    @EventHandler(ignoreCancelled = true)
+    fun onPlayerQuit(e: PlayerQuitEvent) {
+        val p = e.player
+        val gate = transfer[p.uniqueId] ?: return
+        transfer.remove(p.uniqueId)
+        //TODO: Asyncで動くのか確認する
+        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
+            val op = util.getPlayer(gate.owner, null) ?: return@Runnable
+            op.sendMessage("§a[PlateGate] §c${p.name} が退出したため、ゲートの所有権の譲渡要求がキャンセルされました")
+        }, 20L)
     }
 }

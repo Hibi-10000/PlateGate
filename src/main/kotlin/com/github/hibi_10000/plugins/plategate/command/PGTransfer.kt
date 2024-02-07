@@ -7,7 +7,7 @@ package com.github.hibi_10000.plugins.plategate.command
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
-import com.github.hibi_10000.plugins.plategate.instance
+import com.github.hibi_10000.plugins.plategate.transfer
 import com.github.hibi_10000.plugins.plategate.util
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -18,7 +18,6 @@ import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.metadata.FixedMetadataValue
 import java.util.*
 
 object PGTransfer {
@@ -29,15 +28,18 @@ object PGTransfer {
         val gateName = args[1]
         when (args[2].lowercase(Locale.ROOT)) {
             "accept" -> {
-                //TODO: 新しい所有者か確認
-                if (sender.hasMetadata("plategate_NewOwner")) {
-                    //TODO: /plategate transfer <name> accept 許可したときの処理
-                }
-                return false
+                if (args.size != 3) return util.commandInvalid(sender, label)
+                //新しい所有者か確認
+                val gate = transfer[sender.uniqueId]
+                if (gate?.name != gateName) return false
+                //TODO: /plategate transfer <name> accept 受け入れたときの処理
+                return true
             }
-
             "reject" -> {
-                //TODO: 新しい所有者か確認
+                if (args.size != 3) return util.commandInvalid(sender, label)
+                //新しい所有者か確認
+                val gate = transfer[sender.uniqueId]
+                if (gate?.name != gateName) return false
                 //TODO: /plategate transfer <name> reject 拒否したときの処理
                 return false
             }
@@ -59,8 +61,7 @@ object PGTransfer {
                     return false
                 }
                 val newOwner = util.getPlayer(args[3], sender) ?: return false
-                //TODO: MetadataValueに何を入れるか
-                newOwner.setMetadata("plategate_NewOwner", FixedMetadataValue(instance, ""))
+                transfer[newOwner.uniqueId] = gate
                 //TODO: いい感じに色を付ける
                 val playerInfo = TextComponent(sender.name)
                 playerInfo.hoverEvent = HoverEvent(
