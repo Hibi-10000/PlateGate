@@ -43,6 +43,21 @@ object PGTransfer {
                 //TODO: /plategate transfer <name> reject 拒否したときの処理
                 return false
             }
+            "cancel" -> {
+                if (args.size != 3) return util.commandInvalid(sender, label)
+                val entry = transfer.entries.find { it.value.name == gateName && it.value.owner == sender.uniqueId }
+                if (entry == null) {
+                    sender.sendMessage("§a[PlateGate] §c譲渡要求が存在しないか、削除されています。")
+                    return false
+                }
+                val gate = entry.value
+                val np = util.getPlayer(entry.key, sender) ?: return false
+                transfer.remove(np.uniqueId)
+                np.sendMessage("§a[PlateGate] §bゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
+                sender.sendMessage("§a[PlateGate] §b${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
+                println("[PlateGate] §b${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
+                return true
+            }
             "owner" -> {
                 if (!util.checkPermission(sender, "plategate.command.transfer")) return false
                 if (args.size != 4) return util.commandInvalid(sender, label)
@@ -94,6 +109,7 @@ object PGTransfer {
                 reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
                 reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} reject")
                 newOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
+                //TODO: cancelコマンドを簡単に実行できるようにする
                 sender.sendMessage("§a[PlateGate] §b${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています。")
                 println("[PlateGate] §b${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています。")
                 return true
