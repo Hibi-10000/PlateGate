@@ -8,6 +8,7 @@ import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.util
 import org.bukkit.command.Command
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 object PGUnlink {
@@ -32,7 +33,7 @@ object PGUnlink {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun onTabComplete(sender: Player, command: Command, alias: String, args: Array<String>): List<String>? {
+    fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         return null
     }
 }

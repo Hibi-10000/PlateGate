@@ -53,7 +53,7 @@ object PGBase : CommandExecutor, TabCompleter {
             "unlink"   -> PGUnlink  .onTabComplete(sender, command, alias, args)
             else -> {
                 if (args.size == 1) {
-                    arrayListOf("create", "help", "jump", "link", "list", "move", "remove", "rename", "transfer", "unlink")
+                    listOf("create", "help", "jump", "link", "list", "move", "remove", "rename", "transfer", "unlink")
                 } else {
                     null
                 }

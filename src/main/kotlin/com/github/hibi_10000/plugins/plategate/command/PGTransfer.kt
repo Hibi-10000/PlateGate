@@ -96,16 +96,10 @@ object PGTransfer {
     @Suppress("UNUSED_PARAMETER")
     fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<String>): List<String>? {
         if (args.size <= 2) return null
-        val list: MutableList<String> = mutableListOf()
         if (args.size == 3) {
-            list.add("reject")
-            list.add("accept")
-            return list
+            return listOf("accept", "reject", "owner")
         } else if (args[2].lowercase(Locale.ROOT) == "owner") {
-            for (p in Bukkit.getOnlinePlayers()) {
-                list.add(p.name)
-            }
-            return list
+            return Bukkit.getOnlinePlayers().map { it.name }
         }
         return null
     }
