@@ -26,7 +26,7 @@ object PGLink {
             return false
         }
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
-        instance.logger.info("§bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
+        instance.logger.info("${sender.name} がゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
         return true
     }
 

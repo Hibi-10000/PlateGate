@@ -74,7 +74,7 @@ object PGCreate {
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
         sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を $loc に作成しました")
-        instance.logger.info("§b${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
+        instance.logger.info("${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
         return true
     }
 

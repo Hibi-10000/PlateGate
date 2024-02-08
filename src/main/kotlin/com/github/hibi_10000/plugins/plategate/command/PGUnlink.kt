@@ -29,7 +29,7 @@ object PGUnlink {
             return false
         }
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} のリンクを解除しました")
-        instance.logger.info("§b${sender.name} がゲート ${args[1]} のリンクを解除しました")
+        instance.logger.info("${sender.name} がゲート ${args[1]} のリンクを解除しました")
         return true
     }
 

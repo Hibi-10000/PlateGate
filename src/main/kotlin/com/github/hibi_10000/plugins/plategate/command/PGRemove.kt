@@ -43,7 +43,7 @@ object PGRemove {
             return false
         }
         sender.sendMessage("§a[PlateGate] §bGate:${gate.name} を削除しました。")
-        instance.logger.info("§b${sender.name} が Gate:${gate.name} を削除しました。")
+        instance.logger.info("${sender.name} が Gate:${gate.name} を削除しました。")
         return true
     }
 

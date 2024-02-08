@@ -29,7 +29,7 @@ object PGRename {
             return false
         }
         sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を ${args[2]} にリネームしました")
-        instance.logger.info("§b${sender.name} がPlateGate ${args[1]} を ${args[2]} にリネームしました")
+        instance.logger.info("${sender.name} がPlateGate ${args[1]} を ${args[2]} にリネームしました")
         return true
     }
 

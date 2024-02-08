@@ -40,7 +40,7 @@ object PGJump {
         toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
         sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} にジャンプしました。")
-        instance.logger.info("§b${sender.name} がゲート ${args[1]} にジャンプしました。")
+        instance.logger.info("${sender.name} がゲート ${args[1]} にジャンプしました。")
         return true
     }
 
