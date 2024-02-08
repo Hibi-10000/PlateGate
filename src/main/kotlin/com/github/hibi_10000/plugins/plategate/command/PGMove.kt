@@ -54,7 +54,7 @@ object PGMove {
             oldGate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-            else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         val oldBlock = oldGate.getBlock()
@@ -75,7 +75,7 @@ object PGMove {
             )
         } catch (e: Exception) {
             if (e is DBUtil.GateLocationDuplicateException) MessageUtil.sendErrorMessage(sender, "その場所は他のゲートと干渉します")
-            else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         val oldUnderBlock = Util.underBlock(oldBlock)

@@ -33,7 +33,7 @@ object Event: Listener {
             val block = e.clickedBlock!!
             gate = dbUtil.get(block.world.uid, block.x, block.y, block.z)
         } catch (e: Exception) {
-            if (e !is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(p, "予期せぬエラーが発生しました")
+            if (e !is DBUtil.GateNotFoundException) MessageUtil.catchUnexpectedError(p, e)
             return
         }
         //TODO: When文に変更?
@@ -58,7 +58,7 @@ object Event: Listener {
             gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(p, "ゲートが見つかりませんでした")
-            else MessageUtil.sendErrorMessage(p, "予期せぬエラーが発生しました")
+            else MessageUtil.catchUnexpectedError(p, e)
             return
         }
 
@@ -148,7 +148,7 @@ object Event: Listener {
             dbUtil.get(b.world.uid, b.x, b.y, b.z)
             true
         } catch (e: Exception) {
-            if (e !is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(player, "予期せぬエラーが発生しました")
+            if (e !is DBUtil.GateNotFoundException) MessageUtil.catchUnexpectedError(player, e)
             false
         }
     }

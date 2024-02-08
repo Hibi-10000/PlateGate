@@ -63,7 +63,7 @@ object PGCreate {
             when (e) {
                 is DBUtil.GateNameDuplicateException -> MessageUtil.sendErrorMessage(sender, "\"${args[1]}\"は既に使用されています")
                 is DBUtil.GateLocationDuplicateException -> MessageUtil.sendErrorMessage(sender, "その場所は他のゲートと干渉します")
-                else -> MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+                else -> MessageUtil.catchUnexpectedError(sender, e)
             }
             return false
         }

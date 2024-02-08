@@ -25,7 +25,7 @@ object PGUnlink {
             when (e) {
                 is DBUtil.GateNotLinkedException -> MessageUtil.sendErrorMessage(sender, "そのゲートはリンクされていません")
                 is DBUtil.GateNotFoundException -> MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-                else -> MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+                else -> MessageUtil.catchUnexpectedError(sender, e)
             }
             return false
         }

@@ -25,7 +25,7 @@ object PGRename {
             when (e) {
                 is DBUtil.GateNameDuplicateException -> MessageUtil.sendErrorMessage(sender, "\"${args[2]}\"は既に使用されています。")
                 is DBUtil.GateNotFoundException -> MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-                else -> MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました。")
+                else -> MessageUtil.catchUnexpectedError(sender, e)
             }
             return false
         }

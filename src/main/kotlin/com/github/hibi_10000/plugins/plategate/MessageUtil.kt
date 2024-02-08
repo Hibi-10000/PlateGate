@@ -6,6 +6,7 @@ package com.github.hibi_10000.plugins.plategate
 
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
+import java.util.logging.Level
 
 object MessageUtil {
     fun sendMessage(sender: CommandSender?, color: ChatColor?, message: String) {
@@ -18,5 +19,10 @@ object MessageUtil {
 
     fun sendErrorMessage(sender: CommandSender?, message: String) {
         sendMessage(sender, ChatColor.RED, message)
+    }
+
+    fun catchUnexpectedError(sender: CommandSender?, throwable: Throwable) {
+        sendErrorMessage(sender, "予期せぬエラーが発生しました")
+        instance.logger.log(Level.SEVERE, "予期せぬエラーが発生しました", throwable)
     }
 }

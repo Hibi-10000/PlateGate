@@ -22,7 +22,7 @@ object PGJump {
             gate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-            else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         val toBlock = gate.getTPLocationBlock()

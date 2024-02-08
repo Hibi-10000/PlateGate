@@ -23,7 +23,7 @@ object PGLink {
             dbUtil.link(sender.uniqueId, args[1], sender.uniqueId, args[2])
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-            else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         MessageUtil.sendMessage(sender, "ゲート ${args[1]} からゲート ${args[2]} の方向にゲートをリンクしました。")

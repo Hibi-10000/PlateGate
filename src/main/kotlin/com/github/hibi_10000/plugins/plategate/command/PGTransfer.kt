@@ -64,7 +64,7 @@ object PGTransfer {
                     gate = dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
                     if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-                    else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+                    else MessageUtil.catchUnexpectedError(sender, e)
                     return false
                 }
                 val world = gate.getWorld()

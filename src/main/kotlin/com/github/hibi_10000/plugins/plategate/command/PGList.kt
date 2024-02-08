@@ -29,7 +29,7 @@ object PGList {
         try {
             gateList = dbUtil.getList(searchP.uniqueId)
         } catch (e: Exception) {
-            MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         for (gate in gateList) {
@@ -48,7 +48,7 @@ object PGList {
                         arrow = "<-->"
                     }
                 } catch (e: Exception) {
-                    MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+                    MessageUtil.catchUnexpectedError(sender, e)
                 }
                 sender.sendMessage(" §b${gate.name} §a${arrow} §b${toName}")
             }

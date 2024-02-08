@@ -22,7 +22,7 @@ object PGRemove {
             gate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
-            else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         val toBlock = gate.getBlock()
@@ -36,7 +36,7 @@ object PGRemove {
         try {
             dbUtil.remove(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
+            MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         MessageUtil.sendMessage(sender, "Gate:${gate.name} を削除しました。")
