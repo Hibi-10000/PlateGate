@@ -15,4 +15,8 @@ object MessageUtil {
     fun sendMessage(sender: CommandSender?, message: String) {
         sendMessage(sender, ChatColor.AQUA, message)
     }
+
+    fun sendErrorMessage(sender: CommandSender?, message: String) {
+        sendMessage(sender, ChatColor.RED, message)
+    }
 }

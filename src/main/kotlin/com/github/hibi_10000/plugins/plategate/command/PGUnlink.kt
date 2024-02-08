@@ -23,9 +23,9 @@ object PGUnlink {
             dbUtil.unlink(sender.uniqueId, args[1])
         } catch (e: Exception) {
             when (e) {
-                is DBUtil.GateNotLinkedException -> sender.sendMessage("§a[PlateGate] §cそのゲートはリンクされていません")
-                is DBUtil.GateNotFoundException -> sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-                else -> sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+                is DBUtil.GateNotLinkedException -> MessageUtil.sendErrorMessage(sender, "そのゲートはリンクされていません")
+                is DBUtil.GateNotFoundException -> MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
+                else -> MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
             }
             return false
         }

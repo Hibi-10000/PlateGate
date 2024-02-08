@@ -18,34 +18,34 @@ object PGCreate {
         if (args.size != 2) return Util.commandInvalid(sender, label)
 
         if (sender.isFlying) {
-            sender.sendMessage("§a[PlateGate]§c 地面に立っている必要があります")
+            MessageUtil.sendErrorMessage(sender, "地面に立っている必要があります")
             return false
         }
         val loc = sender.location.clone()
         loc.pitch = 0f
         if (loc.y != loc.block.y.toDouble()) {
-            sender.sendMessage("§a[PlateGate]§c 下のブロックはフルブロックである必要があります")
+            MessageUtil.sendErrorMessage(sender, "下のブロックはフルブロックである必要があります")
             return false
         }
         val underBlock = Util.underBlock(loc.block)
         if (underBlock.type.hasGravity()) {
-            sender.sendMessage("§a[PlateGate]§c 下のブロックは重力の影響を受けないブロックである必要があります")
+            MessageUtil.sendErrorMessage(sender, "下のブロックは重力の影響を受けないブロックである必要があります")
             return false
         }
         if (underBlock.type.isInteractable
             || (underBlock.type.data != Material.AIR.data && underBlock.type.data != Material.GRASS_BLOCK.data)
             ) {
-            sender.sendMessage("§a[PlateGate]§c 下のブロックはデータ値を持たないブロックである必要があります")
+            MessageUtil.sendErrorMessage(sender, "下のブロックはデータ値を持たないブロックである必要があります")
             return false
         }
         if (!underBlock.type.isOccluding && !underBlock.type.isSolid
             && Material.entries.filter { it.name.contains("GLASS") }.none { it == underBlock.type }
             ) {
-            sender.sendMessage("§a[PlateGate]§c 下のブロックは非透過ブロックかガラスである必要があります")
+            MessageUtil.sendErrorMessage(sender, "下のブロックは非透過ブロックかガラスである必要があります")
             return false
         }
         if (loc.block.type != Material.AIR) {
-            sender.sendMessage("§a[PlateGate]§c その場所の非フルブロックを取り除いてください")
+            MessageUtil.sendErrorMessage(sender, "その場所の非フルブロックを取り除いてください")
             return false
         }
         try {
@@ -61,9 +61,9 @@ object PGCreate {
             )
         } catch (e: Exception) {
             when (e) {
-                is DBUtil.GateNameDuplicateException -> sender.sendMessage("§a[PlateGate]§c \"${args[1]}\"は既に使用されています")
-                is DBUtil.GateLocationDuplicateException -> sender.sendMessage("§a[PlateGate] §cその場所は他のゲートと干渉します")
-                else -> sender.sendMessage("§a[PlateGate]§c 予期せぬエラーが発生しました")
+                is DBUtil.GateNameDuplicateException -> MessageUtil.sendErrorMessage(sender, "\"${args[1]}\"は既に使用されています")
+                is DBUtil.GateLocationDuplicateException -> MessageUtil.sendErrorMessage(sender, "その場所は他のゲートと干渉します")
+                else -> MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
             }
             return false
         }

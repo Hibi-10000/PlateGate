@@ -44,13 +44,13 @@ object PGTransfer {
                 if (args.size != 3) return Util.commandInvalid(sender, label)
                 val entry = transfer.entries.find { it.value.name == gateName && it.value.owner == sender.uniqueId }
                 if (entry == null) {
-                    sender.sendMessage("§a[PlateGate] §c譲渡要求が存在しないか、削除されています")
+                    MessageUtil.sendErrorMessage(sender, "譲渡要求が存在しないか、削除されています")
                     return false
                 }
                 val gate = entry.value
                 val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
-                np.sendMessage("§a[PlateGate] §cゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
+                MessageUtil.sendErrorMessage(np, "ゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
                 MessageUtil.sendMessage(sender, "${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
                 instance.logger.info("${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
                 return true
@@ -63,13 +63,13 @@ object PGTransfer {
                 try {
                     gate = dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
-                    if (e is DBUtil.GateNotFoundException) sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-                    else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+                    if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
+                    else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
                     return false
                 }
                 val world = gate.getWorld()
                 if (world == null) {
-                    sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+                    MessageUtil.sendErrorMessage(sender, "ワールドが見つかりませんでした")
                     return false
                 }
                 val newOwner = Util.getPlayer(args[3], sender) ?: return false

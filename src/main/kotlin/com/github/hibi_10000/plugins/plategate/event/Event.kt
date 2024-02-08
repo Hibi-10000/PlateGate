@@ -33,7 +33,7 @@ object Event: Listener {
             val block = e.clickedBlock!!
             gate = dbUtil.get(block.world.uid, block.x, block.y, block.z)
         } catch (e: Exception) {
-            if (e !is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            if (e !is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(p, "予期せぬエラーが発生しました")
             return
         }
         //TODO: When文に変更?
@@ -57,14 +57,14 @@ object Event: Listener {
         try {
             gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) p.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-            else p.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(p, "ゲートが見つかりませんでした")
+            else MessageUtil.sendErrorMessage(p, "予期せぬエラーが発生しました")
             return
         }
 
         val toBlock = gateTo.getTPLocationBlock()
         if (toBlock == null) {
-            p.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+            MessageUtil.sendErrorMessage(p, "ワールドが見つかりませんでした")
             return
         }
         Util.upperBlock(toBlock).type = Material.AIR
@@ -148,7 +148,7 @@ object Event: Listener {
             dbUtil.get(b.world.uid, b.x, b.y, b.z)
             true
         } catch (e: Exception) {
-            if (e !is DBUtil.GateNotFoundException) player?.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            if (e !is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(player, "予期せぬエラーが発生しました")
             false
         }
     }
@@ -161,7 +161,7 @@ object Event: Listener {
         //TODO: Asyncで動くのか確認する
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
             val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
-            op.sendMessage("§a[PlateGate] §c${p.name} が退出したため、ゲートの所有権の譲渡要求がキャンセルされました")
+            MessageUtil.sendErrorMessage(op, "${p.name} が退出したため、ゲートの所有権の譲渡要求がキャンセルされました")
         }, 20L)
     }
 }

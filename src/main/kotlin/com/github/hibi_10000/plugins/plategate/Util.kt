@@ -21,7 +21,7 @@ import java.util.regex.Pattern
 object Util {
     fun checkPermission(sender: CommandSender, permission: String): Boolean {
         if (!sender.hasPermission(permission)) {
-            sender.sendMessage("§a[PlateGate] §c権限が不足しています。")
+            MessageUtil.sendErrorMessage(sender, "権限が不足しています。")
             return false
         }
         return true
@@ -69,10 +69,10 @@ object Util {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
             if (Bukkit.getOfflinePlayers().any { it.name?.lowercase(Locale.ROOT) == name }) {
-                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
+                MessageUtil.sendErrorMessage(sender, "そのプレイヤーはオフラインです。")
             } else {
                 if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
-                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+                MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             }
         }
         return player
@@ -82,9 +82,9 @@ object Util {
         val player = Bukkit.getPlayer(uuid)
         if (player == null) {
             if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
-                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーはオフラインです。")
+                MessageUtil.sendErrorMessage(sender, "そのプレイヤーはオフラインです。")
             } else {
-                sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+                MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             }
         }
         return player
@@ -94,7 +94,7 @@ object Util {
         val player = Bukkit.getOfflinePlayers().find { it.name?.lowercase(Locale.ROOT) == name }
         if (player == null) {
             if (isUUID(name)) return getOfflinePlayer(UUID.fromString(name), sender)
-            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+            MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             return null
         }
         return player
@@ -103,7 +103,7 @@ object Util {
     fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
-            sender?.sendMessage("§a[PlateGate] §cそのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+            MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
             return null
         }
         return player

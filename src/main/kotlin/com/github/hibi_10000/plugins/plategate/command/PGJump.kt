@@ -21,13 +21,13 @@ object PGJump {
         try {
             gate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) sender.sendMessage("§a[PlateGate] §cゲートが見つかりませんでした")
-            else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
+            if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
+            else MessageUtil.sendErrorMessage(sender, "予期せぬエラーが発生しました")
             return false
         }
         val toBlock = gate.getTPLocationBlock()
         if (toBlock == null) {
-            sender.sendMessage("§a[PlateGate] §cワールドが見つかりませんでした")
+            MessageUtil.sendErrorMessage(sender, "ワールドが見つかりませんでした")
             return false
         }
         toBlock.type = Material.AIR
