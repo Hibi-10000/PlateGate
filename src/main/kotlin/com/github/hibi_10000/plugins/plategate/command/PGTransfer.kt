@@ -50,8 +50,8 @@ object PGTransfer {
                 val gate = entry.value
                 val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
-                np.sendMessage("§a[PlateGate] §bゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
-                sender.sendMessage("§a[PlateGate] §b${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
+                np.sendMessage("§a[PlateGate] §cゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
+                MessageUtil.sendMessage(sender, "${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
                 instance.logger.info("${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
                 return true
             }

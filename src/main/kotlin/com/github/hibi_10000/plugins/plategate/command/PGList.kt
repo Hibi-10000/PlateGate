@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.command.Command
@@ -23,7 +24,7 @@ object PGList {
             searchP = Util.getPlayer(args[1], sender) ?: return false
         }
 
-        sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
+        MessageUtil.sendMessage(sender, "Player §6${searchP.name} §bが所有しているGate一覧")
         val gateList: List<CraftPlateGate>
         try {
             gateList = dbUtil.getList(searchP.uniqueId)

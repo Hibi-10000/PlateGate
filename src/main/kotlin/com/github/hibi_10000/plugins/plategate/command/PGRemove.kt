@@ -4,11 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.CraftPlateGate
-import com.github.hibi_10000.plugins.plategate.Util
+import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
-import com.github.hibi_10000.plugins.plategate.dbUtil
-import com.github.hibi_10000.plugins.plategate.instance
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -42,7 +39,7 @@ object PGRemove {
             sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }
-        sender.sendMessage("§a[PlateGate] §bGate:${gate.name} を削除しました。")
+        MessageUtil.sendMessage(sender, "Gate:${gate.name} を削除しました。")
         instance.logger.info("${sender.name} が Gate:${gate.name} を削除しました。")
         return true
     }

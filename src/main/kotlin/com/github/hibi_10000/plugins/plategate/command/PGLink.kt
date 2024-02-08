@@ -4,6 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
@@ -25,7 +26,7 @@ object PGLink {
             else sender.sendMessage("§a[PlateGate] §c予期せぬエラーが発生しました")
             return false
         }
-        sender.sendMessage("§a[PlateGate] §bゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
+        MessageUtil.sendMessage(sender, "ゲート ${args[1]} からゲート ${args[2]} の方向にゲートをリンクしました。")
         instance.logger.info("${sender.name} がゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
         return true
     }

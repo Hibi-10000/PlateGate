@@ -4,6 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
+import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
@@ -28,7 +29,7 @@ object PGRename {
             }
             return false
         }
-        sender.sendMessage("§a[PlateGate] §bPlateGate ${args[1]} を ${args[2]} にリネームしました")
+        MessageUtil.sendMessage(sender, "PlateGate ${args[1]} を ${args[2]} にリネームしました")
         instance.logger.info("${sender.name} がPlateGate ${args[1]} を ${args[2]} にリネームしました")
         return true
     }
