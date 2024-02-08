@@ -9,7 +9,6 @@ import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -75,12 +74,6 @@ object PGTransfer {
                 val newOwner = Util.getPlayer(args[3], sender) ?: return false
                 transfer[newOwner.uniqueId] = gate
                 //TODO: いい感じに色を付ける
-                val senderInfo = TextComponent(sender.name)
-                senderInfo.hoverEvent = HoverEvent(
-                    HoverEvent.Action.SHOW_ENTITY, Entity(
-                        "minecraft:player", sender.uniqueId.toString(), TextComponent(sender.name)
-                    )
-                )
                 val gateInfo = TextComponent(gate.name)
                 gateInfo.hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT, Text(
@@ -95,7 +88,7 @@ object PGTransfer {
                     )
                 )
                 newOwner.spigot().sendMessage(
-                    TextComponent("§a[PlateGate]§b "), senderInfo,
+                    TextComponent("§a[PlateGate]§b "), MessageUtil.getPlayerInfo(sender),
                     TextComponent(" §bがあなたにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています")
                 )
@@ -106,17 +99,11 @@ object PGTransfer {
                 reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
                 reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} reject")
                 newOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
-                val newOwnerInfo = TextComponent(newOwner.name)
-                newOwnerInfo.hoverEvent = HoverEvent(
-                    HoverEvent.Action.SHOW_ENTITY, Entity(
-                        "minecraft:player", newOwner.uniqueId.toString(), TextComponent(newOwner.name)
-                    )
-                )
                 val cancel = TextComponent("§c[キャンセルする]§r")
                 cancel.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで譲渡をキャンセルする"))
                 cancel.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} cancel")
                 sender.spigot().sendMessage(
-                    TextComponent("§a[PlateGate]§b "), newOwnerInfo,
+                    TextComponent("§a[PlateGate]§b "), MessageUtil.getPlayerInfo(newOwner),
                     TextComponent(" §bにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています "), cancel
                 )

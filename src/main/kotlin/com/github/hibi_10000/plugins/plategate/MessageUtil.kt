@@ -4,8 +4,12 @@
 
 package com.github.hibi_10000.plugins.plategate
 
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Entity
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 import java.util.logging.Level
 
 object MessageUtil {
@@ -24,5 +28,15 @@ object MessageUtil {
     fun catchUnexpectedError(sender: CommandSender?, throwable: Throwable) {
         sendErrorMessage(sender, "予期せぬエラーが発生しました")
         instance.logger.log(Level.SEVERE, "予期せぬエラーが発生しました", throwable)
+    }
+
+    fun getPlayerInfo(player: Player): TextComponent {
+        val component = TextComponent(player.name)
+        component.hoverEvent = HoverEvent(
+            HoverEvent.Action.SHOW_ENTITY, Entity(
+                "minecraft:player", player.uniqueId.toString(), TextComponent(player.name)
+            )
+        )
+        return component
     }
 }
