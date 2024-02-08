@@ -25,6 +25,10 @@ object MessageUtil {
         sendMessage(sender, ChatColor.RED, message)
     }
 
+    fun logInfo(message: String) {
+        instance.logger.info(message)
+    }
+
     fun catchUnexpectedError(sender: CommandSender?, throwable: Throwable) {
         sendErrorMessage(sender, "予期せぬエラーが発生しました")
         instance.logger.log(Level.SEVERE, "予期せぬエラーが発生しました", throwable)

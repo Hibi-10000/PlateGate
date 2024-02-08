@@ -51,7 +51,7 @@ object PGTransfer {
                 transfer.remove(np.uniqueId)
                 MessageUtil.sendErrorMessage(np, "ゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
                 MessageUtil.sendMessage(sender, "${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
-                instance.logger.info("${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
+                MessageUtil.logInfo("${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
                 return true
             }
             "owner" -> {
@@ -107,7 +107,7 @@ object PGTransfer {
                     TextComponent(" §bにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています "), cancel
                 )
-                instance.logger.info("${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています")
+                MessageUtil.logInfo("${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています")
                 return true
             }
             else -> return Util.commandInvalid(sender, label)

@@ -4,8 +4,11 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.*
+import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.MessageUtil
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -71,7 +74,7 @@ object PGCreate {
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
         MessageUtil.sendMessage(sender, "PlateGate ${args[1]} を $loc に作成しました")
-        instance.logger.info("${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
+        MessageUtil.logInfo("${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
         return true
     }
 
