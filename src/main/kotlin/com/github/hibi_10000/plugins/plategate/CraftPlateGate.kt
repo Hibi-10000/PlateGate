@@ -4,7 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate
 
-import com.google.gson.JsonObject
+import com.github.hibi_10000.plugins.plategate.database.JsonUtil
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.World
@@ -50,17 +50,17 @@ class CraftPlateGate(
         toName
     )
 
-    constructor(jo: JsonObject) : this(
-        UUID.fromString(jo["owner"].asString),
-        jo["name"].asString,
-        UUID.fromString(jo["world"].asString),
-        jo["x"].asInt,
-        jo["y"].asInt,
-        jo["z"].asInt,
-        BlockFace.valueOf(jo["rotate"].asString),
-        Material.matchMaterial(jo["beforeBlock"].asString)!!,
-        jo["toOwner"]?.asString?.let { UUID.fromString(it) },
-        jo["toName"]?.asString
+    constructor(entry: JsonUtil.Entry) : this(
+        UUID.fromString(entry.owner),
+        entry.name,
+        UUID.fromString(entry.world),
+        entry.x,
+        entry.y,
+        entry.z,
+        BlockFace.valueOf(entry.rotate),
+        Material.matchMaterial(entry.beforeBlock)!!,
+        entry.toOwner?.let { UUID.fromString(it) },
+        entry.toName
     )
 
     fun getWorld(): World? {
