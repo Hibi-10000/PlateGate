@@ -6,8 +6,6 @@ package com.github.hibi_10000.plugins.plategate.event
 
 import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
-import net.md_5.bungee.api.ChatMessageType
-import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -96,14 +94,17 @@ object Event: Listener {
 
     @EventHandler(ignoreCancelled = true)
     fun onBlockBreak(e: BlockBreakEvent) {
-        e.isCancelled = isPlateGateBlock(e.block, e.player)
-        if (e.isCancelled) e.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent("§cPlateGateを壊すことはできません！"))
+        if (isPlateGateBlock(e.block, e.player)) {
+            e.isCancelled = true
+            MessageUtil.sendActionBarErrorMessage(e.player, "PlateGateを壊すことはできません！")
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
     fun onBlockDamage(e: BlockDamageEvent) {
-        if (isPlateGateBlock(e.block, e.player))
-            e.player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent("§cPlateGateを壊すことはできません！"))
+        if (isPlateGateBlock(e.block, e.player)) {
+            MessageUtil.sendActionBarErrorMessage(e.player, "PlateGateを壊すことはできません！")
+        }
     }
 
     @EventHandler(ignoreCancelled = true)
