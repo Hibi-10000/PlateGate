@@ -90,16 +90,6 @@ object Util {
         return player
     }
 
-    fun getOfflinePlayer(name: String, sender: Player?): OfflinePlayer? {
-        val player = Bukkit.getOfflinePlayers().find { it.name?.lowercase(Locale.ROOT) == name }
-        if (player == null) {
-            if (isUUID(name)) return getOfflinePlayer(UUID.fromString(name), sender)
-            MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
-            return null
-        }
-        return player
-    }
-
     fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
@@ -109,7 +99,7 @@ object Util {
         return player
     }
 
-    fun isUUID(string: String): Boolean {
+    private fun isUUID(string: String): Boolean {
         return Pattern.compile("^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$").matcher(string).find()
     }
 
