@@ -10,6 +10,7 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -106,5 +107,25 @@ object Util {
     fun noInteract(uuid: UUID) {
         noInteract.add(uuid)
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable { noInteract.remove(uuid) }, 20L)
+    }
+
+    fun checkCreateLocation(sender: Player, loc: Location, underBlock: Block): Boolean {
+        val message = when {
+            sender.isFlying -> "地面に立っている必要があります"
+            loc.y != loc.block.y.toDouble() -> "下のブロックはフルブロックである必要があります"
+            loc.block.type != Material.AIR -> "その場所の非フルブロックを取り除いてください"
+            underBlock.type.hasGravity() -> "下のブロックは重力の影響を受けないブロックである必要があります"
+            underBlock.type.isInteractable
+                || (underBlock.type.data != Material.AIR.data
+                    && underBlock.type.data != Material.GRASS_BLOCK.data)
+            -> "下のブロックはデータ値を持たないブロックである必要があります"
+            !underBlock.type.isOccluding
+                && !underBlock.type.isSolid
+                && Material.entries.filter { it.name.contains("GLASS") }.none { it == underBlock.type }
+            -> "下のブロックは非透過ブロックかガラスである必要があります"
+            else -> return true
+        }
+        MessageUtil.sendErrorMessage(sender, message)
+        return false
     }
 }

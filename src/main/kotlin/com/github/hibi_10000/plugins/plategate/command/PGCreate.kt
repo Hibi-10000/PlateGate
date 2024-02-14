@@ -20,37 +20,10 @@ object PGCreate {
         if (!Util.checkPermission(sender, "plategate.command.create")) return false
         if (args.size != 2) return Util.commandInvalid(sender, label)
 
-        if (sender.isFlying) {
-            MessageUtil.sendErrorMessage(sender, "地面に立っている必要があります")
-            return false
-        }
         val loc = sender.location.clone()
-        loc.pitch = 0f
-        if (loc.y != loc.block.y.toDouble()) {
-            MessageUtil.sendErrorMessage(sender, "下のブロックはフルブロックである必要があります")
-            return false
-        }
         val underBlock = Util.underBlock(loc.block)
-        if (underBlock.type.hasGravity()) {
-            MessageUtil.sendErrorMessage(sender, "下のブロックは重力の影響を受けないブロックである必要があります")
-            return false
-        }
-        if (underBlock.type.isInteractable
-            || (underBlock.type.data != Material.AIR.data && underBlock.type.data != Material.GRASS_BLOCK.data)
-            ) {
-            MessageUtil.sendErrorMessage(sender, "下のブロックはデータ値を持たないブロックである必要があります")
-            return false
-        }
-        if (!underBlock.type.isOccluding && !underBlock.type.isSolid
-            && Material.entries.filter { it.name.contains("GLASS") }.none { it == underBlock.type }
-            ) {
-            MessageUtil.sendErrorMessage(sender, "下のブロックは非透過ブロックかガラスである必要があります")
-            return false
-        }
-        if (loc.block.type != Material.AIR) {
-            MessageUtil.sendErrorMessage(sender, "その場所の非フルブロックを取り除いてください")
-            return false
-        }
+        if (!Util.checkCreateLocation(sender, loc, underBlock)) return false
+        loc.pitch = 0f
         try {
             dbUtil.add(
                 CraftPlateGate(
