@@ -40,8 +40,8 @@ class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
     @Throws(IOException::class, RuntimeException::class)
     private fun read(): MutableList<Entry> {
         val array = FileReader(gateDB, StandardCharsets.UTF_8).use { reader ->
-            val type = object : TypeToken<MutableList<Entry>>() {}.type
-            Gson().fromJson<MutableList<Entry>>(reader, type) ?: mutableListOf()
+            val type = object : TypeToken<MutableList<Entry>>() {}
+            Gson().fromJson(reader, type) ?: mutableListOf()
         }
         return array
     }
