@@ -4,6 +4,8 @@
 
 package com.github.hibi_10000.plugins.plategate
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -49,5 +51,45 @@ object MessageUtil {
             )
         )
         return component
+    }
+
+    enum class MessageKey(val jsonKey: String) {
+        COMMANDS_CREATE_SUCCESS("commands.create.success"),
+        COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
+
+        fun getMessage(): String {
+            return Lang.JA_JP.getMessage(this)!!
+        }
+
+        private fun getMessage(lang: Lang): String {
+            return lang.getMessage(this) ?: getMessage()
+        }
+
+        fun getMessage(sender: Player): String {
+            return getMessage(Lang.get(sender.locale))
+        }
+    }
+
+    enum class Lang(val key: String) {
+        JA_JP("ja_jp");
+
+        private val jo: JsonObject
+
+        init {
+            val json = instance.getResource("lang/${this.key}.json")?.use {
+                it.readAllBytes().decodeToString()
+            }
+            jo = Gson().fromJson(json, JsonObject::class.java)
+        }
+
+        fun getMessage(key: MessageKey): String? {
+            return jo[key.jsonKey]?.asString
+        }
+
+        companion object {
+            fun get(lang: String): Lang {
+                return entries.firstOrNull { it.key == lang } ?: JA_JP
+            }
+        }
     }
 }

@@ -46,8 +46,8 @@ object PGCreate {
         Util.noInteract(sender.uniqueId)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.sendMessage(sender, "PlateGate ${args[1]} を $loc に作成しました")
-        MessageUtil.logInfo("${sender.name} がPlateGate ${args[1]} を $loc に作成しました")
+        MessageUtil.sendMessage(sender, MessageUtil.MessageKey.COMMANDS_CREATE_SUCCESS.getMessage(sender).format(args[1], loc))
+        MessageUtil.logInfo(MessageUtil.MessageKey.COMMANDS_CREATE_SUCCESS_LOG.getMessage().format(sender.name, args[1], loc))
         return true
     }
 
