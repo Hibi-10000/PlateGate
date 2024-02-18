@@ -58,7 +58,7 @@ object MessageUtil {
         COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
 
         fun getMessage(): String {
-            return Lang.JA_JP.getMessage(this)!!
+            return Lang.EN_US.getMessage(this) ?: Lang.JA_JP.getMessage(this)!!
         }
 
         private fun getMessage(lang: Lang): String {
@@ -71,6 +71,7 @@ object MessageUtil {
     }
 
     enum class Lang(val key: String) {
+        EN_US("en_us"),
         JA_JP("ja_jp");
 
         private val jo: JsonObject
@@ -88,7 +89,7 @@ object MessageUtil {
 
         companion object {
             fun get(lang: String): Lang {
-                return entries.firstOrNull { it.key == lang } ?: JA_JP
+                return entries.firstOrNull { it.key == lang } ?: EN_US
             }
         }
     }
