@@ -61,12 +61,8 @@ object MessageUtil {
             return Lang.EN_US.getMessage(this) ?: Lang.JA_JP.getMessage(this)!!
         }
 
-        private fun getMessage(lang: Lang): String {
-            return lang.getMessage(this) ?: getMessage()
-        }
-
         fun getMessage(sender: Player): String {
-            return getMessage(Lang.get(sender.locale))
+            return Lang.get(sender.locale).getMessage(this) ?: getMessage()
         }
 
         fun getMessage(vararg format: String): String {
