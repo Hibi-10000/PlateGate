@@ -68,6 +68,14 @@ object MessageUtil {
         fun getMessage(sender: Player): String {
             return getMessage(Lang.get(sender.locale))
         }
+
+        fun getMessage(vararg format: String): String {
+            return getMessage().format(*format)
+        }
+
+        fun getMessage(sender: Player, vararg format: String): String {
+            return getMessage(sender).format(*format)
+        }
     }
 
     enum class Lang(val key: String) {
