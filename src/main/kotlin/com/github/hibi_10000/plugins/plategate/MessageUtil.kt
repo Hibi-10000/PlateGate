@@ -61,16 +61,32 @@ object MessageUtil {
         COMMANDS_CREATE_SUCCESS("commands.create.success"),
         COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
 
-        fun getMessage(vararg format: String): String {
+        private fun getMessage(vararg format: String): String {
             return format(Lang.getMessage(this), *format)
         }
 
-        fun getMessage(sender: Player, vararg format: String): String {
+        private fun getMessage(sender: Player, vararg format: String): String {
             return format(Lang.get(sender.locale).getMessage(this), *format)
+        }
+
+        private fun send(sender: Player, color: ChatColor?, vararg format: String) {
+            sender.sendMessage("${ChatColor.GREEN}[PlateGate] $color${getMessage(sender, *format)}")
+        }
+
+        fun send(sender: Player, vararg format: String) {
+            send(sender, ChatColor.AQUA, *format)
+        }
+
+        fun sendError(sender: Player, vararg format: String) {
+            send(sender, ChatColor.RED, *format)
+        }
+
+        fun logInfo(vararg format: String) {
+            logInfo(getMessage(*format))
         }
     }
 
-    enum class Lang(val key: String) {
+    private enum class Lang(private val key: String) {
         EN_US("en_us"),
         JA_JP("ja_jp");
 
