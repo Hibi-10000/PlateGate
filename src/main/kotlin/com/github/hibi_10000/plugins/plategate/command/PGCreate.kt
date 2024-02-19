@@ -9,6 +9,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -46,8 +47,8 @@ object PGCreate {
         Util.noInteract(sender.uniqueId)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.Message.COMMANDS_CREATE_SUCCESS.send(sender, args[1], loc.toString())
-        MessageUtil.Message.COMMANDS_CREATE_SUCCESS_LOG.logInfo(sender.name, args[1], loc.toString())
+        MessageUtil.send(sender, Message.COMMANDS_CREATE_SUCCESS, args[1], loc.toString())
+        MessageUtil.logInfo(Message.COMMANDS_CREATE_SUCCESS_LOG, sender.name, args[1], loc.toString())
         return true
     }
 
