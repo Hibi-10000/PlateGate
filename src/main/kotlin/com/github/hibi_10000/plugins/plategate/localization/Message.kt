@@ -22,7 +22,8 @@ enum class Message(val jsonKey: String) {
         return format(Language.getMessage(this), *format)
     }
 
-    fun getString(player: Player, vararg format: String): String {
+    fun getString(player: Player?, vararg format: String): String {
+        if (player == null) return getString(*format)
         return format(Language.fromString(player.locale).getMessage(this), *format)
     }
 }

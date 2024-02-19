@@ -31,15 +31,15 @@ object MessageUtil {
         instance.logger.info(message)
     }
 
-    private fun send(receiver: Player, color: ChatColor?, message: Message, vararg format: String) {
-        receiver.sendMessage("${ChatColor.GREEN}[PlateGate] $color${message.getString(receiver, *format)}")
+    private fun send(receiver: Player?, color: ChatColor?, message: Message, vararg format: String) {
+        receiver?.sendMessage("${ChatColor.GREEN}[PlateGate] $color${message.getString(receiver, *format)}")
     }
 
-    fun send(receiver: Player, message: Message, vararg format: String) {
+    fun send(receiver: Player?, message: Message, vararg format: String) {
         send(receiver, ChatColor.AQUA, message, *format)
     }
 
-    fun sendError(receiver: Player, message: Message, vararg format: String) {
+    fun sendError(receiver: Player?, message: Message, vararg format: String) {
         send(receiver, ChatColor.RED, message, *format)
     }
 
