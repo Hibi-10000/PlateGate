@@ -53,24 +53,20 @@ object MessageUtil {
         return component
     }
 
+    private fun format(base: String, vararg format: String): String {
+        return if (format.isEmpty()) base else base.format(*format)
+    }
+
     enum class MessageKey(val jsonKey: String) {
         COMMANDS_CREATE_SUCCESS("commands.create.success"),
         COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
 
-        fun getMessage(): String {
-            return Lang.getMessage(this)
-        }
-
-        fun getMessage(sender: Player): String {
-            return Lang.get(sender.locale).getMessage(this)
-        }
-
         fun getMessage(vararg format: String): String {
-            return getMessage().format(*format)
+            return format(Lang.getMessage(this), *format)
         }
 
         fun getMessage(sender: Player, vararg format: String): String {
-            return getMessage(sender).format(*format)
+            return format(Lang.get(sender.locale).getMessage(this), *format)
         }
     }
 
