@@ -58,11 +58,11 @@ object MessageUtil {
         COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
 
         fun getMessage(): String {
-            return Lang.EN_US.getMessage(this) ?: Lang.JA_JP.getMessage(this)!!
+            return Lang.getMessage(this)
         }
 
         fun getMessage(sender: Player): String {
-            return Lang.get(sender.locale).getMessage(this) ?: getMessage()
+            return Lang.get(sender.locale).getMessage(this)
         }
 
         fun getMessage(vararg format: String): String {
@@ -87,13 +87,19 @@ object MessageUtil {
             jo = Gson().fromJson(json, JsonObject::class.java)
         }
 
-        fun getMessage(key: MessageKey): String? {
-            return jo[key.jsonKey]?.asString
+        private val message = { key: MessageKey -> jo[key.jsonKey]?.asString }
+
+        fun getMessage(key: MessageKey): String {
+            return message(key) ?: Lang.getMessage(key)
         }
 
         companion object {
             fun get(lang: String): Lang {
                 return entries.firstOrNull { it.key == lang } ?: EN_US
+            }
+
+            fun getMessage(key: MessageKey): String {
+                return EN_US.message(key) ?: JA_JP.message(key)!!
             }
         }
     }
