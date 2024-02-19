@@ -44,7 +44,7 @@ object MessageUtil {
     }
 
     fun logInfo(message: Message, vararg format: String) {
-        logInfo(message.getString(*format))
+        instance.logger.info(message.getString(*format))
     }
 
     fun catchUnexpectedError(sender: CommandSender?, throwable: Throwable) {
