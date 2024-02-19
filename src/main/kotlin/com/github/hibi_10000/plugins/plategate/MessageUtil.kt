@@ -57,7 +57,7 @@ object MessageUtil {
         return if (format.isEmpty()) base else base.format(*format)
     }
 
-    enum class MessageKey(val jsonKey: String) {
+    enum class Message(val jsonKey: String) {
         COMMANDS_CREATE_SUCCESS("commands.create.success"),
         COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
 
@@ -65,20 +65,20 @@ object MessageUtil {
             return format(Lang.getMessage(this), *format)
         }
 
-        private fun getMessage(sender: Player, vararg format: String): String {
-            return format(Lang.get(sender.locale).getMessage(this), *format)
+        private fun getMessage(player: Player, vararg format: String): String {
+            return format(Lang.fromString(player.locale).getMessage(this), *format)
         }
 
-        private fun send(sender: Player, color: ChatColor?, vararg format: String) {
-            sender.sendMessage("${ChatColor.GREEN}[PlateGate] $color${getMessage(sender, *format)}")
+        private fun send(receiver: Player, color: ChatColor?, vararg format: String) {
+            receiver.sendMessage("${ChatColor.GREEN}[PlateGate] $color${getMessage(receiver, *format)}")
         }
 
-        fun send(sender: Player, vararg format: String) {
-            send(sender, ChatColor.AQUA, *format)
+        fun send(receiver: Player, vararg format: String) {
+            send(receiver, ChatColor.AQUA, *format)
         }
 
-        fun sendError(sender: Player, vararg format: String) {
-            send(sender, ChatColor.RED, *format)
+        fun sendError(receiver: Player, vararg format: String) {
+            send(receiver, ChatColor.RED, *format)
         }
 
         fun logInfo(vararg format: String) {
@@ -99,18 +99,18 @@ object MessageUtil {
             jo = Gson().fromJson(json, JsonObject::class.java)
         }
 
-        private val message = { key: MessageKey -> jo[key.jsonKey]?.asString }
+        private val message = { key: Message -> jo[key.jsonKey]?.asString }
 
-        fun getMessage(key: MessageKey): String {
+        fun getMessage(key: Message): String {
             return message(key) ?: Lang.getMessage(key)
         }
 
         companion object {
-            fun get(lang: String): Lang {
+            fun fromString(lang: String): Lang {
                 return entries.firstOrNull { it.key == lang } ?: EN_US
             }
 
-            fun getMessage(key: MessageKey): String {
+            fun getMessage(key: Message): String {
                 return EN_US.message(key) ?: JA_JP.message(key)!!
             }
         }
