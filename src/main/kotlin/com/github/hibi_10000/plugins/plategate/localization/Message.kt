@@ -11,7 +11,8 @@ import org.bukkit.entity.Player
 enum class Message(val jsonKey: String) {
     //<editor-fold desc="Messages">
     COMMANDS_CREATE_SUCCESS("commands.create.success"),
-    COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log");
+    COMMANDS_CREATE_SUCCESS_LOG("commands.create.success.log"),
+    ERROR_UNEXPECTED("error.unexpected");
     //</editor-fold>
 
     private fun format(base: String, vararg format: String): String {

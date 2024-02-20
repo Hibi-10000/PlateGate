@@ -47,9 +47,9 @@ object MessageUtil {
         instance.logger.info(message.getString(*format))
     }
 
-    fun catchUnexpectedError(sender: CommandSender?, throwable: Throwable) {
-        sendErrorMessage(sender, "予期せぬエラーが発生しました")
-        instance.logger.log(Level.SEVERE, "予期せぬエラーが発生しました", throwable)
+    fun catchUnexpectedError(sender: Player?, throwable: Throwable) {
+        sendError(sender, Message.ERROR_UNEXPECTED)
+        instance.logger.log(Level.SEVERE, Message.ERROR_UNEXPECTED.getString(), throwable)
     }
 
     fun sendActionBarErrorMessage(player: Player, message: String) {

@@ -1,4 +1,5 @@
 {
     "commands.create.success": "PlateGate %s を %s に作成しました",
-    "commands.create.success.log": "%s がPlateGate %s を %s に作成しました"
+    "commands.create.success.log": "%s がPlateGate %s を %s に作成しました",
+    "error.unexpected": "予期せぬエラーが発生しました"
 }
