@@ -6,6 +6,7 @@ package com.github.hibi_10000.plugins.plategate.event
 
 import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -96,14 +97,14 @@ object Event: Listener {
     fun onBlockBreak(e: BlockBreakEvent) {
         if (isPlateGateBlock(e.block, e.player)) {
             e.isCancelled = true
-            MessageUtil.sendActionBarErrorMessage(e.player, "PlateGateを壊すことはできません！")
+            MessageUtil.sendActionBarError(e.player, Message.PLATEGATE_BLOCK_BREAK_ERROR)
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     fun onBlockDamage(e: BlockDamageEvent) {
         if (isPlateGateBlock(e.block, e.player)) {
-            MessageUtil.sendActionBarErrorMessage(e.player, "PlateGateを壊すことはできません！")
+            MessageUtil.sendActionBarError(e.player, Message.PLATEGATE_BLOCK_BREAK_ERROR)
         }
     }
 

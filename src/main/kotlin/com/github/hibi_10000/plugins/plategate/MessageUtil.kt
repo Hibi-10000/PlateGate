@@ -52,10 +52,10 @@ object MessageUtil {
         instance.logger.log(Level.SEVERE, Message.ERROR_UNEXPECTED.getString(), throwable)
     }
 
-    fun sendActionBarErrorMessage(player: Player, message: String) {
-        val component = TextComponent(message)
+    fun sendActionBarError(receiver: Player?, message: Message, vararg format: String) {
+        val component = TextComponent(message.getString(receiver, *format))
         component.color = ChatColor.RED.asBungee()
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component)
+        receiver?.spigot()?.sendMessage(ChatMessageType.ACTION_BAR, component)
     }
 
     fun getPlayerInfo(player: Player): TextComponent {
