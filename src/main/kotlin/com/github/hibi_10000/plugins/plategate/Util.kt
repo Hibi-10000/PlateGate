@@ -4,6 +4,7 @@
 
 package com.github.hibi_10000.plugins.plategate
 
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -20,9 +21,9 @@ import java.util.*
 import java.util.regex.Pattern
 
 object Util {
-    fun checkPermission(sender: CommandSender, permission: String): Boolean {
+    fun checkPermission(sender: Player, permission: String): Boolean {
         if (!sender.hasPermission(permission)) {
-            MessageUtil.sendErrorMessage(sender, "権限が不足しています。")
+            MessageUtil.sendError(sender, Message.ERROR_PERMISSION)
             return false
         }
         return true

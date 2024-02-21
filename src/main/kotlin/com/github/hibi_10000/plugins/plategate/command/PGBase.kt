@@ -15,9 +15,9 @@ import java.util.*
 object PGBase : CommandExecutor, TabCompleter {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (command.name.lowercase(Locale.ROOT) != "plategate") return false
-        if (!Util.checkPermission(sender, "plategate.command")) return false
         //if (args[0].lowercase(Locale.ROOT) == "test") {return true}
         if (sender !is Player) return false
+        if (!Util.checkPermission(sender, "plategate.command")) return false
         if (args.isEmpty()) return Util.commandInvalid(sender, label)
 
         return when (args[0].lowercase(Locale.ROOT)) {
