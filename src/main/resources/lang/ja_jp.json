@@ -1,6 +1,6 @@
 {
-    "commands.create.success": "PlateGate %s を %s に作成しました",
-    "commands.create.success.log": "%s がPlateGate %s を %s に作成しました",
-    "error.unexpected": "予期せぬエラーが発生しました",
+    "commands.plategate.create.success": "PlateGate %s を %s に作成しました",
+    "commands.plategate.create.success.log": "%s がPlateGate %s を %s に作成しました",
+    "plategate.unexpected_error": "予期せぬエラーが発生しました",
     "plategate.block.break.error": "PlateGateを壊すことはできません！"
 }
