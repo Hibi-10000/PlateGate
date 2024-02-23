@@ -21,7 +21,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 object Util {
-    fun checkPermission(sender: Player, permission: String): Boolean {
+    fun checkPermission(sender: CommandSender, permission: String): Boolean {
         if (!sender.hasPermission(permission)) {
             MessageUtil.sendError(sender, Message.ERROR_PERMISSION)
             return false
