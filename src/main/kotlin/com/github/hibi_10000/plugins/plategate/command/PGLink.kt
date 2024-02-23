@@ -8,6 +8,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -25,8 +26,8 @@ object PGLink {
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
-        MessageUtil.sendMessage(sender, "ゲート ${args[1]} からゲート ${args[2]} の方向にゲートをリンクしました。")
-        MessageUtil.logInfo("${sender.name} がゲート ${args[1]} から ゲート ${args[2]} の方向にゲートをリンクしました。")
+        MessageUtil.send(sender, Message.COMMANDS_JUMP_SUCCESS, args[1], args[2])
+        MessageUtil.logInfo(Message.COMMANDS_JUMP_SUCCESS_LOG, sender.name, args[1], args[2])
         return true
     }
 

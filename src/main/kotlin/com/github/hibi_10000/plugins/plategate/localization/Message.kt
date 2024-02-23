@@ -15,6 +15,8 @@ enum class Message(val jsonKey: String) {
     COMMANDS_CREATE_SUCCESS_LOG("commands.plategate.create.success.log"),
     COMMANDS_JUMP_SUCCESS("commands.plategate.jump.success"),
     COMMANDS_JUMP_SUCCESS_LOG("commands.plategate.jump.success.log"),
+    COMMANDS_LINK_SUCCESS("commands.plategate.link.success"),
+    COMMANDS_LINK_SUCCESS_LOG("commands.plategate.link.success.log"),
     ERROR_PERMISSION("plategate.permission_error"),
     ERROR_UNEXPECTED("plategate.unexpected_error"),
     GATE_BLOCK_BREAK_ERROR("plategate.block.break.error");
