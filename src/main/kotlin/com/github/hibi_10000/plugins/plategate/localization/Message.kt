@@ -13,6 +13,8 @@ enum class Message(val jsonKey: String) {
     //<editor-fold desc="Messages">
     COMMANDS_CREATE_SUCCESS("commands.plategate.create.success"),
     COMMANDS_CREATE_SUCCESS_LOG("commands.plategate.create.success.log"),
+    COMMANDS_JUMP_SUCCESS("commands.plategate.jump.success"),
+    COMMANDS_JUMP_SUCCESS_LOG("commands.plategate.jump.success.log"),
     ERROR_PERMISSION("plategate.permission_error"),
     ERROR_UNEXPECTED("plategate.unexpected_error"),
     GATE_BLOCK_BREAK_ERROR("plategate.block.break.error");

@@ -9,6 +9,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -39,8 +40,8 @@ object PGJump {
         toLoc.yaw = Util.convBlockFace2Yaw(gate.rotate)
         toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
-        MessageUtil.sendMessage(sender, "ゲート ${args[1]} にジャンプしました。")
-        MessageUtil.logInfo("${sender.name} がゲート ${args[1]} にジャンプしました。")
+        MessageUtil.send(sender, Message.COMMANDS_JUMP_SUCCESS, args[1])
+        MessageUtil.logInfo(Message.COMMANDS_JUMP_SUCCESS_LOG, sender.name, args[1])
         return true
     }
 

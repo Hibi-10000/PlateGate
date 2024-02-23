@@ -1,6 +1,8 @@
 {
     "commands.plategate.create.success": "PlateGate %s を %s に作成しました",
     "commands.plategate.create.success.log": "%s がPlateGate %s を %s に作成しました",
+    "commands.plategate.jump.success": "ゲート %s にジャンプしました。",
+    "commands.plategate.jump.success.log": "%s がゲート %s にジャンプしました。",
     "plategate.permission_error": "権限が不足しています。",
     "plategate.unexpected_error": "予期せぬエラーが発生しました",
     "plategate.block.break.error": "PlateGateを壊すことはできません！"
