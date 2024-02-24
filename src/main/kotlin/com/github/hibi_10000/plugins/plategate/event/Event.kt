@@ -97,14 +97,14 @@ object Event: Listener {
     fun onBlockBreak(e: BlockBreakEvent) {
         if (isPlateGateBlock(e.block, e.player)) {
             e.isCancelled = true
-            MessageUtil.sendActionBarError(e.player, Message.GATE_BLOCK_BREAK_ERROR)
+            MessageUtil.sendActionBarError(e.player, Message.ERROR_BREAK_GATE_BLOCK)
         }
     }
 
     @EventHandler(ignoreCancelled = true)
     fun onBlockDamage(e: BlockDamageEvent) {
         if (isPlateGateBlock(e.block, e.player)) {
-            MessageUtil.sendActionBarError(e.player, Message.GATE_BLOCK_BREAK_ERROR)
+            MessageUtil.sendActionBarError(e.player, Message.ERROR_BREAK_GATE_BLOCK)
         }
     }
 

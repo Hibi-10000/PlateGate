@@ -13,9 +13,9 @@
     "commands.plategate.rename.success.log": "%s がPlateGate %s を %s にリネームしました",
     "commands.plategate.unlink.success": "ゲート %s のリンクを解除しました",
     "commands.plategate.unlink.success.log": "%s がゲート %s のリンクを解除しました",
-    "plategate.permission_error": "権限が不足しています。",
+    "plategate.error.permission": "権限が不足しています。",
     "plategate.error.player.not_found": "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。",
     "plategate.error.player.offline": "そのプレイヤーはオフラインです。",
-    "plategate.unexpected_error": "予期せぬエラーが発生しました",
-    "plategate.block.break.error": "PlateGateを壊すことはできません！"
+    "plategate.error.unexpected": "予期せぬエラーが発生しました",
+    "plategate.error.break.block": "PlateGateを壊すことはできません！"
 }

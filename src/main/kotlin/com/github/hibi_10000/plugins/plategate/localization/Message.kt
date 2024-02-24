@@ -25,11 +25,11 @@ enum class Message(val jsonKey: String) {
     COMMAND_RENAME_SUCCESS_LOG("commands.plategate.rename.success.log"),
     COMMAND_UNLINK_SUCCESS("commands.plategate.unlink.success"),
     COMMAND_UNLINK_SUCCESS_LOG("commands.plategate.unlink.success.log"),
-    ERROR_PERMISSION("plategate.permission_error"),
+    ERROR_BREAK_GATE_BLOCK("plategate.error.break.block"),
+    ERROR_PERMISSION("plategate.error.permission"),
     ERROR_PLAYER_NOT_FOUND("plategate.error.player.not_found"),
     ERROR_PLAYER_OFFLINE("plategate.error.player.offline"),
-    ERROR_UNEXPECTED("plategate.unexpected_error"),
-    GATE_BLOCK_BREAK_ERROR("plategate.block.break.error");
+    ERROR_UNEXPECTED("plategate.error.unexpected");
     //</editor-fold>
 
     private fun format(base: String, vararg format: String): String {
