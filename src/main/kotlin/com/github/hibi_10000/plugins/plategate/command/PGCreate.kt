@@ -47,8 +47,8 @@ object PGCreate {
         Util.noInteract(sender.uniqueId)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.send(sender, Message.COMMANDS_CREATE_SUCCESS, args[1], loc.toString())
-        MessageUtil.logInfo(Message.COMMANDS_CREATE_SUCCESS_LOG, sender.name, args[1], loc.toString())
+        MessageUtil.send(sender, Message.COMMAND_CREATE_SUCCESS, args[1], loc.toString())
+        MessageUtil.logInfo(Message.COMMAND_CREATE_SUCCESS_LOG, sender.name, args[1], loc.toString())
         return true
     }
 
