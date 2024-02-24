@@ -71,10 +71,10 @@ object Util {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
             if (Bukkit.getOfflinePlayers().any { it.name?.lowercase(Locale.ROOT) == name }) {
-                MessageUtil.sendErrorMessage(sender, "そのプレイヤーはオフラインです。")
+                MessageUtil.sendError(sender, Message.ERROR_PLAYER_OFFLINE)
             } else {
                 if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
-                MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+                MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
             }
         }
         return player
@@ -84,9 +84,9 @@ object Util {
         val player = Bukkit.getPlayer(uuid)
         if (player == null) {
             if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
-                MessageUtil.sendErrorMessage(sender, "そのプレイヤーはオフラインです。")
+                MessageUtil.sendError(sender, Message.ERROR_PLAYER_OFFLINE)
             } else {
-                MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+                MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
             }
         }
         return player
@@ -95,7 +95,7 @@ object Util {
     fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
-            MessageUtil.sendErrorMessage(sender, "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。")
+            MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
             return null
         }
         return player
