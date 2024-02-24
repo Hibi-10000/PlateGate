@@ -5,6 +5,8 @@
     "commands.plategate.jump.success.log": "%s がゲート %s にジャンプしました。",
     "commands.plategate.link.success": "ゲート %s からゲート %s の方向にゲートをリンクしました。",
     "commands.plategate.link.success.log": "%s がゲート %s から ゲート %s の方向にゲートをリンクしました。",
+    "commands.plategate.move.success": "ゲート %s を %s に移動しました",
+    "commands.plategate.move.success.log": "%s がゲート %s を %s に移動しました",
     "plategate.permission_error": "権限が不足しています。",
     "plategate.unexpected_error": "予期せぬエラーが発生しました",
     "plategate.block.break.error": "PlateGateを壊すことはできません！"

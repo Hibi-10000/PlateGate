@@ -9,6 +9,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -60,8 +61,8 @@ object PGMove {
         Util.noInteract(sender.uniqueId)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.sendMessage(sender, "ゲート ${args[1]} を $loc に移動しました")
-        MessageUtil.logInfo("${sender.name} がゲート ${args[1]} を $loc に移動しました")
+        MessageUtil.send(sender, Message.COMMAND_MOVE_SUCCESS, args[1], loc.toString())
+        MessageUtil.logInfo(Message.COMMAND_MOVE_SUCCESS_LOG, sender.name, args[1], loc.toString())
         return true
     }
 
