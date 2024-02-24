@@ -8,6 +8,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -28,8 +29,8 @@ object PGUnlink {
             }
             return false
         }
-        MessageUtil.sendMessage(sender, "ゲート ${args[1]} のリンクを解除しました")
-        MessageUtil.logInfo("${sender.name} がゲート ${args[1]} のリンクを解除しました")
+        MessageUtil.send(sender, Message.COMMAND_UNLINK_SUCCESS, args[1])
+        MessageUtil.logInfo(Message.COMMAND_UNLINK_SUCCESS_LOG, sender.name, args[1])
         return true
     }
 

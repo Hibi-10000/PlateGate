@@ -11,6 +11,8 @@
     "commands.plategate.remove.success.log": "%s が Gate:%s を削除しました。",
     "commands.plategate.rename.success": "PlateGate %s を %s にリネームしました",
     "commands.plategate.rename.success.log": "%s がPlateGate %s を %s にリネームしました",
+    "commands.plategate.unlink.success": "ゲート %s のリンクを解除しました",
+    "commands.plategate.unlink.success.log": "%s がゲート %s のリンクを解除しました",
     "plategate.permission_error": "権限が不足しています。",
     "plategate.unexpected_error": "予期せぬエラーが発生しました",
     "plategate.block.break.error": "PlateGateを壊すことはできません！"
