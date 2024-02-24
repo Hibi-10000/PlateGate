@@ -9,6 +9,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -42,8 +43,8 @@ object PGRemove {
             MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
-        MessageUtil.sendMessage(sender, "Gate:${gate.name} を削除しました。")
-        MessageUtil.logInfo("${sender.name} が Gate:${gate.name} を削除しました。")
+        MessageUtil.send(sender, Message.COMMAND_REMOVE_SUCCESS, gate.name)
+        MessageUtil.logInfo(Message.COMMAND_REMOVE_SUCCESS_LOG, sender.name, gate.name)
         return true
     }
 
