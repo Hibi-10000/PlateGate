@@ -8,6 +8,7 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -28,8 +29,8 @@ object PGRename {
             }
             return false
         }
-        MessageUtil.sendMessage(sender, "PlateGate ${args[1]} を ${args[2]} にリネームしました")
-        MessageUtil.logInfo("${sender.name} がPlateGate ${args[1]} を ${args[2]} にリネームしました")
+        MessageUtil.send(sender, Message.COMMAND_RENAME_SUCCESS, args[1], args[2])
+        MessageUtil.logInfo(Message.COMMAND_RENAME_SUCCESS_LOG, sender.name, args[1], args[2])
         return true
     }
 
