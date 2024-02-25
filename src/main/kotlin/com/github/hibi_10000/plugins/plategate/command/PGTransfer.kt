@@ -6,6 +6,7 @@ package com.github.hibi_10000.plugins.plategate.command
 
 import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -49,9 +50,9 @@ object PGTransfer {
                 val gate = entry.value
                 val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
-                MessageUtil.sendErrorMessage(np, "ゲート ${gate.name} の所有権譲渡要求がキャンセルされました")
-                MessageUtil.sendMessage(sender, "${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
-                MessageUtil.logInfo("${sender.name} が ${np.name} へのゲート ${gate.name} の所有権譲渡要求をキャンセルしました")
+                MessageUtil.sendError(np, Message.COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE, gate.name)
+                MessageUtil.send(sender, Message.COMMAND_TRANSFER_CANCEL_SUCCESS, np.name, gate.name)
+                MessageUtil.logInfo(Message.COMMAND_TRANSFER_CANCEL_SUCCESS_LOG, sender.name, np.name, gate.name)
                 return true
             }
             "owner" -> {
