@@ -23,6 +23,7 @@ enum class Message(val jsonKey: String) {
     COMMAND_REMOVE_SUCCESS_LOG("commands.plategate.remove.success.log"),
     COMMAND_RENAME_SUCCESS("commands.plategate.rename.success"),
     COMMAND_RENAME_SUCCESS_LOG("commands.plategate.rename.success.log"),
+    COMMAND_TRANSFER_CANCEL_ERROR_NOT_FOUND("commands.plategate.transfer.cancel.error.not_found"),
     COMMAND_TRANSFER_CANCEL_SUCCESS("commands.plategate.transfer.cancel.success"),
     COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE("commands.plategate.transfer.cancel.success.notice"),
     COMMAND_TRANSFER_CANCEL_SUCCESS_LOG("commands.plategate.transfer.cancel.success.log"),

@@ -44,7 +44,7 @@ object PGTransfer {
                 if (args.size != 3) return Util.commandInvalid(sender, label)
                 val entry = transfer.entries.find { it.value.name == gateName && it.value.owner == sender.uniqueId }
                 if (entry == null) {
-                    MessageUtil.sendErrorMessage(sender, "譲渡要求が存在しないか、削除されています")
+                    MessageUtil.sendError(sender, Message.COMMAND_TRANSFER_CANCEL_ERROR_NOT_FOUND)
                     return false
                 }
                 val gate = entry.value
