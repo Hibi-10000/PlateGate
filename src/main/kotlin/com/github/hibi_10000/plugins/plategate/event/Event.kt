@@ -56,7 +56,7 @@ object Event: Listener {
         try {
             gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(p, "ゲートが見つかりませんでした")
+            if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(p, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(p, e)
             return
         }

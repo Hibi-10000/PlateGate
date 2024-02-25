@@ -30,7 +30,7 @@ object PGMove {
         try {
             oldGate = dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
+            if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }

@@ -63,7 +63,7 @@ object PGTransfer {
                 try {
                     gate = dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
-                    if (e is DBUtil.GateNotFoundException) MessageUtil.sendErrorMessage(sender, "ゲートが見つかりませんでした")
+                    if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
                     else MessageUtil.catchUnexpectedError(sender, e)
                     return false
                 }

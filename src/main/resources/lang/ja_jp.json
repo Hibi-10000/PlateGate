@@ -18,9 +18,10 @@
     "commands.plategate.transfer.request.success.log": "%s が %s にゲート %s の所有権を譲渡しようとしています",
     "commands.plategate.unlink.success": "ゲート %s のリンクを解除しました",
     "commands.plategate.unlink.success.log": "%s がゲート %s のリンクを解除しました",
+    "plategate.error.break.block": "PlateGateを壊すことはできません！",
+    "plategate.error.gate.not_found": "ゲートが見つかりませんでした",
     "plategate.error.permission": "権限が不足しています。",
     "plategate.error.player.not_found": "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。",
     "plategate.error.player.offline": "そのプレイヤーはオフラインです。",
-    "plategate.error.unexpected": "予期せぬエラーが発生しました",
-    "plategate.error.break.block": "PlateGateを壊すことはできません！"
+    "plategate.error.unexpected": "予期せぬエラーが発生しました"
 }
