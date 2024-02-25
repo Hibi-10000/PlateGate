@@ -108,7 +108,7 @@ object PGTransfer {
                     TextComponent(" §bにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています "), cancel
                 )
-                MessageUtil.logInfo("${sender.name} が ${newOwner.name} にゲート ${gate.name} の所有権を譲渡しようとしています")
+                MessageUtil.logInfo(Message.COMMAND_TRANSFER_REQUEST_SUCCESS_LOG, sender.name, newOwner.name, gate.name)
                 return true
             }
             else -> return Util.commandInvalid(sender, label)
