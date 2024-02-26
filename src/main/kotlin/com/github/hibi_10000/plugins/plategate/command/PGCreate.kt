@@ -38,7 +38,7 @@ object PGCreate {
             )
         } catch (e: Exception) {
             when (e) {
-                is DBUtil.GateNameDuplicateException -> MessageUtil.sendErrorMessage(sender, "\"${args[1]}\"は既に使用されています")
+                is DBUtil.GateNameDuplicateException -> MessageUtil.sendError(sender, Message.ERROR_GATE_NAME_ALREADY_USED, args[1])
                 is DBUtil.GateLocationDuplicateException -> MessageUtil.sendErrorMessage(sender, "その場所は他のゲートと干渉します")
                 else -> MessageUtil.catchUnexpectedError(sender, e)
             }
