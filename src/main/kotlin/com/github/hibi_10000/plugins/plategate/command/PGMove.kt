@@ -51,7 +51,7 @@ object PGMove {
                 )
             )
         } catch (e: Exception) {
-            if (e is DBUtil.GateLocationDuplicateException) MessageUtil.sendErrorMessage(sender, "その場所は他のゲートと干渉します")
+            if (e is DBUtil.GateLocationDuplicateException) MessageUtil.sendError(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }

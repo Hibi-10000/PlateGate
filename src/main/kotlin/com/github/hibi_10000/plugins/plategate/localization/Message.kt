@@ -31,6 +31,7 @@ enum class Message(val jsonKey: String) {
     COMMAND_UNLINK_SUCCESS("commands.plategate.unlink.success"),
     COMMAND_UNLINK_SUCCESS_LOG("commands.plategate.unlink.success.log"),
     ERROR_BREAK_GATE_BLOCK("plategate.error.break.block"),
+    ERROR_GATE_LOCATION_INTERFERENCE("plategate.error.gate.location.interference"),
     ERROR_GATE_NAME_ALREADY_USED("plategate.error.gate.name.already_used"),
     ERROR_GATE_NOT_FOUND("plategate.error.gate.not_found"),
     ERROR_PERMISSION("plategate.error.permission"),
