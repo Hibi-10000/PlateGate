@@ -24,7 +24,7 @@ object PGList {
             searchP = Util.getPlayer(args[1], sender) ?: return false
         }
 
-        MessageUtil.sendMessage(sender, "Player §6${searchP.name} §bが所有しているGate一覧")
+        sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
         val gateList: List<CraftPlateGate>
         try {
             gateList = dbUtil.getList(searchP.uniqueId)

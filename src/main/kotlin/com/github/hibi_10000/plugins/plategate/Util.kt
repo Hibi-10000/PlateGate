@@ -126,7 +126,7 @@ object Util {
             -> "下のブロックは非透過ブロックかガラスである必要があります"
             else -> return true
         }
-        MessageUtil.sendErrorMessage(sender, message)
+        sender.sendMessage("§a[PlateGate] §c$message")
         return false
     }
 }
