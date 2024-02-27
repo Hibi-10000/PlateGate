@@ -163,7 +163,7 @@ object Event: Listener {
         //TODO: Asyncで動くのか確認する
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
             val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
-            MessageUtil.sendErrorMessage(op, "${p.name} が退出したため、ゲートの所有権の譲渡要求がキャンセルされました")
+            MessageUtil.sendError(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, p.name)
         }, 20L)
     }
 }

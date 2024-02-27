@@ -27,6 +27,7 @@ enum class Message(val jsonKey: String) {
     COMMAND_TRANSFER_CANCEL_SUCCESS("commands.plategate.transfer.cancel.success"),
     COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE("commands.plategate.transfer.cancel.success.notice"),
     COMMAND_TRANSFER_CANCEL_SUCCESS_LOG("commands.plategate.transfer.cancel.success.log"),
+    COMMAND_TRANSFER_ERROR_TARGET_QUIT("commands.plategate.transfer.error.target_quit"),
     COMMAND_TRANSFER_REQUEST_SUCCESS_LOG("commands.plategate.transfer.request.success.log"),
     COMMAND_UNLINK_ERROR_NOT_LINKED("commands.plategate.unlink.error.not_linked"),
     COMMAND_UNLINK_SUCCESS("commands.plategate.unlink.success"),
