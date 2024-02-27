@@ -26,5 +26,6 @@
     "plategate.error.permission": "権限が不足しています。",
     "plategate.error.player.not_found": "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。",
     "plategate.error.player.offline": "そのプレイヤーはオフラインです。",
-    "plategate.error.unexpected": "予期せぬエラーが発生しました"
+    "plategate.error.unexpected": "予期せぬエラーが発生しました",
+    "plategate.error.world.not_found": "ワールドが見つかりませんでした"
 }

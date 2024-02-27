@@ -31,7 +31,7 @@ object PGJump {
         }
         val toBlock = gate.getTPLocationBlock()
         if (toBlock == null) {
-            MessageUtil.sendErrorMessage(sender, "ワールドが見つかりませんでした")
+            MessageUtil.sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
             return false
         }
         toBlock.type = Material.AIR

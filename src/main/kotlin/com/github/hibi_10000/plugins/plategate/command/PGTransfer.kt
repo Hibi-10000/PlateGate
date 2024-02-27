@@ -69,7 +69,7 @@ object PGTransfer {
                 }
                 val world = gate.getWorld()
                 if (world == null) {
-                    MessageUtil.sendErrorMessage(sender, "ワールドが見つかりませんでした")
+                    MessageUtil.sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
                     return false
                 }
                 val newOwner = Util.getPlayer(args[3], sender) ?: return false
