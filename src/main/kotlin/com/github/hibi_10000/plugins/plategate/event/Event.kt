@@ -63,7 +63,7 @@ object Event: Listener {
 
         val toBlock = gateTo.getTPLocationBlock()
         if (toBlock == null) {
-            MessageUtil.sendErrorMessage(p, "ワールドが見つかりませんでした")
+            MessageUtil.sendError(p, Message.ERROR_WORLD_NOT_FOUND)
             return
         }
         Util.upperBlock(toBlock).type = Material.AIR
