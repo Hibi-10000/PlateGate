@@ -5,6 +5,7 @@
 package com.github.hibi_10000.plugins.plategate.database
 
 import com.github.hibi_10000.plugins.plategate.CraftPlateGate
+import com.github.hibi_10000.plugins.plategate.database.DBUtil.*
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import org.bukkit.block.BlockFace
@@ -15,7 +16,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-class JsonUtil(private val gateDB: File): DBUtil(gateDB) {
+class JsonUtil(private val gateDB: File): DBUtil {
     class Entry(
         val id: Int,
         var owner: String,
