@@ -15,22 +15,6 @@ import org.bukkit.entity.Player
 import java.util.logging.Level
 
 object MessageUtil {
-    fun sendMessage(sender: CommandSender?, color: ChatColor?, message: String) {
-        sender?.sendMessage("${ChatColor.GREEN}[PlateGate] $color$message")
-    }
-
-    fun sendMessage(sender: CommandSender?, message: String) {
-        sendMessage(sender, ChatColor.AQUA, message)
-    }
-
-    fun sendErrorMessage(sender: CommandSender?, message: String) {
-        sendMessage(sender, ChatColor.RED, message)
-    }
-
-    fun logInfo(message: String) {
-        instance.logger.info(message)
-    }
-
     private fun send(receiver: CommandSender?, color: ChatColor?, message: Message, vararg format: String) {
         receiver?.sendMessage("${ChatColor.GREEN}[PlateGate] $color${message.getString(receiver, *format)}")
     }
