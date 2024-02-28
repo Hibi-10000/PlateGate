@@ -35,14 +35,15 @@ object PGList {
         for (gate in gateList) {
             val gateInfo = MessageUtil.getGateInfo(gate, sender)
             gateInfo.color = ChatColor.AQUA.asBungee()
+            gateInfo.text = " ${gateInfo.text} "
             if (gate.toOwner == null || gate.toName == null) {
-                sender.spigot().sendMessage(TextComponent(" "), gateInfo)
+                sender.spigot().sendMessage(gateInfo)
             } else {
                 val toGate = try {
                     dbUtil.get(gate.toOwner!!, gate.toName!!)
                 } catch (e: Exception) {
                     MessageUtil.catchUnexpectedError(sender, e)
-                    sender.spigot().sendMessage(TextComponent(" "), gateInfo)
+                    sender.spigot().sendMessage(gateInfo)
                     continue
                 }
                 val arrow = TextComponent("--->")
@@ -50,17 +51,14 @@ object PGList {
                     arrow.text = "<-->"
                 }
                 val toGateInfo = MessageUtil.getGateInfo(toGate, sender)
+                toGateInfo.text = " ${toGateInfo.text} "
                 if (gate.toOwner != searchP.uniqueId) {
                     val toOwner = Util.getPlayer(gate.toOwner!!, sender)
-                    toGateInfo.text += " (Owner: ${toOwner?.name})"
+                    toGateInfo.text += "(Owner: ${toOwner?.name})"
                 }
                 arrow.color = ChatColor.GREEN.asBungee()
                 toGateInfo.color = ChatColor.AQUA.asBungee()
-                sender.spigot().sendMessage(
-                    TextComponent(" "), gateInfo,
-                    TextComponent(" "), arrow,
-                    TextComponent(" "), toGateInfo
-                )
+                sender.spigot().sendMessage(gateInfo, arrow, toGateInfo)
             }
         }
         return true
