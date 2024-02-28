@@ -7,6 +7,8 @@ package com.github.hibi_10000.plugins.plategate.command
 import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import net.md_5.bungee.api.chat.TextComponent
+import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -31,24 +33,34 @@ object PGList {
             return false
         }
         for (gate in gateList) {
-            if (gate.toName == null || gate.toOwner == null) {
-                sender.sendMessage(" §b${gate.name}")
+            val gateInfo = MessageUtil.getGateInfo(gate, sender)
+            gateInfo.color = ChatColor.AQUA.asBungee()
+            if (gate.toOwner == null || gate.toName == null) {
+                sender.spigot().sendMessage(TextComponent(" "), gateInfo)
             } else {
-                var toName = gate.toName
-                if (gate.toOwner != searchP.uniqueId) {
-                    val toOwner = Util.getPlayer(gate.toOwner!!, sender)
-                    toName += " (Owner: ${toOwner?.name})"
-                }
-                var arrow = "--->"
-                try {
-                    val toGate = dbUtil.get(gate.toOwner!!, gate.toName!!)
-                    if (toGate.toName == gate.name && toGate.toOwner == gate.owner) {
-                        arrow = "<-->"
-                    }
+                val toGate = try {
+                    dbUtil.get(gate.toOwner!!, gate.toName!!)
                 } catch (e: Exception) {
                     MessageUtil.catchUnexpectedError(sender, e)
+                    sender.spigot().sendMessage(TextComponent(" "), gateInfo)
+                    continue
                 }
-                sender.sendMessage(" §b${gate.name} §a${arrow} §b${toName}")
+                val arrow = TextComponent("--->")
+                if (toGate.toName == gate.name && toGate.toOwner == gate.owner) {
+                    arrow.text = "<-->"
+                }
+                val toGateInfo = MessageUtil.getGateInfo(toGate, sender)
+                if (gate.toOwner != searchP.uniqueId) {
+                    val toOwner = Util.getPlayer(gate.toOwner!!, sender)
+                    toGateInfo.text += " (Owner: ${toOwner?.name})"
+                }
+                arrow.color = ChatColor.GREEN.asBungee()
+                toGateInfo.color = ChatColor.AQUA.asBungee()
+                sender.spigot().sendMessage(
+                    TextComponent(" "), gateInfo,
+                    TextComponent(" "), arrow,
+                    TextComponent(" "), toGateInfo
+                )
             }
         }
         return true
