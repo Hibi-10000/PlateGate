@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Entity
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -47,6 +48,29 @@ object MessageUtil {
         component.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_ENTITY, Entity(
                 "minecraft:player", player.uniqueId.toString(), TextComponent(player.name)
+            )
+        )
+        return component
+    }
+
+    fun getGateInfo(gate: CraftPlateGate, sender: CommandSender?): TextComponent {
+        val owner = gate.owner.let { Util.getOfflinePlayer(it, sender) }
+        val world = gate.getWorld()
+        if (world == null) sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
+        val toOwner = gate.toOwner?.let { Util.getOfflinePlayer(it, sender) }
+        val component = TextComponent(gate.name)
+        component.hoverEvent = HoverEvent(
+            HoverEvent.Action.SHOW_TEXT, Text(
+                "Name: ${gate.name
+                }\nOwner: ${owner?.name
+                }\nWorld: ${world?.name
+                }\nX: ${gate.x
+                }\nY: ${gate.y
+                }\nZ: ${gate.z
+                }\nRotate: ${gate.rotate.name
+                }\nTo: ${gate.toName
+                } (Owner: ${toOwner?.name
+                })"
             )
         )
         return component

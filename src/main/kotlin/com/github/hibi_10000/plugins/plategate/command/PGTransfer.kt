@@ -67,27 +67,10 @@ object PGTransfer {
                     else MessageUtil.catchUnexpectedError(sender, e)
                     return false
                 }
-                val world = gate.getWorld()
-                if (world == null) {
-                    MessageUtil.sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
-                    return false
-                }
                 val newOwner = Util.getPlayer(args[3], sender) ?: return false
                 transfer[newOwner.uniqueId] = gate
                 //TODO: いい感じに色を付ける
-                val gateInfo = TextComponent(gate.name)
-                gateInfo.hoverEvent = HoverEvent(
-                    HoverEvent.Action.SHOW_TEXT, Text(
-                        "Name: ${gate.name
-                        }\nOwner: ${sender.name
-                        }\nWorld: ${world.name
-                        }\nX: ${gate.x
-                        }\nY: ${gate.y
-                        }\nZ: ${gate.z
-                        }\nRotate: ${gate.rotate.name
-                        }\nTo: ${gate.toName ?: "null"} (Owner: ${gate.toOwner?.let { Util.getOfflinePlayer(it, null) }?.name ?: "null"})"
-                    )
-                )
+                val gateInfo = MessageUtil.getGateInfo(gate, sender)
                 newOwner.spigot().sendMessage(
                     TextComponent("§a[PlateGate]§b "), MessageUtil.getPlayerInfo(sender),
                     TextComponent(" §bがあなたにゲート "), gateInfo,
