@@ -67,7 +67,7 @@ object Util {
         }
     }
 
-    fun getPlayer(name: String, sender: Player?): Player? {
+    fun getPlayer(name: String, sender: CommandSender?): Player? {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
             if (Bukkit.getOfflinePlayers().any { it.name?.lowercase(Locale.ROOT) == name }) {
@@ -80,7 +80,7 @@ object Util {
         return player
     }
 
-    fun getPlayer(uuid: UUID, sender: Player?): Player? {
+    fun getPlayer(uuid: UUID, sender: CommandSender?): Player? {
         val player = Bukkit.getPlayer(uuid)
         if (player == null) {
             if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
@@ -92,7 +92,7 @@ object Util {
         return player
     }
 
-    fun getOfflinePlayer(uuid: UUID, sender: Player?): OfflinePlayer? {
+    fun getOfflinePlayer(uuid: UUID, sender: CommandSender?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
             MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
