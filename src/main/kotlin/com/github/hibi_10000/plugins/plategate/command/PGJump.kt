@@ -4,7 +4,6 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.CraftPlateGate
 import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
@@ -21,9 +20,8 @@ object PGJump {
         if (!Util.checkPermission(sender, "plategate.command.jump")) return false
         if (args.size != 2) return Util.commandInvalid(sender, label)
 
-        val gate: CraftPlateGate
-        try {
-            gate = dbUtil.get(sender.uniqueId, args[1])
+        val gate = try {
+            dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(sender, e)

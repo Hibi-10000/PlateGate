@@ -26,9 +26,8 @@ object PGMove {
         if (!Util.checkCreateLocation(sender, loc, underBlock)) return false
         loc.pitch = 0f
 
-        val oldGate: CraftPlateGate
-        try {
-            oldGate = dbUtil.get(sender.uniqueId, args[1])
+        val oldGate = try {
+            dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(sender, e)

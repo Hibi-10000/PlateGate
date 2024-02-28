@@ -27,10 +27,9 @@ object Event: Listener {
         val p = e.player
         if (e.action != Action.PHYSICAL && ((e.action != Action.RIGHT_CLICK_BLOCK) || p.isSneaking)) return
         if (e.clickedBlock?.type != Material.STONE_PRESSURE_PLATE) return
-        val gate: CraftPlateGate
-        try {
+        val gate = try {
             val block = e.clickedBlock!!
-            gate = dbUtil.get(block.world.uid, block.x, block.y, block.z)
+            dbUtil.get(block.world.uid, block.x, block.y, block.z)
         } catch (e: Exception) {
             if (e !is DBUtil.GateNotFoundException) MessageUtil.catchUnexpectedError(p, e)
             return
@@ -52,9 +51,8 @@ object Event: Listener {
             p.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
             return
         }
-        val gateTo: CraftPlateGate
-        try {
-            gateTo = dbUtil.get(gate.toOwner!!, gate.toName!!)
+        val gateTo = try {
+            dbUtil.get(gate.toOwner!!, gate.toName!!)
         } catch (e: Exception) {
             if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(p, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(p, e)

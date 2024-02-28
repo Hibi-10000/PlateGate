@@ -4,9 +4,12 @@
 
 package com.github.hibi_10000.plugins.plategate.command
 
-import com.github.hibi_10000.plugins.plategate.*
+import com.github.hibi_10000.plugins.plategate.MessageUtil
+import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
+import com.github.hibi_10000.plugins.plategate.dbUtil
 import com.github.hibi_10000.plugins.plategate.localization.Message
+import com.github.hibi_10000.plugins.plategate.transfer
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -59,9 +62,8 @@ object PGTransfer {
                 if (!Util.checkPermission(sender, "plategate.command.transfer")) return false
                 if (args.size != 4) return Util.commandInvalid(sender, label)
 
-                val gate: CraftPlateGate
-                try {
-                    gate = dbUtil.get(sender.uniqueId, gateName)
+                val gate = try {
+                    dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
                     if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
                     else MessageUtil.catchUnexpectedError(sender, e)
