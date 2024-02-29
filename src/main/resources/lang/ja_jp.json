@@ -5,6 +5,7 @@
     "commands.plategate.jump.success.log": "%s がゲート %s にジャンプしました。",
     "commands.plategate.link.success": "ゲート %s からゲート %s の方向にゲートをリンクしました。",
     "commands.plategate.link.success.log": "%s がゲート %s から ゲート %s の方向にゲートをリンクしました。",
+    "commands.plategate.list.header": "§bPlayer §6%s §bが所有しているGate一覧",
     "commands.plategate.move.success": "ゲート %s を %s に移動しました",
     "commands.plategate.move.success.log": "%s がゲート %s を %s に移動しました",
     "commands.plategate.remove.success": "Gate:%s を削除しました。",

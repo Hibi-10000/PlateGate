@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate.command
 import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.dbUtil
+import com.github.hibi_10000.plugins.plategate.localization.Message
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -24,7 +25,7 @@ object PGList {
             searchP = Util.getPlayer(args[1], sender) ?: return false
         }
 
-        sender.sendMessage("§a[PlateGate] §bPlayer §6${searchP.name} §bが所有しているGate一覧")
+        MessageUtil.send(sender, Message.COMMAND_LIST_HEADER, searchP.name)
         val gateList = try {
             dbUtil.getList(searchP.uniqueId)
         } catch (e: Exception) {
