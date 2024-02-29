@@ -8,7 +8,6 @@ import com.github.hibi_10000.plugins.plategate.MessageUtil
 import com.github.hibi_10000.plugins.plategate.Util
 import com.github.hibi_10000.plugins.plategate.dbUtil
 import net.md_5.bungee.api.chat.TextComponent
-import org.bukkit.ChatColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -34,8 +33,7 @@ object PGList {
         }
         for (gate in gateList) {
             val gateInfo = MessageUtil.getGateInfo(gate, sender)
-            gateInfo.color = ChatColor.AQUA.asBungee()
-            gateInfo.text = " ${gateInfo.text} "
+            gateInfo.text = " §b${gateInfo.text} "
             if (gate.toOwner == null || gate.toName == null) {
                 sender.spigot().sendMessage(gateInfo)
             } else {
@@ -46,18 +44,16 @@ object PGList {
                     sender.spigot().sendMessage(gateInfo)
                     continue
                 }
-                val arrow = TextComponent("--->")
+                val arrow = TextComponent("§a--->")
                 if (toGate.toName == gate.name && toGate.toOwner == gate.owner) {
-                    arrow.text = "<-->"
+                    arrow.text = "§a<-->"
                 }
                 val toGateInfo = MessageUtil.getGateInfo(toGate, sender)
-                toGateInfo.text = " ${toGateInfo.text} "
+                toGateInfo.text = " §b${toGateInfo.text} "
                 if (gate.toOwner != searchP.uniqueId) {
                     val toOwner = Util.getPlayer(gate.toOwner!!, sender)
                     toGateInfo.text += "(Owner: ${toOwner?.name})"
                 }
-                arrow.color = ChatColor.GREEN.asBungee()
-                toGateInfo.color = ChatColor.AQUA.asBungee()
                 sender.spigot().sendMessage(gateInfo, arrow, toGateInfo)
             }
         }
