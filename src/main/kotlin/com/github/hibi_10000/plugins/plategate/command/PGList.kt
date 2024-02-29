@@ -17,17 +17,11 @@ object PGList {
     @Suppress("UNUSED_PARAMETER")
     fun onCommand(sender: Player, command: Command, label: String, args: Array<String>): Boolean {
         if (!Util.checkPermission(sender, "plategate.command.list")) return false
-        if (!(args.size == 2 || args.size == 1)) return Util.commandInvalid(sender, label)
+        if (args.size != 1) return Util.commandInvalid(sender, label)
 
-        var searchP = sender
-        if (args.size == 2) {
-            if (!Util.checkPermission(sender, "plategate.admin")) return false
-            searchP = Util.getPlayer(args[1], sender) ?: return false
-        }
-
-        MessageUtil.send(sender, Message.COMMAND_LIST_HEADER, searchP.name)
+        MessageUtil.send(sender, Message.COMMAND_LIST_HEADER, sender.name)
         val gateList = try {
-            dbUtil.getList(searchP.uniqueId)
+            dbUtil.getList(sender.uniqueId)
         } catch (e: Exception) {
             MessageUtil.catchUnexpectedError(sender, e)
             return false
@@ -51,7 +45,7 @@ object PGList {
                 }
                 val toGateInfo = MessageUtil.getGateInfo(toGate, sender)
                 toGateInfo.text = " §b${toGateInfo.text} "
-                if (gate.toOwner != searchP.uniqueId) {
+                if (gate.toOwner != sender.uniqueId) {
                     val toOwner = Util.getPlayer(gate.toOwner!!, sender)
                     toGateInfo.text += "(Owner: ${toOwner?.name})"
                 }
