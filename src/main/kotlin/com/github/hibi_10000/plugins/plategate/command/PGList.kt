@@ -19,7 +19,9 @@ object PGList {
         if (!Util.checkPermission(sender, "plategate.command.list")) return false
         if (args.size != 1) return Util.commandInvalid(sender, label)
 
-        MessageUtil.send(sender, Message.COMMAND_LIST_HEADER, sender.name)
+        val senderInfo = MessageUtil.getPlayerInfo(sender)
+        senderInfo.text = " §6${senderInfo.text} "
+        MessageUtil.send(sender, Message.COMMAND_LIST_HEADER, senderInfo)
         val gateList = try {
             dbUtil.getList(sender.uniqueId)
         } catch (e: Exception) {
