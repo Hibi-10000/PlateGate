@@ -74,7 +74,7 @@ object PGTransfer {
                 //TODO: いい感じに色を付ける
                 val gateInfo = MessageUtil.getGateInfo(gate, sender)
                 newOwner.spigot().sendMessage(
-                    TextComponent("§a[PlateGate]§b "), MessageUtil.getPlayerInfo(sender),
+                    TextComponent("§a[PlateGate]§b "), MessageUtil.getSenderInfo(sender),
                     TextComponent(" §bがあなたにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています")
                 )
@@ -89,7 +89,7 @@ object PGTransfer {
                 cancel.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで譲渡をキャンセルする"))
                 cancel.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} cancel")
                 sender.spigot().sendMessage(
-                    TextComponent("§a[PlateGate]§b "), MessageUtil.getPlayerInfo(newOwner),
+                    TextComponent("§a[PlateGate]§b "), MessageUtil.getSenderInfo(newOwner),
                     TextComponent(" §bにゲート "), gateInfo,
                     TextComponent(" §bの所有権を譲渡しようとしています "), cancel
                 )

@@ -13,6 +13,7 @@ import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
+import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
 import java.util.logging.Level
 
@@ -53,14 +54,18 @@ object MessageUtil {
         receiver?.spigot()?.sendMessage(ChatMessageType.ACTION_BAR, component)
     }
 
-    fun getPlayerInfo(player: Player): TextComponent {
-        val component = TextComponent(player.name)
-        component.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_ENTITY, Entity(
-                "minecraft:player", player.uniqueId.toString(), TextComponent(player.name)
-            )
-        )
-        return component
+    fun getSenderInfo(sender: CommandSender): TextComponent {
+        return TextComponent(sender.name).also {
+            if (sender is org.bukkit.entity.Entity) {
+                it.hoverEvent = HoverEvent(
+                    HoverEvent.Action.SHOW_ENTITY, Entity(
+                        sender.type.key.toString(), sender.uniqueId.toString(), TextComponent(sender.name)
+                    )
+                )
+            } else if (sender is ConsoleCommandSender) {
+                it.text = "Server"
+            }
+        }
     }
 
     fun getGateInfo(gate: CraftPlateGate, sender: CommandSender?): TextComponent {
