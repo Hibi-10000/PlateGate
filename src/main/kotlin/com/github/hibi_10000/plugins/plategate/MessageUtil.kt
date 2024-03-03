@@ -9,6 +9,7 @@ import net.md_5.bungee.api.ChatMessageType
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.TranslatableComponent
 import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.ChatColor
@@ -31,12 +32,12 @@ object MessageUtil {
     }
 
     fun send(receiver: CommandSender?, message: Message, vararg format: BaseComponent) {
-        val list = mutableListOf<BaseComponent>(TextComponent("§a[PlateGate] "))
-        message.getString(receiver).split("%s").forEachIndexed { index, s ->
-            list.add(TextComponent(s))
-            if (index < format.size) list.add(format[index])
-        }
-        receiver?.spigot()?.sendMessage(*list.toTypedArray())
+        receiver?.spigot()?.sendMessage(
+            TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN.asBungee() },
+            TranslatableComponent("", *format).also {
+                it.fallback = message.getString(receiver)
+            }
+        )
     }
 
     fun logInfo(message: Message, vararg format: String) {
