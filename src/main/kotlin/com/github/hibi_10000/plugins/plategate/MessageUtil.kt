@@ -36,6 +36,7 @@ object MessageUtil {
             TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN.asBungee() },
             TranslatableComponent("plategate.bungee_components.null", *format).also {
                 it.fallback = message.getString(receiver)
+                if (message.color != null) it.color = message.color
             }
         )
     }

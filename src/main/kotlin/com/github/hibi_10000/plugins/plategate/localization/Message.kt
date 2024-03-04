@@ -6,10 +6,11 @@
 
 package com.github.hibi_10000.plugins.plategate.localization
 
+import net.md_5.bungee.api.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-enum class Message(val jsonKey: String) {
+enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     //<editor-fold desc="Messages">
     COMMAND_CREATE_SUCCESS("commands.plategate.create.success"),
     COMMAND_CREATE_SUCCESS_LOG("commands.plategate.create.success.log"),
@@ -17,7 +18,7 @@ enum class Message(val jsonKey: String) {
     COMMAND_JUMP_SUCCESS_LOG("commands.plategate.jump.success.log"),
     COMMAND_LINK_SUCCESS("commands.plategate.link.success"),
     COMMAND_LINK_SUCCESS_LOG("commands.plategate.link.success.log"),
-    COMMAND_LIST_HEADER("commands.plategate.list.header"),
+    COMMAND_LIST_HEADER("commands.plategate.list.header", ChatColor.AQUA),
     COMMAND_MOVE_SUCCESS("commands.plategate.move.success"),
     COMMAND_MOVE_SUCCESS_LOG("commands.plategate.move.success.log"),
     COMMAND_REMOVE_SUCCESS("commands.plategate.remove.success"),
