@@ -42,7 +42,8 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     ERROR_PLAYER_NOT_FOUND("plategate.error.player.not_found"),
     ERROR_PLAYER_OFFLINE("plategate.error.player.offline"),
     ERROR_UNEXPECTED("plategate.error.unexpected"),
-    ERROR_WORLD_NOT_FOUND("plategate.error.world.not_found");
+    ERROR_WORLD_NOT_FOUND("plategate.error.world.not_found"),
+    ;
     //</editor-fold>
 
     private fun format(base: String, vararg format: String): String {
