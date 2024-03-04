@@ -34,7 +34,7 @@ object MessageUtil {
     fun send(receiver: CommandSender?, message: Message, vararg format: BaseComponent) {
         receiver?.spigot()?.sendMessage(
             TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN.asBungee() },
-            TranslatableComponent("", *format).also {
+            TranslatableComponent("plategate.bungee_components.null", *format).also {
                 it.fallback = message.getString(receiver)
             }
         )
