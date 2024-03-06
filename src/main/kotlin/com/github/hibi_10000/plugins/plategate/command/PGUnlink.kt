@@ -23,8 +23,8 @@ object PGUnlink {
             dbUtil.unlink(sender.uniqueId, args[1])
         } catch (e: Exception) {
             when (e) {
-                is DBUtil.GateNotLinkedException -> MessageUtil.sendError(sender, Message.COMMAND_UNLINK_ERROR_NOT_LINKED)
-                is DBUtil.GateNotFoundException -> MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
+                is DBUtil.GateNotLinkedException -> MessageUtil.send(sender, Message.COMMAND_UNLINK_ERROR_NOT_LINKED)
+                is DBUtil.GateNotFoundException -> MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
                 else -> MessageUtil.catchUnexpectedError(sender, e)
             }
             return false

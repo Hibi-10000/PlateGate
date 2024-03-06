@@ -23,7 +23,7 @@ import java.util.regex.Pattern
 object Util {
     fun checkPermission(sender: CommandSender, permission: String): Boolean {
         if (!sender.hasPermission(permission)) {
-            MessageUtil.sendError(sender, Message.ERROR_PERMISSION)
+            MessageUtil.send(sender, Message.ERROR_PERMISSION)
             return false
         }
         return true
@@ -71,10 +71,10 @@ object Util {
         val player = Bukkit.getPlayer(name)
         if (player == null) {
             if (Bukkit.getOfflinePlayers().any { it.name?.lowercase(Locale.ROOT) == name }) {
-                MessageUtil.sendError(sender, Message.ERROR_PLAYER_OFFLINE)
+                MessageUtil.send(sender, Message.ERROR_PLAYER_OFFLINE)
             } else {
                 if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
-                MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
+                MessageUtil.send(sender, Message.ERROR_PLAYER_NOT_FOUND)
             }
         }
         return player
@@ -84,9 +84,9 @@ object Util {
         val player = Bukkit.getPlayer(uuid)
         if (player == null) {
             if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
-                MessageUtil.sendError(sender, Message.ERROR_PLAYER_OFFLINE)
+                MessageUtil.send(sender, Message.ERROR_PLAYER_OFFLINE)
             } else {
-                MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
+                MessageUtil.send(sender, Message.ERROR_PLAYER_NOT_FOUND)
             }
         }
         return player
@@ -95,7 +95,7 @@ object Util {
     fun getOfflinePlayer(uuid: UUID, sender: CommandSender?): OfflinePlayer? {
         val player = Bukkit.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
-            MessageUtil.sendError(sender, Message.ERROR_PLAYER_NOT_FOUND)
+            MessageUtil.send(sender, Message.ERROR_PLAYER_NOT_FOUND)
             return null
         }
         return player

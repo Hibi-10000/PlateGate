@@ -29,13 +29,13 @@ object PGMove {
         val oldGate = try {
             dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
+            if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         val oldBlock = oldGate.getBlock()
         if (oldBlock == null) {
-            MessageUtil.sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
+            MessageUtil.send(sender, Message.ERROR_WORLD_NOT_FOUND)
             return false
         }
         try {
@@ -50,7 +50,7 @@ object PGMove {
                 )
             )
         } catch (e: Exception) {
-            if (e is DBUtil.GateLocationDuplicateException) MessageUtil.sendError(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
+            if (e is DBUtil.GateLocationDuplicateException) MessageUtil.send(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }

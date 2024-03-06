@@ -22,7 +22,7 @@ object PGLink {
         try {
             dbUtil.link(sender.uniqueId, args[1], sender.uniqueId, args[2])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
+            if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }

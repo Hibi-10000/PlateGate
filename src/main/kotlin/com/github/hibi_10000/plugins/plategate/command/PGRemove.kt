@@ -23,13 +23,13 @@ object PGRemove {
         val gate = try {
             dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
+            if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
         val toBlock = gate.getBlock()
         if (toBlock == null) {
-            MessageUtil.sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
+            MessageUtil.send(sender, Message.ERROR_WORLD_NOT_FOUND)
             return false
         }
         toBlock.type = Material.AIR

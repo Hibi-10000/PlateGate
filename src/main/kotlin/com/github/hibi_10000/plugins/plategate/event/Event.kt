@@ -54,14 +54,14 @@ object Event: Listener {
         val gateTo = try {
             dbUtil.get(gate.toOwner!!, gate.toName!!)
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(p, Message.ERROR_GATE_NOT_FOUND)
+            if (e is DBUtil.GateNotFoundException) MessageUtil.send(p, Message.ERROR_GATE_NOT_FOUND)
             else MessageUtil.catchUnexpectedError(p, e)
             return
         }
 
         val toBlock = gateTo.getTPLocationBlock()
         if (toBlock == null) {
-            MessageUtil.sendError(p, Message.ERROR_WORLD_NOT_FOUND)
+            MessageUtil.send(p, Message.ERROR_WORLD_NOT_FOUND)
             return
         }
         Util.upperBlock(toBlock).type = Material.AIR
@@ -161,7 +161,7 @@ object Event: Listener {
         //TODO: Asyncで動くのか確認する
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
             val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
-            MessageUtil.sendError(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, p.name)
+            MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, p.name)
         }, 20L)
     }
 }

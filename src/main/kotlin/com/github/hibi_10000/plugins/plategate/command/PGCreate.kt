@@ -38,8 +38,8 @@ object PGCreate {
             )
         } catch (e: Exception) {
             when (e) {
-                is DBUtil.GateNameDuplicateException -> MessageUtil.sendError(sender, Message.ERROR_GATE_NAME_ALREADY_USED, args[1])
-                is DBUtil.GateLocationDuplicateException -> MessageUtil.sendError(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
+                is DBUtil.GateNameDuplicateException -> MessageUtil.send(sender, Message.ERROR_GATE_NAME_ALREADY_USED, args[1])
+                is DBUtil.GateLocationDuplicateException -> MessageUtil.send(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
                 else -> MessageUtil.catchUnexpectedError(sender, e)
             }
             return false

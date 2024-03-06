@@ -18,14 +18,6 @@ import org.bukkit.entity.Player
 import java.util.logging.Level
 
 object MessageUtil {
-    private fun send(receiver: CommandSender?, color: ChatColor?, message: Message, vararg format: String) {
-        receiver?.sendMessage("${ChatColor.GREEN}[PlateGate] $color${message.getString(receiver, *format)}")
-    }
-
-    fun sendError(receiver: CommandSender?, message: Message, vararg format: String) {
-        send(receiver, ChatColor.RED, message, *format)
-    }
-
     fun send(receiver: CommandSender?, message: Message, vararg format: Any) {
         receiver?.spigot()?.sendMessage(
             TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN.asBungee() },
@@ -41,7 +33,7 @@ object MessageUtil {
     }
 
     fun catchUnexpectedError(sender: Player?, throwable: Throwable) {
-        sendError(sender, Message.ERROR_UNEXPECTED)
+        this.send(sender, Message.ERROR_UNEXPECTED)
         instance.logger.log(Level.SEVERE, Message.ERROR_UNEXPECTED.getString(), throwable)
     }
 
@@ -68,7 +60,7 @@ object MessageUtil {
     fun getGateInfo(gate: CraftPlateGate, sender: CommandSender?): TextComponent {
         val owner = gate.owner.let { Util.getOfflinePlayer(it, sender) }
         val world = gate.getWorld()
-        if (world == null) sendError(sender, Message.ERROR_WORLD_NOT_FOUND)
+        if (world == null) this.send(sender, Message.ERROR_WORLD_NOT_FOUND)
         val toOwner = gate.toOwner?.let { Util.getOfflinePlayer(it, sender) }
         val component = TextComponent(gate.name)
         component.hoverEvent = HoverEvent(

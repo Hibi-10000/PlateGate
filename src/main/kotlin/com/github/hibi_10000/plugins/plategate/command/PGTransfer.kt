@@ -47,13 +47,13 @@ object PGTransfer {
                 if (args.size != 3) return Util.commandInvalid(sender, label)
                 val entry = transfer.entries.find { it.value.name == gateName && it.value.owner == sender.uniqueId }
                 if (entry == null) {
-                    MessageUtil.sendError(sender, Message.COMMAND_TRANSFER_CANCEL_ERROR_NOT_FOUND)
+                    MessageUtil.send(sender, Message.COMMAND_TRANSFER_CANCEL_ERROR_NOT_FOUND)
                     return false
                 }
                 val gate = entry.value
                 val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
-                MessageUtil.sendError(np, Message.COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE, gate.name)
+                MessageUtil.send(np, Message.COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE, gate.name)
                 MessageUtil.send(sender, Message.COMMAND_TRANSFER_CANCEL_SUCCESS, np.name, gate.name)
                 MessageUtil.logInfo(Message.COMMAND_TRANSFER_CANCEL_SUCCESS_LOG, sender.name, np.name, gate.name)
                 return true
@@ -65,7 +65,7 @@ object PGTransfer {
                 val gate = try {
                     dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
-                    if (e is DBUtil.GateNotFoundException) MessageUtil.sendError(sender, Message.ERROR_GATE_NOT_FOUND)
+                    if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
                     else MessageUtil.catchUnexpectedError(sender, e)
                     return false
                 }
