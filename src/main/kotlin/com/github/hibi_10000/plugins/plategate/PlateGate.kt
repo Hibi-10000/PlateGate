@@ -12,10 +12,10 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.*
 
-lateinit var instance: PlateGate
-lateinit var dbUtil: DBUtil
-val noInteract: MutableList<UUID> = mutableListOf()
-val transfer: MutableMap<UUID, CraftPlateGate> = mutableMapOf()
+internal lateinit var instance: PlateGate
+internal lateinit var dbUtil: DBUtil
+internal val noInteract: MutableList<UUID> = mutableListOf()
+internal val transfer: MutableMap<UUID, CraftPlateGate> = mutableMapOf()
 
 class PlateGate : JavaPlugin() {
     override fun onEnable() {
