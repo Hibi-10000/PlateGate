@@ -6,7 +6,6 @@ package com.github.hibi_10000.plugins.plategate
 
 import com.github.hibi_10000.plugins.plategate.localization.Message
 import net.md_5.bungee.api.ChatMessageType
-import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.TranslatableComponent
@@ -23,15 +22,11 @@ object MessageUtil {
         receiver?.sendMessage("${ChatColor.GREEN}[PlateGate] $color${message.getString(receiver, *format)}")
     }
 
-    fun send(receiver: CommandSender?, message: Message, vararg format: String) {
-        send(receiver, ChatColor.AQUA, message, *format)
-    }
-
     fun sendError(receiver: CommandSender?, message: Message, vararg format: String) {
         send(receiver, ChatColor.RED, message, *format)
     }
 
-    fun send(receiver: CommandSender?, message: Message, vararg format: BaseComponent) {
+    fun send(receiver: CommandSender?, message: Message, vararg format: Any) {
         receiver?.spigot()?.sendMessage(
             TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN.asBungee() },
             TranslatableComponent("plategate.bungee_components.null", *format).also {
