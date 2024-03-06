@@ -12,12 +12,12 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.*
 
-internal lateinit var instance: PlateGate
+internal lateinit var instance: Main
 internal lateinit var dbUtil: DBUtil
 internal val noInteract: MutableList<UUID> = mutableListOf()
 internal val transfer: MutableMap<UUID, CraftPlateGate> = mutableMapOf()
 
-class PlateGate : JavaPlugin() {
+class Main: JavaPlugin() {
     override fun onEnable() {
         instance = this
         val gateDB = File(dataFolder, "gate.json")

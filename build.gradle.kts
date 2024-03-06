@@ -35,7 +35,7 @@ tasks.withType<Jar> {
 bukkit {
     author = "Hibi_10000"
     website = "https://github.com/Hibi-10000/PlateGate"
-    main = "com.github.hibi_10000.plugins.plategate.PlateGate"
+    main = "com.github.hibi_10000.plugins.plategate.Main"
     apiVersion = "1.13"
     foliaSupported = true
     defaultPermission = BukkitPluginDescription.Permission.Default.FALSE
