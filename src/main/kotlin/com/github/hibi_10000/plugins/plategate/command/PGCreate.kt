@@ -25,17 +25,16 @@ object PGCreate {
         val underBlock = Util.underBlock(loc.block)
         if (!Util.checkCreateLocation(sender, loc, underBlock)) return false
         loc.pitch = 0f
+        val gate = CraftPlateGate(
+            sender.uniqueId,
+            args[1],
+            loc.block,
+            sender.facing,
+            null,
+            null
+        )
         try {
-            dbUtil.add(
-                CraftPlateGate(
-                    sender.uniqueId,
-                    args[1],
-                    loc.block,
-                    sender.facing,
-                    null,
-                    null
-                )
-            )
+            dbUtil.add(gate)
         } catch (e: Exception) {
             when (e) {
                 is DBUtil.GateNameDuplicateException -> MessageUtil.send(sender, Message.ERROR_GATE_NAME_ALREADY_USED, args[1])
@@ -47,7 +46,7 @@ object PGCreate {
         Util.noInteract(sender.uniqueId)
         loc.block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.send(sender, Message.COMMAND_CREATE_SUCCESS, args[1], loc.toString())
+        MessageUtil.send(sender, Message.COMMAND_CREATE_SUCCESS, MessageUtil.getGateInfo(gate, sender), loc.toString())
         MessageUtil.logInfo(Message.COMMAND_CREATE_SUCCESS_LOG, sender.name, args[1], loc.toString())
         return true
     }
