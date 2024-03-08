@@ -88,11 +88,7 @@ object PGTransfer {
                 val cancel = TextComponent("§c[キャンセルする]§r")
                 cancel.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで譲渡をキャンセルする"))
                 cancel.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} cancel")
-                sender.spigot().sendMessage(
-                    TextComponent("§a[PlateGate]§b "), MessageUtil.getSenderInfo(newOwner),
-                    TextComponent(" §bにゲート "), gateInfo,
-                    TextComponent(" §bの所有権を譲渡しようとしています "), cancel
-                )
+                MessageUtil.send(sender, Message.COMMAND_TRANSFER_REQUEST_SUCCESS, MessageUtil.getSenderInfo(newOwner), gateInfo, cancel)
                 MessageUtil.logInfo(Message.COMMAND_TRANSFER_REQUEST_SUCCESS_LOG, sender.name, newOwner.name, gate.name)
                 return true
             }

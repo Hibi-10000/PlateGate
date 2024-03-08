@@ -17,6 +17,7 @@
     "commands.plategate.transfer.cancel.success.notice": "ゲート %s の所有権譲渡要求がキャンセルされました",
     "commands.plategate.transfer.cancel.success.log": "%s が %s へのゲート %s の所有権譲渡要求をキャンセルしました",
     "commands.plategate.transfer.error.target_quit": "%s が退出したため、ゲートの所有権の譲渡要求がキャンセルされました",
+    "commands.plategate.transfer.request.success": "%s にゲート %s の所有権を譲渡しようとしています %s",
     "commands.plategate.transfer.request.success.log": "%s が %s にゲート %s の所有権を譲渡しようとしています",
     "commands.plategate.unlink.error.not_linked": "そのゲートはリンクされていません",
     "commands.plategate.unlink.success": "ゲート %s のリンクを解除しました",
