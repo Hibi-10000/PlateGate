@@ -73,11 +73,7 @@ object PGTransfer {
                 transfer[newOwner.uniqueId] = gate
                 //TODO: いい感じに色を付ける
                 val gateInfo = MessageUtil.getGateInfo(gate, sender)
-                newOwner.spigot().sendMessage(
-                    TextComponent("§a[PlateGate]§b "), MessageUtil.getSenderInfo(sender),
-                    TextComponent(" §bがあなたにゲート "), gateInfo,
-                    TextComponent(" §bの所有権を譲渡しようとしています")
-                )
+                MessageUtil.send(newOwner, Message.COMMAND_TRANSFER_REQUEST_SUCCESS_NOTICE, MessageUtil.getSenderInfo(sender), gateInfo)
                 val accept = TextComponent("§a[受け入れる]§r")
                 accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
                 accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} accept")
