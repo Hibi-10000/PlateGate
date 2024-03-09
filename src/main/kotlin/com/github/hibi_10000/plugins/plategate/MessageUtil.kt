@@ -33,7 +33,7 @@ object MessageUtil {
     }
 
     fun logInfo(message: Message, vararg format: String) {
-        instance.logger.info(message.getString(*format))
+        instance.server.consoleSender.spigot().sendMessage(getMessage(null, message, false, *format))
     }
 
     fun catchUnexpectedError(sender: Player?, throwable: Throwable) {
