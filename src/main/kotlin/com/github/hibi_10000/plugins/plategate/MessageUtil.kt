@@ -42,9 +42,7 @@ object MessageUtil {
     }
 
     fun sendActionBarError(receiver: Player?, message: Message, vararg format: String) {
-        val component = TextComponent(message.getString(receiver, *format))
-        component.color = ChatColor.RED
-        receiver?.spigot()?.sendMessage(ChatMessageType.ACTION_BAR, component)
+        receiver?.spigot()?.sendMessage(ChatMessageType.ACTION_BAR, getMessage(receiver, message, *format))
     }
 
     fun getSenderInfo(sender: CommandSender): TextComponent {
