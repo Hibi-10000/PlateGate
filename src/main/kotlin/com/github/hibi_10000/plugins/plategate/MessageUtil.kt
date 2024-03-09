@@ -18,13 +18,17 @@ import org.bukkit.entity.Player
 import java.util.logging.Level
 
 object MessageUtil {
+    private fun getMessage(receiver: CommandSender?, message: Message, vararg format: Any): TranslatableComponent {
+        return TranslatableComponent("plategate.bungee_components.null", *format).also {
+            it.fallback = message.getString(receiver)
+            if (message.color != null) it.color = message.color
+        }
+    }
+
     fun send(receiver: CommandSender?, message: Message, vararg format: Any) {
         receiver?.spigot()?.sendMessage(
             TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN },
-            TranslatableComponent("plategate.bungee_components.null", *format).also {
-                it.fallback = message.getString(receiver)
-                if (message.color != null) it.color = message.color
-            }
+            getMessage(receiver, message, *format)
         )
     }
 
