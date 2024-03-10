@@ -11,7 +11,6 @@ import org.bukkit.entity.Player
 enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     //<editor-fold desc="Messages">
     COMMAND_CREATE_SUCCESS("commands.plategate.create.success", ChatColor.AQUA),
-    COMMAND_CREATE_SUCCESS_LOG("commands.plategate.create.success.log"),
     COMMAND_JUMP_SUCCESS("commands.plategate.jump.success", ChatColor.AQUA),
     COMMAND_JUMP_SUCCESS_LOG("commands.plategate.jump.success.log"),
     COMMAND_LINK_SUCCESS("commands.plategate.link.success", ChatColor.AQUA),
