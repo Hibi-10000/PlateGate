@@ -37,7 +37,7 @@ object MessageUtil {
     }
 
     fun catchUnexpectedError(sender: Player?, throwable: Throwable) {
-        this.send(sender, Message.ERROR_UNEXPECTED)
+        send(sender, Message.ERROR_UNEXPECTED)
         instance.logger.log(Level.SEVERE, Message.ERROR_UNEXPECTED.getString(), throwable)
     }
 
@@ -62,7 +62,7 @@ object MessageUtil {
     fun getGateInfo(gate: CraftPlateGate, sender: CommandSender?): TextComponent {
         val owner = gate.owner.let { Util.getOfflinePlayer(it, sender) }
         val world = gate.getWorld()
-        if (world == null) this.send(sender, Message.ERROR_WORLD_NOT_FOUND)
+        if (world == null) send(sender, Message.ERROR_WORLD_NOT_FOUND)
         val toOwner = gate.toOwner?.let { Util.getOfflinePlayer(it, sender) }
         val component = TextComponent(gate.name)
         component.hoverEvent = HoverEvent(

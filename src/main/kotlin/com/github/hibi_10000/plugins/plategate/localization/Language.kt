@@ -17,7 +17,7 @@ enum class Language(private val key: String) {
     private val jo: JsonObject
 
     init {
-        val json = instance.getResource("lang/${this.key}.json")?.use {
+        val json = instance.getResource("lang/$key.json")?.use {
             it.readAllBytes().decodeToString()
         }
         jo = Gson().fromJson(json, JsonObject::class.java)
