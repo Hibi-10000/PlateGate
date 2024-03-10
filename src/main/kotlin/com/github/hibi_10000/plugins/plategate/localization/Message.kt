@@ -46,16 +46,12 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     ;
     //</editor-fold>
 
-    private fun format(base: String, vararg format: String): String {
-        return if (format.isEmpty()) base else base.format(*format)
+    fun getString(): String {
+        return Language.getMessage(this)
     }
 
-    fun getString(vararg format: String): String {
-        return format(Language.getMessage(this), *format)
-    }
-
-    fun getString(sender: CommandSender?, vararg format: String): String {
-        if (sender == null || sender !is Player) return getString(*format)
-        return format(Language.fromString(sender.locale).getMessage(this), *format)
+    fun getString(sender: CommandSender?): String {
+        if (sender == null || sender !is Player) return getString()
+        return Language.fromString(sender.locale).getMessage(this)
     }
 }
