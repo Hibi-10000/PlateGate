@@ -16,7 +16,6 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     COMMAND_LIST_HEADER("commands.plategate.list.header", ChatColor.AQUA),
     COMMAND_MOVE_SUCCESS("commands.plategate.move.success", ChatColor.AQUA),
     COMMAND_REMOVE_SUCCESS("commands.plategate.remove.success", ChatColor.AQUA),
-    COMMAND_REMOVE_SUCCESS_LOG("commands.plategate.remove.success.log"),
     COMMAND_RENAME_SUCCESS("commands.plategate.rename.success", ChatColor.AQUA),
     COMMAND_RENAME_SUCCESS_LOG("commands.plategate.rename.success.log"),
     COMMAND_TRANSFER_CANCEL_ERROR_NOT_FOUND("commands.plategate.transfer.cancel.error.not_found", ChatColor.RED),

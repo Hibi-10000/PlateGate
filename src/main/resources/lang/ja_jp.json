@@ -5,7 +5,6 @@
     "commands.plategate.list.header": "Player %s が所有しているGate一覧",
     "commands.plategate.move.success": "ゲート %s を %s に移動しました",
     "commands.plategate.remove.success": "Gate:%s を削除しました。",
-    "commands.plategate.remove.success.log": "%s が Gate:%s を削除しました。",
     "commands.plategate.rename.success": "PlateGate %s を %s にリネームしました",
     "commands.plategate.rename.success.log": "%s がPlateGate %s を %s にリネームしました",
     "commands.plategate.transfer.cancel.error.not_found": "譲渡要求が存在しないか、削除されています",
