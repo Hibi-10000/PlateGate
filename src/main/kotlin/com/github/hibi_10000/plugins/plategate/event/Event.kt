@@ -48,7 +48,7 @@ object Event: Listener {
         if (noInteract.contains(p.uniqueId)) return
 
         if (gate.toOwner == null || gate.toName == null) {
-            MessageUtil.send(p, Message.EVENT_USE_GATE_INFO_GATE_NOT_LINKED, gate.name)
+            MessageUtil.send(p, Message.EVENT_USE_GATE_INFO_GATE_NOT_LINKED, MessageUtil.getGateInfo(gate, p))
             return
         }
         val gateTo = try {
@@ -161,7 +161,7 @@ object Event: Listener {
         //TODO: Asyncで動くのか確認する
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
             val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
-            MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, p.name)
+            MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, MessageUtil.getSenderInfo(p))
         }, 20L)
     }
 }
