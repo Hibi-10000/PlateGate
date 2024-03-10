@@ -37,6 +37,22 @@ object MessageUtil {
         instance.server.consoleSender.spigot().sendMessage(getMessage(null, message, false, *format))
     }
 
+    fun logInfo(sender: CommandSender?, message: Message, vararg format: Any) {
+        if (sender == null) return
+        val messageComponent = getMessage(null, message, false, *format)
+        val component = TranslatableComponent("chat.type.admin", getSenderInfo(sender), messageComponent).also {
+            it.color = ChatColor.GRAY
+            it.isItalic = true
+        }
+        instance.server.consoleSender.spigot().sendMessage(component)
+        instance.server.onlinePlayers.forEach { receiver ->
+            if (receiver.hasPermission("minecraft.admin.command_feedback")) {
+                (component.with[1] as TranslatableComponent).fallback = message.getString(receiver)
+                receiver.spigot().sendMessage(component)
+            }
+        }
+    }
+
     fun catchUnexpectedError(sender: Player?, throwable: Throwable) {
         send(sender, Message.ERROR_UNEXPECTED)
         instance.logger.log(Level.SEVERE, Message.ERROR_UNEXPECTED.getString(), throwable)
