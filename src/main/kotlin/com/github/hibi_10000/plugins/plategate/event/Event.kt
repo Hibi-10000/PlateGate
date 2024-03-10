@@ -48,7 +48,7 @@ object Event: Listener {
         if (noInteract.contains(p.uniqueId)) return
 
         if (gate.toOwner == null || gate.toName == null) {
-            p.sendMessage("§a[PlateGate] §bこのゲート ${gate.name} はリンクされていません。")
+            MessageUtil.send(p, Message.EVENT_USE_GATE_INFO_GATE_NOT_LINKED, gate.name)
             return
         }
         val gateTo = try {

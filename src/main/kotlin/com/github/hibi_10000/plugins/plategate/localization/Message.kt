@@ -43,6 +43,7 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     ERROR_PLAYER_OFFLINE("plategate.error.player.offline", ChatColor.RED),
     ERROR_UNEXPECTED("plategate.error.unexpected", ChatColor.RED),
     ERROR_WORLD_NOT_FOUND("plategate.error.world.not_found", ChatColor.RED),
+    EVENT_USE_GATE_INFO_GATE_NOT_LINKED("plategate.event.use_gate.info.gate.not_linked", ChatColor.AQUA),
     ;
     //</editor-fold>
 

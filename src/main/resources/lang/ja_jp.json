@@ -31,5 +31,6 @@
     "plategate.error.player.not_found": "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。",
     "plategate.error.player.offline": "そのプレイヤーはオフラインです。",
     "plategate.error.unexpected": "予期せぬエラーが発生しました",
-    "plategate.error.world.not_found": "ワールドが見つかりませんでした"
+    "plategate.error.world.not_found": "ワールドが見つかりませんでした",
+    "plategate.event.use_gate.info.gate.not_linked": "このゲート %s はリンクされていません。"
 }
