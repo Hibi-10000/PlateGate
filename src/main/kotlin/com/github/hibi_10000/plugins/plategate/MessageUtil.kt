@@ -7,6 +7,7 @@ package com.github.hibi_10000.plugins.plategate
 import com.github.hibi_10000.plugins.plategate.localization.Message
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.ChatMessageType
+import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.TranslatableComponent
@@ -53,6 +54,9 @@ object MessageUtil {
                         sender.type.key.toString(), sender.uniqueId.toString(), TextComponent(sender.name)
                     )
                 )
+                if (sender is Player) {
+                    it.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tell ${sender.name} ")
+                }
             } else if (sender is ConsoleCommandSender) {
                 it.text = "Server"
             }
