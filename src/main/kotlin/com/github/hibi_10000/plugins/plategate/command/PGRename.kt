@@ -29,8 +29,7 @@ object PGRename {
             }
             return false
         }
-        MessageUtil.send(sender, Message.COMMAND_RENAME_SUCCESS, args[1], args[2])
-        MessageUtil.logInfo(Message.COMMAND_RENAME_SUCCESS_LOG, sender.name, args[1], args[2])
+        MessageUtil.sendWithLog(sender, Message.COMMAND_RENAME_SUCCESS, args[1], args[2])
         return true
     }
 
