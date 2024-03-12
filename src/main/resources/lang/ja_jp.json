@@ -9,7 +9,6 @@
     "commands.plategate.transfer.cancel.error.not_found": "譲渡要求が存在しないか、削除されています",
     "commands.plategate.transfer.cancel.success": "%s へのゲート %s の所有権譲渡要求をキャンセルしました",
     "commands.plategate.transfer.cancel.success.notice": "ゲート %s の所有権譲渡要求がキャンセルされました",
-    "commands.plategate.transfer.cancel.success.log": "%s が %s へのゲート %s の所有権譲渡要求をキャンセルしました",
     "commands.plategate.transfer.error.target_quit": "%s が退出したため、ゲートの所有権の譲渡要求がキャンセルされました",
     "commands.plategate.transfer.request.success": "%s にゲート %s の所有権を譲渡しようとしています %s",
     "commands.plategate.transfer.request.success.notice": "%s があなたにゲート %s の所有権を譲渡しようとしています",

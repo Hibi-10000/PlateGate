@@ -20,7 +20,6 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     COMMAND_TRANSFER_CANCEL_ERROR_NOT_FOUND("commands.plategate.transfer.cancel.error.not_found", ChatColor.RED),
     COMMAND_TRANSFER_CANCEL_SUCCESS("commands.plategate.transfer.cancel.success", ChatColor.AQUA),
     COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE("commands.plategate.transfer.cancel.success.notice", ChatColor.RED),
-    COMMAND_TRANSFER_CANCEL_SUCCESS_LOG("commands.plategate.transfer.cancel.success.log"),
     COMMAND_TRANSFER_ERROR_TARGET_QUIT("commands.plategate.transfer.error.target_quit", ChatColor.RED),
     COMMAND_TRANSFER_REQUEST_SUCCESS("commands.plategate.transfer.request.success", ChatColor.AQUA),
     COMMAND_TRANSFER_REQUEST_SUCCESS_NOTICE("commands.plategate.transfer.request.success.notice", ChatColor.AQUA),
