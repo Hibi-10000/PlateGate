@@ -16,7 +16,6 @@
     "commands.plategate.transfer.request.success.log": "%s が %s にゲート %s の所有権を譲渡しようとしています",
     "commands.plategate.unlink.error.not_linked": "そのゲートはリンクされていません",
     "commands.plategate.unlink.success": "ゲート %s のリンクを解除しました",
-    "commands.plategate.unlink.success.log": "%s がゲート %s のリンクを解除しました",
     "plategate.error.break.block": "PlateGateを壊すことはできません！",
     "plategate.error.gate.location.interference": "その場所は他のゲートと干渉します",
     "plategate.error.gate.name.already_used": "\"%s\"は既に使用されています",

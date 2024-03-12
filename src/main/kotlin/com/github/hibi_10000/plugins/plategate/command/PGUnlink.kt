@@ -29,8 +29,7 @@ object PGUnlink {
             }
             return false
         }
-        MessageUtil.send(sender, Message.COMMAND_UNLINK_SUCCESS, args[1])
-        MessageUtil.logInfo(Message.COMMAND_UNLINK_SUCCESS_LOG, sender.name, args[1])
+        MessageUtil.sendWithLog(sender, Message.COMMAND_UNLINK_SUCCESS, args[1])
         return true
     }
 
