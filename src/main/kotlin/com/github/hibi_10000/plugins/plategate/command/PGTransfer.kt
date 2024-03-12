@@ -80,11 +80,12 @@ object PGTransfer {
                 reject.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで要求を拒否する"))
                 reject.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} reject")
                 newOwner.spigot().sendMessage(TextComponent("            "), accept, TextComponent(" | "), reject)
+
+                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_REQUEST_SUCCESS, MessageUtil.getSenderInfo(newOwner), gateInfo)
                 val cancel = TextComponent("§c[キャンセルする]§r")
                 cancel.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで譲渡をキャンセルする"))
                 cancel.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} cancel")
-                MessageUtil.send(sender, Message.COMMAND_TRANSFER_REQUEST_SUCCESS, MessageUtil.getSenderInfo(newOwner), gateInfo, cancel)
-                MessageUtil.logInfo(Message.COMMAND_TRANSFER_REQUEST_SUCCESS_LOG, sender.name, newOwner.name, gate.name)
+                sender.spigot().sendMessage(TextComponent("            "), cancel)
                 return true
             }
             else -> return Util.commandInvalid(sender, label)

@@ -23,7 +23,6 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     COMMAND_TRANSFER_ERROR_TARGET_QUIT("commands.plategate.transfer.error.target_quit", ChatColor.RED),
     COMMAND_TRANSFER_REQUEST_SUCCESS("commands.plategate.transfer.request.success", ChatColor.AQUA),
     COMMAND_TRANSFER_REQUEST_SUCCESS_NOTICE("commands.plategate.transfer.request.success.notice", ChatColor.AQUA),
-    COMMAND_TRANSFER_REQUEST_SUCCESS_LOG("commands.plategate.transfer.request.success.log"),
     COMMAND_UNLINK_ERROR_NOT_LINKED("commands.plategate.unlink.error.not_linked", ChatColor.RED),
     COMMAND_UNLINK_SUCCESS("commands.plategate.unlink.success", ChatColor.AQUA),
     ERROR_BREAK_GATE_BLOCK("plategate.error.break.block", ChatColor.RED),
