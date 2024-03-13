@@ -47,7 +47,7 @@ object MessageUtil {
         }
         instance.server.consoleSender.spigot().sendMessage(component)
         instance.server.onlinePlayers.forEach { receiver ->
-            if (receiver.hasPermission("minecraft.admin.command_feedback")) {
+            if (receiver.uniqueId != (sender as Player).uniqueId && receiver.hasPermission("minecraft.admin.command_feedback")) {
                 (component.with[1] as TranslatableComponent).fallback = message.getString(receiver)
                 receiver.spigot().sendMessage(component)
             }
