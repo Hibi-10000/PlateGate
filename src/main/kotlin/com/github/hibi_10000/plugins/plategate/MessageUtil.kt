@@ -38,10 +38,6 @@ object MessageUtil {
         logInfo(receiver, message, *format)
     }
 
-    fun logInfo(message: Message, vararg format: String) {
-        instance.server.consoleSender.spigot().sendMessage(getMessage(null, message, false, *format))
-    }
-
     private fun logInfo(sender: CommandSender?, message: Message, vararg format: Any) {
         if (sender == null) return
         val messageComponent = getMessage(null, message, false, *format)
