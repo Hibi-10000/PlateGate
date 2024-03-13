@@ -70,7 +70,7 @@ object PGTransfer {
                 }
                 val newOwner = Util.getPlayer(args[3], sender) ?: return false
                 transfer[newOwner.uniqueId] = gate
-                //TODO: いい感じに色を付ける
+
                 val gateInfo = MessageUtil.getGateInfo(gate, sender)
                 MessageUtil.send(newOwner, Message.COMMAND_TRANSFER_REQUEST_SUCCESS_NOTICE, MessageUtil.getSenderInfo(sender), gateInfo)
                 val accept = TextComponent("§a[受け入れる]")

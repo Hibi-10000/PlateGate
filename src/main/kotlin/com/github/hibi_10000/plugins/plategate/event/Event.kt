@@ -34,7 +34,6 @@ object Event: Listener {
             if (e !is DBUtil.GateNotFoundException) MessageUtil.catchUnexpectedError(p, e)
             return
         }
-        //TODO: When文に変更?
         if (e.action == Action.PHYSICAL) {
             usePlateGate(p, gate)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
@@ -158,7 +157,6 @@ object Event: Listener {
         val p = e.player
         val gate = transfer[p.uniqueId] ?: return
         transfer.remove(p.uniqueId)
-        //TODO: Asyncで動くのか確認する
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
             val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
             MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, MessageUtil.getSenderInfo(p))
