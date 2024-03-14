@@ -1,10 +1,10 @@
 {
     "commands.plategate.create.success": "ゲート「%s」を %s に作成しました",
-    "commands.plategate.jump.success": "ゲート「%s」にジャンプしました。",
-    "commands.plategate.link.success": "ゲート「%s」からゲート「%s」の方向にゲートをリンクしました。",
+    "commands.plategate.jump.success": "ゲート「%s」にジャンプしました",
+    "commands.plategate.link.success": "ゲート「%s」からゲート「%s」の方向にゲートをリンクしました",
     "commands.plategate.list.header": "Player %s が所有しているGate一覧",
     "commands.plategate.move.success": "ゲート「%s」を %s に移動しました",
-    "commands.plategate.remove.success": "ゲート「%s」を削除しました。",
+    "commands.plategate.remove.success": "ゲート「%s」を削除しました",
     "commands.plategate.rename.success": "ゲート「%s」を「%s」にリネームしました",
     "commands.plategate.transfer.cancel.error.not_found": "譲渡要求が存在しないか、削除されています",
     "commands.plategate.transfer.cancel.success": "%s へのゲート「%s」の所有権譲渡要求をキャンセルしました",
@@ -18,10 +18,10 @@
     "plategate.error.gate.location.interference": "その場所は他のゲートと干渉します",
     "plategate.error.gate.name.already_used": "「%s」は既に使用されています",
     "plategate.error.gate.not_found": "ゲートが見つかりませんでした",
-    "plategate.error.permission": "権限が不足しています。",
-    "plategate.error.player.not_found": "そのプレイヤーは存在しないか、このサーバーに参加したことがありません。",
-    "plategate.error.player.offline": "そのプレイヤーはオフラインです。",
+    "plategate.error.permission": "権限が不足しています",
+    "plategate.error.player.not_found": "そのプレイヤーは存在しないか、このサーバーに参加したことがありません",
+    "plategate.error.player.offline": "そのプレイヤーはオフラインです",
     "plategate.error.unexpected": "予期せぬエラーが発生しました",
     "plategate.error.world.not_found": "ワールドが見つかりませんでした",
-    "plategate.event.use_gate.info.gate.not_linked": "このゲート「%s」はリンクされていません。"
+    "plategate.event.use_gate.info.gate.not_linked": "このゲート「%s」はリンクされていません"
 }
