@@ -57,6 +57,10 @@ object Util {
         }
     }
 
+    fun getBlockXYZ(block: Block): Array<Int> {
+        return arrayOf(block.x, block.y, block.z)
+    }
+
     fun convBlockFace2Yaw(blockFace: BlockFace): Float {
         return when (blockFace) {
             BlockFace.SOUTH ->   0f /* yaw >= 315 || yaw <=  45 */

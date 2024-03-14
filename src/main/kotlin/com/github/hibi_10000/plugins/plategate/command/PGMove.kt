@@ -60,7 +60,7 @@ object PGMove {
         Util.noInteract(sender.uniqueId)
         block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.sendWithLog(sender, Message.COMMAND_MOVE_SUCCESS, args[1], block.x, block.y, block.z)
+        MessageUtil.sendWithLog(sender, Message.COMMAND_MOVE_SUCCESS, args[1], *Util.getBlockXYZ(block))
         return true
     }
 
