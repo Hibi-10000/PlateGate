@@ -22,13 +22,13 @@ object PGCreate {
         if (args.size != 2) return Util.commandInvalid(sender, label)
 
         val loc = sender.location.clone()
-        val underBlock = Util.underBlock(loc.block)
+        val block = loc.block
+        val underBlock = Util.underBlock(block)
         if (!Util.checkCreateLocation(sender, loc, underBlock)) return false
-        loc.pitch = 0f
         val gate = CraftPlateGate(
             sender.uniqueId,
             args[1],
-            loc.block,
+            block,
             sender.facing,
             null,
             null
@@ -44,9 +44,9 @@ object PGCreate {
             return false
         }
         Util.noInteract(sender.uniqueId)
-        loc.block.type = Material.STONE_PRESSURE_PLATE
+        block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.sendWithLog(sender, Message.COMMAND_CREATE_SUCCESS, MessageUtil.getGateInfo(gate, sender), loc.block.x, loc.block.y, loc.block.z)
+        MessageUtil.sendWithLog(sender, Message.COMMAND_CREATE_SUCCESS, MessageUtil.getGateInfo(gate, sender), block.x, block.y, block.z)
         return true
     }
 

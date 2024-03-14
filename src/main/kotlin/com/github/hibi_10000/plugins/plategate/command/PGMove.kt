@@ -22,9 +22,9 @@ object PGMove {
         if (args.size != 2) return Util.commandInvalid(sender, label)
 
         val loc = sender.location.clone()
-        val underBlock = Util.underBlock(loc.block)
+        val block = loc.block
+        val underBlock = Util.underBlock(block)
         if (!Util.checkCreateLocation(sender, loc, underBlock)) return false
-        loc.pitch = 0f
 
         val oldGate = try {
             dbUtil.get(sender.uniqueId, args[1])
@@ -43,7 +43,7 @@ object PGMove {
                 CraftPlateGate(
                     sender.uniqueId,
                     args[1],
-                    loc.block,
+                    block,
                     sender.facing,
                     oldGate.toOwner,
                     oldGate.toName,
@@ -58,9 +58,9 @@ object PGMove {
         oldBlock.type = Material.AIR
         oldUnderBlock.type = oldGate.beforeBlock
         Util.noInteract(sender.uniqueId)
-        loc.block.type = Material.STONE_PRESSURE_PLATE
+        block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.sendWithLog(sender, Message.COMMAND_MOVE_SUCCESS, args[1], loc.block.x, loc.block.y, loc.block.z)
+        MessageUtil.sendWithLog(sender, Message.COMMAND_MOVE_SUCCESS, args[1], block.x, block.y, block.z)
         return true
     }
 
