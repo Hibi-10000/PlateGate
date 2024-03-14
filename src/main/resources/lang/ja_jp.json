@@ -1,5 +1,5 @@
 {
-    "commands.plategate.create.success": "ゲート「%s」を %s に作成しました",
+    "commands.plategate.create.success": "ゲート「%s」を%s, %s, %sに作成しました",
     "commands.plategate.jump.success": "ゲート「%s」にジャンプしました",
     "commands.plategate.link.success": "ゲート「%s」からゲート「%s」の方向にゲートをリンクしました",
     "commands.plategate.list.header": "プレイヤー%sが所有しているゲート一覧",
