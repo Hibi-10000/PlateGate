@@ -3,7 +3,7 @@
     "commands.plategate.jump.success": "ゲート「%s」にジャンプしました",
     "commands.plategate.link.success": "ゲート「%s」からゲート「%s」の方向にゲートをリンクしました",
     "commands.plategate.list.header": "プレイヤー%sが所有しているゲート一覧",
-    "commands.plategate.move.success": "ゲート「%s」を%s, %s, %sに移動しました",
+    "commands.plategate.move.success": "ゲート「%s」を%s, %s, %sから%s, %s, %sに移動しました",
     "commands.plategate.remove.success": "ゲート「%s」を削除しました",
     "commands.plategate.rename.success": "ゲート「%s」を「%s」にリネームしました",
     "commands.plategate.transfer.cancel.error.not_found": "譲渡要求が存在しないか、削除されています",
