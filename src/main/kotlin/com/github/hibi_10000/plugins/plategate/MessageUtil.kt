@@ -35,10 +35,10 @@ object MessageUtil {
 
     fun sendWithLog(receiver: CommandSender?, message: Message, vararg format: Any) {
         send(receiver, message, *format)
-        logInfo(receiver, message, *format)
+        logAdmin(receiver, message, *format)
     }
 
-    private fun logInfo(sender: CommandSender?, message: Message, vararg format: Any) {
+    private fun logAdmin(sender: CommandSender?, message: Message, vararg format: Any) {
         if (sender == null) return
         val messageComponent = getMessage(null, message, false, *format)
         val component = TranslatableComponent("chat.type.admin", getSenderInfo(sender), messageComponent).also {
