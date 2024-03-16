@@ -88,16 +88,16 @@ object MessageUtil {
         val component = TextComponent(gate.name)
         component.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT, Text(
-                "Name: ${gate.name
-                }\nOwner: ${owner?.name
-                }\nWorld: ${world?.name
-                }\nX: ${gate.x
-                }\nY: ${gate.y
-                }\nZ: ${gate.z
-                }\nRotate: ${gate.rotate.name
-                }\nTo: ${gate.toName
-                } (Owner: ${toOwner?.name
-                })"
+                "§bName: §r${gate.name
+                }\n§bOwner: §r${owner?.name
+                }\n§bWorld: §r${world?.name
+                }\n§bX: §r${gate.x
+                }\n§bY: §r${gate.y
+                }\n§bZ: §r${gate.z
+                }\n§bRotate: §r${gate.rotate.name
+                }\n§bTo: §r${gate.toName
+                } §b(Owner: §r${toOwner?.name
+                }§b)"
             )
         )
         return component
