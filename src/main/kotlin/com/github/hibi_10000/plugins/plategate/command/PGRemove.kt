@@ -23,8 +23,10 @@ object PGRemove {
         val gate = try {
             dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
-            else MessageUtil.catchUnexpectedError(sender, e)
+            when (e) {
+                is DBUtil.GateNotFoundException -> MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
+                else -> MessageUtil.catchUnexpectedError(sender, e)
+            }
             return false
         }
         val toBlock = gate.getBlock()

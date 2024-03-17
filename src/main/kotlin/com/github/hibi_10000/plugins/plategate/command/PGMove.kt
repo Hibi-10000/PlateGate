@@ -29,8 +29,10 @@ object PGMove {
         val oldGate = try {
             dbUtil.get(sender.uniqueId, args[1])
         } catch (e: Exception) {
-            if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
-            else MessageUtil.catchUnexpectedError(sender, e)
+            when (e) {
+                is DBUtil.GateNotFoundException -> MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
+                else -> MessageUtil.catchUnexpectedError(sender, e)
+            }
             return false
         }
         val oldBlock = oldGate.getBlock()
@@ -49,8 +51,10 @@ object PGMove {
         try {
             dbUtil.move(gate)
         } catch (e: Exception) {
-            if (e is DBUtil.GateLocationDuplicateException) MessageUtil.send(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
-            else MessageUtil.catchUnexpectedError(sender, e)
+            when (e) {
+                is DBUtil.GateLocationDuplicateException -> MessageUtil.send(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
+                else -> MessageUtil.catchUnexpectedError(sender, e)
+            }
             return false
         }
         val oldUnderBlock = Util.underBlock(oldBlock)

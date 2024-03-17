@@ -65,8 +65,10 @@ object PGTransfer {
                 val gate = try {
                     dbUtil.get(sender.uniqueId, gateName)
                 } catch (e: Exception) {
-                    if (e is DBUtil.GateNotFoundException) MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
-                    else MessageUtil.catchUnexpectedError(sender, e)
+                    when (e) {
+                        is DBUtil.GateNotFoundException -> MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
+                        else -> MessageUtil.catchUnexpectedError(sender, e)
+                    }
                     return false
                 }
                 val newOwner = Util.getPlayer(args[3], sender) ?: return false
