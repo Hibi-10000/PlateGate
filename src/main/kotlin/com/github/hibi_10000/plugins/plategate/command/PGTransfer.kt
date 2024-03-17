@@ -53,8 +53,9 @@ object PGTransfer {
                 val gate = entry.value
                 val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
-                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_CANCEL_SUCCESS, np.name, gate.name)
-                MessageUtil.send(np, Message.COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE, gate.name)
+                val gateInfo = MessageUtil.getGateInfo(gate, sender)
+                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_CANCEL_SUCCESS, MessageUtil.getSenderInfo(np), gateInfo)
+                MessageUtil.send(np, Message.COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE, gateInfo)
                 return true
             }
             "owner" -> {
