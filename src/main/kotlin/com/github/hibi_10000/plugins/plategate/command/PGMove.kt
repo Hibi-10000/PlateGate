@@ -38,17 +38,16 @@ object PGMove {
             MessageUtil.send(sender, Message.ERROR_WORLD_NOT_FOUND)
             return false
         }
+        val gate = CraftPlateGate(
+            sender.uniqueId,
+            args[1],
+            block,
+            sender.facing,
+            oldGate.toOwner,
+            oldGate.toName,
+        )
         try {
-            dbUtil.move(
-                CraftPlateGate(
-                    sender.uniqueId,
-                    args[1],
-                    block,
-                    sender.facing,
-                    oldGate.toOwner,
-                    oldGate.toName,
-                )
-            )
+            dbUtil.move(gate)
         } catch (e: Exception) {
             if (e is DBUtil.GateLocationDuplicateException) MessageUtil.send(sender, Message.ERROR_GATE_LOCATION_INTERFERENCE)
             else MessageUtil.catchUnexpectedError(sender, e)
@@ -60,7 +59,7 @@ object PGMove {
         Util.noInteract(sender.uniqueId)
         block.type = Material.STONE_PRESSURE_PLATE
         underBlock.type = Material.IRON_BLOCK
-        MessageUtil.sendWithLog(sender, Message.COMMAND_MOVE_SUCCESS, args[1], *Util.getBlockXYZ(oldBlock), *Util.getBlockXYZ(block))
+        MessageUtil.sendWithLog(sender, Message.COMMAND_MOVE_SUCCESS, MessageUtil.getGateInfo(gate, sender), *Util.getBlockXYZ(oldBlock), *Util.getBlockXYZ(block))
         return true
     }
 
