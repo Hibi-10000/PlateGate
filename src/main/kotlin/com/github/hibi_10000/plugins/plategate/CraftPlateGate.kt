@@ -23,7 +23,7 @@ class CraftPlateGate(
     beforeBlock: Material,
     var toOwner: UUID?,
     var toName: String?
-) {
+): Cloneable {
     var world: UUID = world
         private set
     var x: Int = x
@@ -73,5 +73,9 @@ class CraftPlateGate(
 
     fun getTPLocationBlock(): Block? {
         return getBlock()?.getRelative(rotate)
+    }
+
+    public override fun clone(): CraftPlateGate {
+        return super.clone() as CraftPlateGate
     }
 }
