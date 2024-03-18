@@ -30,7 +30,7 @@ object PGRename {
             return false
         }
         val oldGate = gate.clone().apply { name = args[1]}
-        MessageUtil.sendWithLog(sender, Message.COMMAND_RENAME_SUCCESS, MessageUtil.getGateInfo(oldGate, sender), MessageUtil.getGateInfo(gate, sender))
+        MessageUtil.sendWithLog(sender, Message.COMMAND_RENAME_SUCCESS, oldGate, gate)
         return true
     }
 

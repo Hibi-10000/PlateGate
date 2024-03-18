@@ -20,7 +20,14 @@ import java.util.logging.Level
 
 object MessageUtil {
     private fun getMessage(receiver: CommandSender?, message: Message, isColored: Boolean, vararg format: Any): TranslatableComponent {
-        return TranslatableComponent("plategate.bungee_components.null", *format).apply {
+        return TranslatableComponent("plategate.bungee_components.null",
+            *format.map { f ->
+                when (f) {
+                    is CraftPlateGate -> getGateInfo(f, receiver)
+                    else -> f
+                }
+            }.toTypedArray()
+        ).apply {
             fallback = message.getString(receiver)
             if (isColored && message.color != null) color = message.color
         }

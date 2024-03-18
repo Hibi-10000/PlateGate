@@ -40,7 +40,7 @@ object PGJump {
         toLoc.yaw = Util.convBlockFace2Yaw(gate.rotate)
         toLoc.pitch = sender.location.pitch
         sender.teleport(toLoc)
-        MessageUtil.sendWithLog(sender, Message.COMMAND_JUMP_SUCCESS, MessageUtil.getGateInfo(gate, sender))
+        MessageUtil.sendWithLog(sender, Message.COMMAND_JUMP_SUCCESS, gate)
         return true
     }
 

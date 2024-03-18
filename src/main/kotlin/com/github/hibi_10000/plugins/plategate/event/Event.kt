@@ -47,7 +47,7 @@ object Event: Listener {
         if (noInteract.contains(p.uniqueId)) return
 
         if (gate.toOwner == null || gate.toName == null) {
-            MessageUtil.send(p, Message.EVENT_USE_GATE_INFO_GATE_NOT_LINKED, MessageUtil.getGateInfo(gate, p))
+            MessageUtil.send(p, Message.EVENT_USE_GATE_INFO_GATE_NOT_LINKED, gate)
             return
         }
         val gateTo = try {

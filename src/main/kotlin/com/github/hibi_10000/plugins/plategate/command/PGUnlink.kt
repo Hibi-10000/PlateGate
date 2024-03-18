@@ -29,7 +29,7 @@ object PGUnlink {
             }
             return false
         }
-        MessageUtil.sendWithLog(sender, Message.COMMAND_UNLINK_SUCCESS, MessageUtil.getGateInfo(gate, sender))
+        MessageUtil.sendWithLog(sender, Message.COMMAND_UNLINK_SUCCESS, gate)
         return true
     }
 

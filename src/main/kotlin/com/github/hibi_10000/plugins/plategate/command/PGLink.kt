@@ -28,7 +28,7 @@ object PGLink {
             }
             return false
         }
-        MessageUtil.sendWithLog(sender, Message.COMMAND_LINK_SUCCESS, *gates.map { MessageUtil.getGateInfo(it, sender) }.toTypedArray())
+        MessageUtil.sendWithLog(sender, Message.COMMAND_LINK_SUCCESS, *gates.toTypedArray())
         return true
     }
 

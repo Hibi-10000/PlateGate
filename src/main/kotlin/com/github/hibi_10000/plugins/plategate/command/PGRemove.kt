@@ -43,7 +43,7 @@ object PGRemove {
             MessageUtil.catchUnexpectedError(sender, e)
             return false
         }
-        MessageUtil.sendWithLog(sender, Message.COMMAND_REMOVE_SUCCESS, MessageUtil.getGateInfo(gate, sender))
+        MessageUtil.sendWithLog(sender, Message.COMMAND_REMOVE_SUCCESS, gate)
         return true
     }
 
