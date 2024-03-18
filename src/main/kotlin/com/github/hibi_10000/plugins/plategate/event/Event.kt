@@ -159,7 +159,7 @@ object Event: Listener {
         transfer.remove(p.uniqueId)
         Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
             val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
-            MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, MessageUtil.getSenderInfo(p))
+            MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, p)
         }, 20L)
     }
 }

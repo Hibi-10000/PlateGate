@@ -54,7 +54,7 @@ object PGTransfer {
                 val np = Util.getPlayer(entry.key, sender) ?: return false
                 transfer.remove(np.uniqueId)
                 val gateInfo = MessageUtil.getGateInfo(gate, sender)
-                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_CANCEL_SUCCESS, MessageUtil.getSenderInfo(np), gateInfo)
+                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_CANCEL_SUCCESS, np, gateInfo)
                 MessageUtil.send(np, Message.COMMAND_TRANSFER_CANCEL_SUCCESS_NOTICE, gateInfo)
                 return true
             }
@@ -75,13 +75,13 @@ object PGTransfer {
                 transfer[newOwner.uniqueId] = gate
 
                 val gateInfo = MessageUtil.getGateInfo(gate, sender)
-                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_REQUEST_SUCCESS, MessageUtil.getSenderInfo(newOwner), gateInfo)
+                MessageUtil.sendWithLog(sender, Message.COMMAND_TRANSFER_REQUEST_SUCCESS, newOwner, gateInfo)
                 val cancel = TextComponent("§c[キャンセルする]")
                 cancel.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§cクリックで譲渡をキャンセルする"))
                 cancel.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} cancel")
                 sender.spigot().sendMessage(TextComponent("          "), cancel)
 
-                MessageUtil.send(newOwner, Message.COMMAND_TRANSFER_REQUEST_SUCCESS_NOTICE, MessageUtil.getSenderInfo(sender), gateInfo)
+                MessageUtil.send(newOwner, Message.COMMAND_TRANSFER_REQUEST_SUCCESS_NOTICE, sender, gateInfo)
                 val accept = TextComponent("§a[受け入れる]")
                 accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("§aクリックで要求を受け入れる"))
                 accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label transfer ${gate.name} accept")

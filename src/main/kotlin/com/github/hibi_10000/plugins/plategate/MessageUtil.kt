@@ -23,6 +23,7 @@ object MessageUtil {
         return TranslatableComponent("plategate.bungee_components.null",
             *format.map { f ->
                 when (f) {
+                    is CommandSender -> getSenderInfo(f)
                     is CraftPlateGate -> getGateInfo(f, receiver)
                     else -> f
                 }
