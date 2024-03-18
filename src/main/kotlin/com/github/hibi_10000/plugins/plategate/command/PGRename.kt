@@ -19,7 +19,7 @@ object PGRename {
         if (!Util.checkPermission(sender, "plategate.command.rename")) return false
         if (args.size != 3) return Util.commandInvalid(sender, label)
 
-        try {
+        val gate = try {
             dbUtil.rename(sender.uniqueId, args[1], args[2])
         } catch (e: Exception) {
             when (e) {
@@ -29,7 +29,8 @@ object PGRename {
             }
             return false
         }
-        MessageUtil.sendWithLog(sender, Message.COMMAND_RENAME_SUCCESS, args[1], args[2])
+        val oldGate = gate.clone().also { it.name = args[1]}
+        MessageUtil.sendWithLog(sender, Message.COMMAND_RENAME_SUCCESS, MessageUtil.getGateInfo(oldGate, sender), MessageUtil.getGateInfo(gate, sender))
         return true
     }
 

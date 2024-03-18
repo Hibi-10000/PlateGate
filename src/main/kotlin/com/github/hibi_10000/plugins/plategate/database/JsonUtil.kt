@@ -289,13 +289,14 @@ class JsonUtil(private val gateDB: File): DBUtil {
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to rename
      * @param newName New PlateGate Name
+     * @return [CraftPlateGate] with the new name
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
      * @see read
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun rename(owner: UUID, name: String, newName: String) {
+    override fun rename(owner: UUID, name: String, newName: String): CraftPlateGate {
         val json = read()
         if (get(json, owner, newName) != null) {
             throw GateNameDuplicateException()
@@ -311,7 +312,7 @@ class JsonUtil(private val gateDB: File): DBUtil {
                     }
                 }
                 write(json)
-                return
+                return CraftPlateGate(entry)
             }
         }
         throw GateNotFoundException()
