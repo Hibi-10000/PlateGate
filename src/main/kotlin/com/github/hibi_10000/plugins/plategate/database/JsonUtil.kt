@@ -355,24 +355,26 @@ class JsonUtil(private val gateDB: File): DBUtil {
      * Unlink the gate from another gate
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to unlink
+     * @return [CraftPlateGate] that was linked
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
      * @see read
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun unlink(owner: UUID, name: String) {
+    override fun unlink(owner: UUID, name: String): CraftPlateGate {
         val json = read()
         json.forEachIndexed { index, entry ->
             if (entry.name == name && entry.owner == owner.toString()) {
                 if (entry.toOwner == null || entry.toName == null) {
                     throw GateNotLinkedException()
                 }
+                val gate = CraftPlateGate(entry)
                 entry.toName = null
                 entry.toOwner = null
                 json[index] = entry
                 write(json)
-                return
+                return gate
             }
         }
         throw GateNotFoundException()
