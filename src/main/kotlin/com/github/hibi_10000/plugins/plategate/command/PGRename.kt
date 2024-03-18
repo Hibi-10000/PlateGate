@@ -29,7 +29,7 @@ object PGRename {
             }
             return false
         }
-        val oldGate = gate.clone().also { it.name = args[1]}
+        val oldGate = gate.clone().apply { name = args[1]}
         MessageUtil.sendWithLog(sender, Message.COMMAND_RENAME_SUCCESS, MessageUtil.getGateInfo(oldGate, sender), MessageUtil.getGateInfo(gate, sender))
         return true
     }

@@ -20,15 +20,15 @@ import java.util.logging.Level
 
 object MessageUtil {
     private fun getMessage(receiver: CommandSender?, message: Message, isColored: Boolean, vararg format: Any): TranslatableComponent {
-        return TranslatableComponent("plategate.bungee_components.null", *format).also {
-            it.fallback = message.getString(receiver)
-            if (isColored && message.color != null) it.color = message.color
+        return TranslatableComponent("plategate.bungee_components.null", *format).apply {
+            fallback = message.getString(receiver)
+            if (isColored && message.color != null) color = message.color
         }
     }
 
     fun send(receiver: CommandSender?, message: Message, vararg format: Any) {
         receiver?.spigot()?.sendMessage(
-            TextComponent("[PlateGate] ").also { it.color = ChatColor.GREEN },
+            TextComponent("[PlateGate] ").apply { color = ChatColor.GREEN },
             getMessage(receiver, message, true, *format)
         )
     }
@@ -41,9 +41,9 @@ object MessageUtil {
     private fun logAdmin(sender: CommandSender?, message: Message, vararg format: Any) {
         if (sender == null) return
         val messageComponent = getMessage(null, message, false, *format)
-        val component = TranslatableComponent("chat.type.admin", getSenderInfo(sender), messageComponent).also {
-            it.color = ChatColor.GRAY
-            it.isItalic = true
+        val component = TranslatableComponent("chat.type.admin", getSenderInfo(sender), messageComponent).apply {
+            color = ChatColor.GRAY
+            isItalic = true
         }
         instance.server.consoleSender.spigot().sendMessage(component)
         instance.server.onlinePlayers.forEach { receiver ->
@@ -64,18 +64,18 @@ object MessageUtil {
     }
 
     fun getSenderInfo(sender: CommandSender): TextComponent {
-        return TextComponent(sender.name).also {
+        return TextComponent(sender.name).apply {
             if (sender is org.bukkit.entity.Entity) {
-                it.hoverEvent = HoverEvent(
+                hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_ENTITY, Entity(
                         sender.type.key.toString(), sender.uniqueId.toString(), TextComponent(sender.name)
                     )
                 )
                 if (sender is Player) {
-                    it.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tell ${sender.name} ")
+                    clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/tell ${sender.name} ")
                 }
             } else if (sender is ConsoleCommandSender) {
-                it.text = "Server"
+                text = "Server"
             }
         }
     }
