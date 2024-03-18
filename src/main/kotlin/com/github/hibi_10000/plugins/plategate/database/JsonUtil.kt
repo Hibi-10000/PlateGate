@@ -212,23 +212,23 @@ class JsonUtil(private val gateDB: File): DBUtil {
      * @param name The name of the gate to link
      * @param toOwner Player-specific [UUID] string of the gate owner to link to
      * @param toName PlateGate Name to link
+     * @return List of [CraftPlateGate] linked
      * @throws IOException see [read] and [write]
      * @throws RuntimeException see [read] and [write]
      * @see read
      * @see write
      */
     @Throws(IOException::class, RuntimeException::class)
-    override fun link(owner: UUID, name: String, toOwner: UUID, toName: String) {
+    override fun link(owner: UUID, name: String, toOwner: UUID, toName: String): List<CraftPlateGate> {
         val json = read()
-        if (get(json, toOwner, toName) != null) {
-            json.forEachIndexed { index, entry ->
-                if (entry.name == name && entry.owner == owner.toString()) {
-                    entry.toName = toName
-                    entry.toOwner = toOwner.toString()
-                    json[index] = entry
-                    write(json)
-                    return
-                }
+        val toGate = get(json, toOwner, toName) ?: throw GateNotFoundException()
+        json.forEachIndexed { index, entry ->
+            if (entry.name == name && entry.owner == owner.toString()) {
+                entry.toName = toName
+                entry.toOwner = toOwner.toString()
+                json[index] = entry
+                write(json)
+                return listOf(CraftPlateGate(entry), toGate)
             }
         }
         throw GateNotFoundException()

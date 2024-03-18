@@ -46,9 +46,10 @@ interface DBUtil {
      * @param name The name of the gate to link
      * @param toOwner Player-specific [UUID] of the gate owner to link to
      * @param toName The name of the gate to link to
+     * @return List of [CraftPlateGate] linked
      */
     @Throws(IOException::class, RuntimeException::class)
-    fun link(owner: UUID, name: String, toOwner: UUID, toName: String)
+    fun link(owner: UUID, name: String, toOwner: UUID, toName: String): List<CraftPlateGate>
     /**
      * Move the gate to a new location
      * @param plateGate [CraftPlateGate] to move

@@ -19,7 +19,7 @@ object PGLink {
         if (!Util.checkPermission(sender, "plategate.command.link")) return false
         if (args.size != 3) return Util.commandInvalid(sender, label)
 
-        try {
+        val gates = try {
             dbUtil.link(sender.uniqueId, args[1], sender.uniqueId, args[2])
         } catch (e: Exception) {
             when (e) {
@@ -28,7 +28,7 @@ object PGLink {
             }
             return false
         }
-        MessageUtil.sendWithLog(sender, Message.COMMAND_LINK_SUCCESS, args[1], args[2])
+        MessageUtil.sendWithLog(sender, Message.COMMAND_LINK_SUCCESS, *gates.map { MessageUtil.getGateInfo(it, sender) }.toTypedArray())
         return true
     }
 
