@@ -13,7 +13,7 @@
     "commands.plategate.transfer.request.success": "%sにゲート「%s」の所有権を譲渡しようとしています",
     "commands.plategate.transfer.request.success.notice": "%sがあなたにゲート「%s」の所有権を譲渡しようとしています",
     "commands.plategate.unlink.error.not_linked": "そのゲートはリンクされていません",
-    "commands.plategate.unlink.success": "ゲート「%s」のリンクを解除しました",
+    "commands.plategate.unlink.success": "ゲート「%s」のゲート「%s」へのリンクを解除しました",
     "plategate.error.break.block": "ゲートを壊すことはできません！",
     "plategate.error.gate.location.interference": "その場所は他のゲートと干渉します",
     "plategate.error.gate.name.already_used": "「%s」は既に使用されています",

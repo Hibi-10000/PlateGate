@@ -19,7 +19,7 @@ object PGUnlink {
         if (!Util.checkPermission(sender, "plategate.command.unlink")) return false
         if (args.size != 2) return Util.commandInvalid(sender, label)
 
-        val gate = try {
+        val gates = try {
             dbUtil.unlink(sender.uniqueId, args[1])
         } catch (e: Exception) {
             when (e) {
@@ -29,7 +29,7 @@ object PGUnlink {
             }
             return false
         }
-        MessageUtil.sendWithLog(sender, Message.COMMAND_UNLINK_SUCCESS, gate)
+        MessageUtil.sendWithLog(sender, Message.COMMAND_UNLINK_SUCCESS, *gates.toTypedArray())
         return true
     }
 

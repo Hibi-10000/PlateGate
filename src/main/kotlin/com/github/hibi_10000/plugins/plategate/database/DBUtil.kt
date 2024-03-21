@@ -84,10 +84,10 @@ interface DBUtil {
      * Unlink the gate from another gate
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to unlink
-     * @return [CraftPlateGate] that was linked
+     * @return List of [CraftPlateGate] before being unlinked
      */
     @Throws(IOException::class, RuntimeException::class)
-    fun unlink(owner: UUID, name: String): CraftPlateGate
+    fun unlink(owner: UUID, name: String): List<CraftPlateGate?>
 
     class GateLocationDuplicateException: RuntimeException()
     class GateNameDuplicateException: RuntimeException()
