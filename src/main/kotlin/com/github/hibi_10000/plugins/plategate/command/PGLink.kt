@@ -24,6 +24,7 @@ object PGLink {
         } catch (e: Exception) {
             when (e) {
                 is DBUtil.GateNotFoundException -> MessageUtil.send(sender, Message.ERROR_GATE_NOT_FOUND)
+                is DBUtil.GateAlreadyLinkedException -> MessageUtil.send(sender, Message.COMMAND_LINK_ERROR_ALREADY_LINKED)
                 else -> MessageUtil.catchUnexpectedError(sender, e)
             }
             return false

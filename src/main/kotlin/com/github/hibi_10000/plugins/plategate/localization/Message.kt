@@ -12,6 +12,7 @@ enum class Message(val jsonKey: String, val color: ChatColor? = null) {
     //<editor-fold desc="Messages">
     COMMAND_CREATE_SUCCESS("commands.plategate.create.success", ChatColor.AQUA),
     COMMAND_JUMP_SUCCESS("commands.plategate.jump.success", ChatColor.AQUA),
+    COMMAND_LINK_ERROR_ALREADY_LINKED("commands.plategate.link.error.already_linked", ChatColor.RED),
     COMMAND_LINK_SUCCESS("commands.plategate.link.success", ChatColor.AQUA),
     COMMAND_LIST_HEADER("commands.plategate.list.header", ChatColor.AQUA),
     COMMAND_MOVE_SUCCESS("commands.plategate.move.success", ChatColor.AQUA),

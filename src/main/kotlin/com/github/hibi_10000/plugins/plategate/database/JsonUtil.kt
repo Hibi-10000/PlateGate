@@ -224,6 +224,9 @@ class JsonUtil(private val gateDB: File): DBUtil {
         val toGate = get(json, toOwner, toName) ?: throw GateNotFoundException()
         json.forEachIndexed { index, entry ->
             if (entry.name == name && entry.owner == owner.toString()) {
+                if (entry.toName != null || entry.toOwner != null) {
+                    throw GateAlreadyLinkedException()
+                }
                 entry.toName = toName
                 entry.toOwner = toOwner.toString()
                 json[index] = entry

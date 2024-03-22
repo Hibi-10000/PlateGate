@@ -89,6 +89,7 @@ interface DBUtil {
     @Throws(IOException::class, RuntimeException::class)
     fun unlink(owner: UUID, name: String): List<CraftPlateGate?>
 
+    class GateAlreadyLinkedException: RuntimeException()
     class GateLocationDuplicateException: RuntimeException()
     class GateNameDuplicateException: RuntimeException()
     class GateNotFoundException: RuntimeException()
