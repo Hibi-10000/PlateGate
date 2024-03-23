@@ -48,17 +48,23 @@ object PGHelp {
         help.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/$label help")
         sender.spigot().sendMessage(help)
 
-        /*
         sender.sendMessage("")
-		sender.sendMessage(" §6Permission:§r");
-		sender.sendMessage(" - §bplategate.");
-		sender.sendMessage(" - §bplategate.");
-		sender.sendMessage(" - §bplategate.");
-		sender.sendMessage(" - §bplategate.");
-		sender.sendMessage(" - §bplategate.");
-		sender.sendMessage(" - §bplategate.");
-		sender.sendMessage(" - §bplategate.");
-		*/
+		sender.sendMessage(" §6Permission:§r")
+        sender.sendMessage(" -§b plategate.admin")
+        sender.sendMessage(" -§b plategate.user")
+		sender.sendMessage(" -§b plategate.use")
+		sender.sendMessage(" -§b plategate.info")
+		sender.sendMessage(" -§b plategate.command")
+		sender.sendMessage(" -§b plategate.command.create")
+		sender.sendMessage(" -§b plategate.command.help")
+		sender.sendMessage(" -§b plategate.command.jump")
+		sender.sendMessage(" -§b plategate.command.link")
+        sender.sendMessage(" -§b plategate.command.list")
+        sender.sendMessage(" -§b plategate.command.move")
+        sender.sendMessage(" -§b plategate.command.remove")
+        sender.sendMessage(" -§b plategate.command.rename")
+        sender.sendMessage(" -§b plategate.command.transfer")
+        sender.sendMessage(" -§b plategate.command.unlink")
 
         sender.sendMessage("")
         val moreHelp = TextComponent(" §aHelpPlugin")
