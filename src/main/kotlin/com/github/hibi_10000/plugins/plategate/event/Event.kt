@@ -7,7 +7,6 @@ package com.github.hibi_10000.plugins.plategate.event
 import com.github.hibi_10000.plugins.plategate.*
 import com.github.hibi_10000.plugins.plategate.database.DBUtil
 import com.github.hibi_10000.plugins.plategate.localization.Message
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.BlockFace
@@ -17,7 +16,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.block.*
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.EquipmentSlot
 
 object Event: Listener {
@@ -150,16 +148,5 @@ object Event: Listener {
             if (e !is DBUtil.GateNotFoundException) MessageUtil.catchUnexpectedError(player, e)
             false
         }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    fun onPlayerQuit(e: PlayerQuitEvent) {
-        val p = e.player
-        val gate = transfer[p.uniqueId] ?: return
-        transfer.remove(p.uniqueId)
-        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable {
-            val op = Util.getPlayer(gate.owner, null) ?: return@Runnable
-            MessageUtil.send(op, Message.COMMAND_TRANSFER_ERROR_TARGET_QUIT, p)
-        }, 20L)
     }
 }

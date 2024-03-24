@@ -70,7 +70,6 @@ bukkit {
                 "plategate.command.move",
                 "plategate.command.remove",
                 "plategate.command.rename",
-                "plategate.command.transfer",
                 "plategate.command.unlink",
                 "plategate.info",
                 "plategate.use",
@@ -115,10 +114,6 @@ bukkit {
         }
         register("plategate.command.rename") {
             description = "\"/plategate rename\" Command Use Permission"
-            children = listOf("plategate.command")
-        }
-        register("plategate.command.transfer") {
-            description = "\"/plategate transfer\" Command Use Permission"
             children = listOf("plategate.command")
         }
         register("plategate.command.unlink") {

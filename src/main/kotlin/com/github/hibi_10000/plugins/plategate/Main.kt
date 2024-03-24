@@ -15,7 +15,6 @@ import java.util.*
 internal lateinit var instance: Main
 internal lateinit var dbUtil: DBUtil
 internal val noInteract: MutableList<UUID> = mutableListOf()
-internal val transfer: MutableMap<UUID, CraftPlateGate> = mutableMapOf()
 
 class Main: JavaPlugin() {
     override fun onEnable() {

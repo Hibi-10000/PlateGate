@@ -73,14 +73,6 @@ interface DBUtil {
     @Throws(IOException::class, RuntimeException::class)
     fun rename(owner: UUID, name: String, newName: String): CraftPlateGate
     /**
-     * Transfer the gate to the new owner
-     * @param owner Player-specific [UUID] of the gate owner
-     * @param name The name of the gate to transfer
-     * @param newOwner Player-specific [UUID] of the new gate owner
-     */
-    @Throws(IOException::class, RuntimeException::class)
-    fun transfer(owner: UUID, name: String, newOwner: UUID)
-    /**
      * Unlink the gate from another gate
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to unlink

@@ -40,7 +40,6 @@ object PGHelp {
         sender.spigot().sendMessage(commandHelp(label,     "move", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label,   "remove", "[GateName]"))
         sender.spigot().sendMessage(commandHelp(label,   "rename", "[GateName] [NewGateName]"))
-        sender.spigot().sendMessage(commandHelp(label, "transfer", "[TargetGateName] owner [Player:NewOwner]"))
         sender.spigot().sendMessage(commandHelp(label,   "unlink", "[GateName]"))
 
         val help = TextComponent(" - §b/$label help")
@@ -63,7 +62,6 @@ object PGHelp {
         sender.sendMessage(" -§b plategate.command.move")
         sender.sendMessage(" -§b plategate.command.remove")
         sender.sendMessage(" -§b plategate.command.rename")
-        sender.sendMessage(" -§b plategate.command.transfer")
         sender.sendMessage(" -§b plategate.command.unlink")
 
         sender.sendMessage("")

@@ -322,39 +322,6 @@ class JsonUtil(private val gateDB: File): DBUtil {
     }
 
     /**
-     * Transfer the gate
-     * @param owner Player-specific [UUID] of the gate owner
-     * @param name The name of the gate to transfer
-     * @param newOwner Player-specific [UUID] of the new gate owner
-     * @throws IOException see [read] and [write]
-     * @throws RuntimeException see [read] and [write]
-     * @see read
-     * @see write
-     */
-    @Throws(IOException::class, RuntimeException::class)
-    override fun transfer(owner: UUID, name: String, newOwner: UUID) {
-        val json = read()
-        if (get(json, newOwner, name) != null) {
-            throw GateNameDuplicateException()
-        }
-        json.forEachIndexed { index, entry ->
-            if (entry.name == name && entry.owner == owner.toString()) {
-                entry.owner = newOwner.toString()
-                json[index] = entry
-                json.forEachIndexed { index2, entry2 ->
-                    if (entry2.toName == name && entry2.toOwner == owner.toString()) {
-                        entry2.toOwner = newOwner.toString()
-                        json[index2] = entry2
-                    }
-                }
-                write(json)
-                return
-            }
-        }
-        throw GateNotFoundException()
-    }
-
-    /**
      * Unlink the gate from another gate
      * @param owner Player-specific [UUID] of the gate owner
      * @param name The name of the gate to unlink

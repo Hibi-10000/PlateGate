@@ -29,7 +29,6 @@ object PGBase : CommandExecutor, TabCompleter {
             "move"     -> PGMove    .onCommand(sender, command, label, args)
             "remove"   -> PGRemove  .onCommand(sender, command, label, args)
             "rename"   -> PGRename  .onCommand(sender, command, label, args)
-            "transfer" -> PGTransfer.onCommand(sender, command, label, args)
             "unlink"   -> PGUnlink  .onCommand(sender, command, label, args)
             else -> Util.commandInvalid(sender, label)
         }
@@ -49,11 +48,10 @@ object PGBase : CommandExecutor, TabCompleter {
             "move"     -> PGMove    .onTabComplete(sender, command, alias, args)
             "remove"   -> PGRemove  .onTabComplete(sender, command, alias, args)
             "rename"   -> PGRename  .onTabComplete(sender, command, alias, args)
-            "transfer" -> PGTransfer.onTabComplete(sender, command, alias, args)
             "unlink"   -> PGUnlink  .onTabComplete(sender, command, alias, args)
             else -> {
                 if (args.size == 1) {
-                    listOf("create", "help", "jump", "link", "list", "move", "remove", "rename", "transfer", "unlink")
+                    listOf("create", "help", "jump", "link", "list", "move", "remove", "rename", "unlink")
                 } else {
                     null
                 }
