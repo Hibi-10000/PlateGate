@@ -13,6 +13,7 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.TranslatableComponent
 import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Text
+import org.bukkit.GameRule
 import org.bukkit.command.CommandSender
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
@@ -53,11 +54,17 @@ object MessageUtil {
             color = ChatColor.GRAY
             isItalic = true
         }
-        instance.server.consoleSender.spigot().sendMessage(component)
-        instance.server.onlinePlayers.forEach { receiver ->
-            if (receiver.uniqueId != (sender as Player).uniqueId && receiver.hasPermission("minecraft.admin.command_feedback")) {
-                (component.with[1] as TranslatableComponent).fallback = message.getString(receiver)
-                receiver.spigot().sendMessage(component)
+        if (sender !is ConsoleCommandSender && instance.server.worlds[0].getGameRuleValue(GameRule.LOG_ADMIN_COMMANDS) == true) {
+            instance.server.consoleSender.spigot().sendMessage(component)
+        }
+        instance.server.worlds.forEach { world ->
+            if (world.getGameRuleValue(GameRule.SEND_COMMAND_FEEDBACK) == true) {
+                world.players.forEach { receiver ->
+                    if (sender != receiver && receiver.hasPermission("minecraft.admin.command_feedback")) {
+                        (component.with[1] as TranslatableComponent).fallback = message.getString(receiver)
+                        receiver.spigot().sendMessage(component)
+                    }
+                }
             }
         }
     }
