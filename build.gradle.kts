@@ -6,7 +6,7 @@ import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    kotlin("jvm") version "1.9.24"
+    kotlin("jvm") version "2.0.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
 }
 
