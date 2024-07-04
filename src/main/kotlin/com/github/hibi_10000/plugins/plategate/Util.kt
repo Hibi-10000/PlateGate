@@ -9,7 +9,6 @@ import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
@@ -72,9 +71,9 @@ object Util {
     }
 
     fun getPlayer(name: String, sender: CommandSender?): Player? {
-        val player = Bukkit.getPlayer(name)
+        val player = instance.server.getPlayer(name)
         if (player == null) {
-            if (Bukkit.getOfflinePlayers().any { it.name?.lowercase(Locale.ROOT) == name }) {
+            if (instance.server.offlinePlayers.any { it.name?.lowercase(Locale.ROOT) == name }) {
                 MessageUtil.send(sender, Message.ERROR_PLAYER_OFFLINE)
             } else {
                 if (isUUID(name)) return getPlayer(UUID.fromString(name), sender)
@@ -85,9 +84,9 @@ object Util {
     }
 
     fun getPlayer(uuid: UUID, sender: CommandSender?): Player? {
-        val player = Bukkit.getPlayer(uuid)
+        val player = instance.server.getPlayer(uuid)
         if (player == null) {
-            if (Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) {
+            if (instance.server.getOfflinePlayer(uuid).hasPlayedBefore()) {
                 MessageUtil.send(sender, Message.ERROR_PLAYER_OFFLINE)
             } else {
                 MessageUtil.send(sender, Message.ERROR_PLAYER_NOT_FOUND)
@@ -97,7 +96,7 @@ object Util {
     }
 
     fun getOfflinePlayer(uuid: UUID, sender: CommandSender?): OfflinePlayer? {
-        val player = Bukkit.getOfflinePlayer(uuid)
+        val player = instance.server.getOfflinePlayer(uuid)
         if (!player.hasPlayedBefore()) {
             MessageUtil.send(sender, Message.ERROR_PLAYER_NOT_FOUND)
             return null
@@ -111,7 +110,7 @@ object Util {
 
     fun noInteract(uuid: UUID) {
         noInteract.add(uuid)
-        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, Runnable { noInteract.remove(uuid) }, 20L)
+        instance.server.scheduler.runTaskLaterAsynchronously(instance, Runnable { noInteract.remove(uuid) }, 20L)
     }
 
     fun checkCreateLocation(sender: Player, loc: Location, underBlock: Block): Boolean {

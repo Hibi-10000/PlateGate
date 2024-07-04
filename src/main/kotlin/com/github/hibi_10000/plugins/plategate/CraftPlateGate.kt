@@ -5,7 +5,6 @@
 package com.github.hibi_10000.plugins.plategate
 
 import com.github.hibi_10000.plugins.plategate.database.JsonUtil
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.Block
@@ -64,7 +63,7 @@ class CraftPlateGate(
     )
 
     fun getWorld(): World? {
-        return Bukkit.getWorld(world)
+        return instance.server.getWorld(world)
     }
 
     fun getBlock(): Block? {
