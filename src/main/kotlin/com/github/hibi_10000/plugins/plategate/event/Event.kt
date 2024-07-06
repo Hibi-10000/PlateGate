@@ -18,7 +18,7 @@ import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 
-object Event: Listener {
+object Event : Listener {
     @EventHandler(ignoreCancelled = true)
     fun onPlayerInteract(e: PlayerInteractEvent) {
         if (e.hand == EquipmentSlot.OFF_HAND) return
@@ -35,7 +35,7 @@ object Event: Listener {
         if (e.action == Action.PHYSICAL) {
             usePlateGate(p, gate)
         } else if (e.action == Action.RIGHT_CLICK_BLOCK) {
-            e.setCancelled(true)
+            e.isCancelled = true
             clickPlateGate(p, gate)
         }
     }
@@ -122,14 +122,14 @@ object Event: Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-	fun onPistonExtend(e: BlockPistonExtendEvent) {
+    fun onPistonExtend(e: BlockPistonExtendEvent) {
         e.isCancelled = isPlateGateBlock(e.blocks)
-	}
+    }
 
-	@EventHandler(ignoreCancelled = true)
-	fun onPistonRetract(e: BlockPistonRetractEvent) {
+    @EventHandler(ignoreCancelled = true)
+    fun onPistonRetract(e: BlockPistonRetractEvent) {
         e.isCancelled = isPlateGateBlock(e.blocks)
-	}
+    }
 
     private fun isPlateGateBlock(blocks: List<Block>): Boolean {
         for (b in blocks) {

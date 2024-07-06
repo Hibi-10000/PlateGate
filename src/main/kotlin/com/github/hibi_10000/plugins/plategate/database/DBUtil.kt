@@ -15,6 +15,7 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun add(plateGate: CraftPlateGate)
+
     /**
      * Get [CraftPlateGate] by name and owner
      * @param owner Player-specific [UUID] of the gate owner
@@ -23,6 +24,7 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun get(owner: UUID, name: String): CraftPlateGate
+
     /**
      * Get [CraftPlateGate] by coordinates
      * @param world World-specific [UUID]
@@ -33,6 +35,7 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun get(world: UUID, x: Int, y: Int, z: Int): CraftPlateGate
+
     /**
      * Get a list of [CraftPlateGate] owned by the input owner
      * @param owner Player-specific [UUID] of the gate owner
@@ -40,6 +43,7 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun getList(owner: UUID): List<CraftPlateGate>
+
     /**
      * Link the gate to another gate
      * @param owner Player-specific [UUID] of the gate owner
@@ -50,12 +54,14 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun link(owner: UUID, name: String, toOwner: UUID, toName: String): List<CraftPlateGate>
+
     /**
      * Move the gate to a new location
      * @param plateGate [CraftPlateGate] to move
      */
     @Throws(IOException::class, RuntimeException::class)
     fun move(plateGate: CraftPlateGate)
+
     /**
      * Remove the gate from the database
      * @param owner Player-specific [UUID] of the gate owner
@@ -63,6 +69,7 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun remove(owner: UUID, name: String)
+
     /**
      * Rename the gate
      * @param owner Player-specific [UUID] of the gate owner
@@ -72,6 +79,7 @@ interface DBUtil {
      */
     @Throws(IOException::class, RuntimeException::class)
     fun rename(owner: UUID, name: String, newName: String): CraftPlateGate
+
     /**
      * Unlink the gate from another gate
      * @param owner Player-specific [UUID] of the gate owner
@@ -81,9 +89,9 @@ interface DBUtil {
     @Throws(IOException::class, RuntimeException::class)
     fun unlink(owner: UUID, name: String): List<CraftPlateGate?>
 
-    class GateAlreadyLinkedException: RuntimeException()
-    class GateLocationDuplicateException: RuntimeException()
-    class GateNameDuplicateException: RuntimeException()
-    class GateNotFoundException: RuntimeException()
-    class GateNotLinkedException: RuntimeException()
+    class GateAlreadyLinkedException : RuntimeException()
+    class GateLocationDuplicateException : RuntimeException()
+    class GateNameDuplicateException : RuntimeException()
+    class GateNotFoundException : RuntimeException()
+    class GateNotLinkedException : RuntimeException()
 }

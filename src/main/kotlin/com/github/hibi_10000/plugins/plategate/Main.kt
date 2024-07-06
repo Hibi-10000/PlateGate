@@ -16,7 +16,7 @@ internal lateinit var instance: Main
 internal lateinit var dbUtil: DBUtil
 internal val noInteract: MutableList<UUID> = mutableListOf()
 
-class Main: JavaPlugin() {
+class Main : JavaPlugin() {
     override fun onEnable() {
         instance = this
         val gateDB = File(dataFolder, "gate.json")

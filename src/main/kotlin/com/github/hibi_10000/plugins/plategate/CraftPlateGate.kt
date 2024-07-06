@@ -22,7 +22,7 @@ class CraftPlateGate(
     beforeBlock: Material,
     var toOwner: UUID?,
     var toName: String?
-): Cloneable {
+) : Cloneable {
     var world: UUID = world
         private set
     var x: Int = x

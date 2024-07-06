@@ -16,7 +16,7 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.*
 
-class JsonUtil(private val gateDB: File): DBUtil {
+class JsonUtil(private val gateDB: File) : DBUtil {
     class Entry(
         val id: Int,
         var owner: String,
