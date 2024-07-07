@@ -4,6 +4,7 @@
 
 import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import xyz.jpenilla.runtask.task.AbstractRun
 
 plugins {
     kotlin("jvm") version "2.0.0"
@@ -40,6 +41,17 @@ tasks {
         minecraftVersion("1.20.1")
         downloadPlugins {
             url("https://download.luckperms.net/1549/bukkit/loader/LuckPerms-Bukkit-5.4.134.jar")
+        }
+    }
+
+    if (project.properties["jvm.jetbrains"] == "true") {
+        val service = project.extensions.getByType<JavaToolchainService>()
+        withType<AbstractRun> {
+            javaLauncher = service.launcherFor {
+                vendor = JvmVendorSpec.JETBRAINS
+                languageVersion = JavaLanguageVersion.of(17)
+            }
+            jvmArgs("-XX:+AllowEnhancedClassRedefinition", "-XX:+AllowRedefinitionToAddDeleteMethods")
         }
     }
 }
