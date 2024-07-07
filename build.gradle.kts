@@ -7,7 +7,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("jvm") version "2.0.0"
+    // https://github.com/minecrell/plugin-yml
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
+    // https://github.com/jpenilla/run-paper
+    id("xyz.jpenilla.run-paper") version "2.3.0"
 }
 
 group = "com.github.hibi_10000.plugins"
@@ -25,11 +28,20 @@ dependencies {
     compileOnly("org.spigotmc", "spigot-api", "1.20.1-R0.1-SNAPSHOT")
 }
 
-tasks.withType<Jar> {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    from("LICENSE.txt", "README.md")
-    dependsOn(configurations.runtimeClasspath)
-    from(configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) })
+tasks {
+    withType<Jar> {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        from("LICENSE.txt", "README.md")
+        dependsOn(configurations.runtimeClasspath)
+        from(configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) })
+    }
+
+    runServer {
+        minecraftVersion("1.20.1")
+        downloadPlugins {
+            url("https://download.luckperms.net/1549/bukkit/loader/LuckPerms-Bukkit-5.4.134.jar")
+        }
+    }
 }
 
 bukkit {
