@@ -40,7 +40,9 @@ tasks {
     runServer {
         minecraftVersion("1.20.1")
         downloadPlugins {
-            url("https://download.luckperms.net/1549/bukkit/loader/LuckPerms-Bukkit-5.4.134.jar")
+            if (project.properties["debug.luckperms"] == "true") {
+                url("https://download.luckperms.net/1549/bukkit/loader/LuckPerms-Bukkit-5.4.134.jar")
+            }
         }
     }
 
