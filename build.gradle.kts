@@ -25,16 +25,13 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    library(kotlin("stdlib"))
     compileOnly("org.spigotmc", "spigot-api", "1.20.1-R0.1-SNAPSHOT")
 }
 
 tasks {
     withType<Jar> {
-        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         from("LICENSE.txt", "README.md")
-        dependsOn(configurations.runtimeClasspath)
-        from(configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) })
     }
 
     runServer {
