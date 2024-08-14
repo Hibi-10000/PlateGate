@@ -7,7 +7,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import xyz.jpenilla.runtask.task.AbstractRun
 
 plugins {
-    kotlin("jvm") version "2.0.0"
+    kotlin("jvm") version "2.0.10"
     // https://github.com/minecrell/plugin-yml
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
     // https://github.com/jpenilla/run-paper
