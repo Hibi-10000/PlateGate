@@ -47,6 +47,7 @@ tasks {
         val service = project.extensions.getByType<JavaToolchainService>()
         withType<AbstractRun> {
             javaLauncher = service.launcherFor {
+                @Suppress("UnstableApiUsage")
                 vendor = JvmVendorSpec.JETBRAINS
                 languageVersion = JavaLanguageVersion.of(17)
             }

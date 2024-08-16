@@ -9,3 +9,6 @@ indent_size = 4
 
 [*.xml]
 indent_size = 2
+
+[.idea/**/*.xml]
+insert_final_newline = false
